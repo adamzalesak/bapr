@@ -11,7 +11,7 @@ import { NodeBase } from './NodeBase';
 export const SortNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
 
-  const node = useNode(id) as SortNodeModel;
+  const node = useNode(id) as SortNodeModel | undefined;
   const sourceData = useSourceData(id);
 
   const setNodes = useSetRecoilState(nodesState);
@@ -19,8 +19,8 @@ export const SortNode = ({ id }: NodeProps) => {
   // update node data
   useEffect(() => {
     const nodeData =
-      node.settings?.sortColumn && node.settings?.sortColumn !== ' '
-        ? sourceData?.sort(node.settings?.sortColumn, node.settings?.direction)
+      node?.settings.sortColumn && node.settings.sortColumn !== ' '
+        ? sourceData?.sort(node.settings.sortColumn, node.settings.direction)
         : undefined;
 
     setNodes(
@@ -28,23 +28,27 @@ export const SortNode = ({ id }: NodeProps) => {
         [...nodes.filter((n) => n.id !== id), { ...node, data: nodeData }] as SortNodeModel[],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sourceData, node.settings]);
+  }, [sourceData, node?.settings]);
 
   // keep settings valid if sourceData changes
   useEffect(() => {
-    const sortColumn = sourceData?.columns.includes(node.settings?.sortColumn)
-      ? node.settings?.sortColumn
-      : ' ';
+    const sortColumn = node
+      ? sourceData?.columns.includes(node.settings.sortColumn)
+        ? node?.settings.sortColumn
+        : ''
+      : '';
 
     setNodes(
       (nodes) =>
         [
           ...nodes.filter((n) => n.id !== id),
-          { ...node, settings: { ...node.settings, sortColumn } },
+          { ...node, settings: { ...node?.settings, sortColumn } },
         ] as SortNodeModel[],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceData]);
+
+  if (!node) return null;
 
   return (
     <NodeBase nodeId={node.id} nodeTypeName={t('nodes.sort.title')}>

@@ -6,6 +6,7 @@ import { useNode, useSourceData } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
 import { SortNode, SortNodeSetting } from '../../models/node';
 import { nodesState, openModalState } from '../../store/atoms';
+import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
 
@@ -19,9 +20,7 @@ export const SortDetailModal = () => {
   const node = useNode(openModal!.nodeId) as SortNode;
   const sourceData = useSourceData(node.id);
 
-  const { control, handleSubmit } = useForm<SortNodeSetting>({
-    defaultValues: { ...node.settings, direction: node.settings.direction ?? 'asc' },
-  });
+  const { control, handleSubmit } = useForm<SortNodeSetting>({ defaultValues: node.settings });
 
   const onSubmit = (settings: SortNodeSetting) => {
     setNodes([
@@ -39,9 +38,9 @@ export const SortDetailModal = () => {
       onClose={() => setOpenModal(null)}
     >
       {sourceData ? (
-        <form>
+        <Form>
           <Select name="sortColumn" control={control}>
-            <MenuItem value={' '}>
+            <MenuItem value="">
               <em>{t('common.notSelected')}</em>
             </MenuItem>
             {sourceData?.columns.map((columnName, index) => (
@@ -56,7 +55,7 @@ export const SortDetailModal = () => {
           </Select>
 
           <Button onClick={handleSubmit(onSubmit)}>Save</Button>
-        </form>
+        </Form>
       ) : (
         <>{t('detailModal.selectDataSource')}</>
       )}

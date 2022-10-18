@@ -20,7 +20,11 @@ export const Select = <TFieldValues extends FieldValues>({
       name={name}
       control={control}
       rules={rules}
-      render={({ field }) => <MuiSelect {...field}>{children}</MuiSelect>}
+      render={({ field }) => (
+        <MuiSelect displayEmpty {...field}>
+          {children}
+        </MuiSelect>
+      )}
     />
   );
 };

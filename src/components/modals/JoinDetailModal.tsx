@@ -7,6 +7,7 @@ import { useOpenModalNode } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
 import { JoinNode, JoinNodeSetting } from '../../models/node';
 import { edgesState, nodesState, openModalState } from '../../store/atoms';
+import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
 
@@ -55,9 +56,9 @@ export const JoinDetailModal = () => {
       onClose={() => setOpenModal(null)}
     >
       {sourceDataA && sourceDataB ? (
-        <form>
+        <Form>
           <Select name="columnA" control={control}>
-            <MenuItem value={' '}>
+            <MenuItem value="">
               <em>{t('common.notSelected')}</em>
             </MenuItem>
             {sourceDataA?.columns.map((columnName, index) => (
@@ -67,7 +68,7 @@ export const JoinDetailModal = () => {
             ))}
           </Select>
           <Select name="columnB" control={control}>
-            <MenuItem value={' '}>
+            <MenuItem value="">
               <em>{t('common.notSelected')}</em>
             </MenuItem>
             {sourceDataB?.columns.map((columnName, index) => (
@@ -77,17 +78,14 @@ export const JoinDetailModal = () => {
             ))}
           </Select>
           <Select name="type" control={control}>
-            <MenuItem value={' '}>
-              <em>{t('common.notSelected')}</em>
-            </MenuItem>
-            <MenuItem value={'join'}>Join</MenuItem>
-            <MenuItem value={'joinOuter'}>Outer Join</MenuItem>
-            <MenuItem value={'joinOuterLeft'}>Left outer join</MenuItem>
-            <MenuItem value={'joinOuterRight'}>Right outer join</MenuItem>
+            <MenuItem value="join">Join</MenuItem>
+            <MenuItem value="joinOuter">Outer Join</MenuItem>
+            <MenuItem value="joinOuterLeft">Left outer join</MenuItem>
+            <MenuItem value="joinOuterRight">Right outer join</MenuItem>
           </Select>
 
           <Button onClick={handleSubmit(onSubmit)}>Save</Button>
-        </form>
+        </Form>
       ) : (
         <>{t('detailModal.selectDataSource')}</>
       )}

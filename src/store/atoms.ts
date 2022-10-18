@@ -1,7 +1,7 @@
 import { Edge } from 'react-flow-renderer';
 import { atom } from 'recoil';
 import { OpenModal } from '../models/modal';
-import { DataNode } from '../models/node';
+import { DataNode, JoinNode, SortNode } from '../models/node';
 import { NodeType } from '../models/nodeTypes';
 
 export const nodesState = atom<DataNode[]>({
@@ -24,7 +24,11 @@ export const nodesState = atom<DataNode[]>({
         y: 50,
       },
       data: undefined,
-    },
+      settings: {
+        sortColumn: '',
+        direction: 'asc',
+      },
+    } as SortNode,
     {
       id: '3',
       type: NodeType.Sort,
@@ -33,7 +37,11 @@ export const nodesState = atom<DataNode[]>({
         y: -60,
       },
       data: undefined,
-    },
+      settings: {
+        sortColumn: '',
+        direction: 'asc',
+      },
+    } as SortNode,
     {
       id: '4',
       type: NodeType.Join,
@@ -42,7 +50,12 @@ export const nodesState = atom<DataNode[]>({
         y: 160,
       },
       data: undefined,
-    },
+      settings: {
+        columnA: '',
+        columnB: '',
+        type: 'join',
+      },
+    } as JoinNode,
     {
       id: '5',
       type: NodeType.InputFile,
