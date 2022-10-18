@@ -22,7 +22,7 @@ export const JoinNode = ({ id }: NodeProps) => {
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
     return sourceNode?.data;
-  }, [edges, nodes, id]);
+  }, [edges, id, nodes]);
 
   const sourceDataB = useMemo(() => {
     const edge = edges.find((edge) => edge.target === id && edge.targetHandle == 'b');
@@ -30,7 +30,7 @@ export const JoinNode = ({ id }: NodeProps) => {
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
     return sourceNode?.data;
-  }, [edges, nodes, id]);
+  }, [edges, id, nodes]);
 
   useEffect(() => {
     if (!sourceDataA || !sourceDataB || !node.settings?.columnA || !node.settings?.columnB) {
@@ -99,7 +99,8 @@ export const JoinNode = ({ id }: NodeProps) => {
       (nodes) =>
         [...nodes.filter((n) => n.id !== id), { ...node, data: nodeData }] as JoinNodeModel[],
     );
-  }, [sourceDataA, sourceDataB, node.settings, id, node, setNodes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sourceDataA, sourceDataB, node.settings]);
 
   return (
     <NodeBase

@@ -27,7 +27,8 @@ export const SortNode = ({ id }: NodeProps) => {
       (nodes) =>
         [...nodes.filter((n) => n.id !== id), { ...node, data: nodeData }] as SortNodeModel[],
     );
-  }, [sourceData, node.settings, node, setNodes, id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sourceData, node.settings]);
 
   // keep settings valid if sourceData changes
   useEffect(() => {
@@ -42,7 +43,8 @@ export const SortNode = ({ id }: NodeProps) => {
           { ...node, settings: { ...node.settings, sortColumn } },
         ] as SortNodeModel[],
     );
-  }, [sourceData, id, node, setNodes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sourceData]);
 
   return (
     <NodeBase nodeId={node.id} nodeTypeName={t('nodes.sort.title')}>
