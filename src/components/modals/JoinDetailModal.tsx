@@ -57,34 +57,36 @@ export const JoinDetailModal = () => {
     >
       {sourceDataA && sourceDataB ? (
         <Form>
-          <Select name="columnA" control={control}>
-            <MenuItem value="">
+          <Select name="columnA" control={control} label={t('nodes.join.columnA')}>
+            {/* <MenuItem value="">
               <em>{t('common.notSelected')}</em>
-            </MenuItem>
+            </MenuItem> */}
             {sourceDataA?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
               </MenuItem>
             ))}
           </Select>
-          <Select name="columnB" control={control}>
-            <MenuItem value="">
+          <Select name="columnB" control={control} label={t('nodes.join.columnB')}>
+            {/* <MenuItem value="">
               <em>{t('common.notSelected')}</em>
-            </MenuItem>
+            </MenuItem> */}
             {sourceDataB?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
               </MenuItem>
             ))}
           </Select>
-          <Select name="type" control={control}>
+          <Select name="type" control={control} label={t('nodes.join.type')}>
             <MenuItem value="join">Join</MenuItem>
             <MenuItem value="joinOuter">Outer Join</MenuItem>
             <MenuItem value="joinOuterLeft">Left outer join</MenuItem>
             <MenuItem value="joinOuterRight">Right outer join</MenuItem>
           </Select>
 
-          <Button onClick={handleSubmit(onSubmit)}>Save</Button>
+          <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
+            {t('common.save')}
+          </Button>
         </Form>
       ) : (
         <>{t('detailModal.selectDataSource')}</>

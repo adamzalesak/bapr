@@ -39,22 +39,25 @@ export const SortDetailModal = () => {
     >
       {sourceData ? (
         <Form>
-          <Select name="sortColumn" control={control}>
-            <MenuItem value="">
+          <Select name="sortColumn" control={control} label={t('nodes.sort.column')}>
+            {/* <MenuItem value="">
               <em>{t('common.notSelected')}</em>
-            </MenuItem>
+            </MenuItem> */}
             {sourceData?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
               </MenuItem>
             ))}
           </Select>
-          <Select name="direction" control={control}>
+
+          <Select name="direction" control={control} label={t('nodes.sort.direction')}>
             <MenuItem value="asc">{t('nodes.sort.asc')}</MenuItem>
             <MenuItem value="desc">{t('nodes.sort.desc')}</MenuItem>
           </Select>
 
-          <Button onClick={handleSubmit(onSubmit)}>Save</Button>
+          <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
+            {t('common.save')}
+          </Button>
         </Form>
       ) : (
         <>{t('detailModal.selectDataSource')}</>

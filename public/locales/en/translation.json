@@ -2,11 +2,16 @@
   "nodes": {
     "sort": {
       "title": "Sort",
+      "column": "Column",
+      "direction": "Direction",
       "asc": "Ascending",
       "desc": "Descending"
     },
     "join": {
-      "title": "Join"
+      "title": "Join",
+      "columnA": "Left columns",
+      "columnB": "Right column",
+      "type": "Type"
     },
     "CSVFile": {
       "title": "CSV File",
@@ -17,6 +22,7 @@
     "selectDataSource": "Select data source"
   },
   "common": {
+    "save": "Save",
     "notSelected": "Not selected"
   }
 }

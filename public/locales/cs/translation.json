@@ -2,11 +2,16 @@
   "nodes": {
     "sort": {
       "title": "Řazení",
+      "column": "Sloupec",
+      "direction": "Směr",
       "asc": "Vzestupně",
       "desc": "Sestupně"
     },
     "join": {
-      "title": "Sloučení"
+      "title": "Sloučení",
+      "columnA": "Levý sloupec",
+      "columnB": "Pravý sloupec",
+      "type": "Typ"
     },
     "CSVFile": {
       "title": "CSV soubor",
@@ -17,6 +22,7 @@
     "selectDataSource": "Vyberte zdroj dat"
   },
   "common": {
+    "save": "Uložit",
     "notSelected": "Nevybráno"
   }
 }
