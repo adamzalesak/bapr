@@ -55,13 +55,6 @@ export const JoinDetailModal = () => {
     ]);
   };
 
-  // const handleOrderSelectChange = (event: SelectChangeEvent) => {
-  //   setNodes([
-  //     ...nodes.filter((node) => node.id !== openModal?.nodeId),
-  //     { ...node, settings: { ...node.settings, desc: event.target.value === 'desc' } } as SortNode,
-  //   ]);
-  // };
-
   return (
     <Modal
       title={t('nodes.join.title')}
