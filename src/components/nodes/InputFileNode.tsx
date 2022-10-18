@@ -1,8 +1,5 @@
 import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import { useSetRecoilState } from 'recoil';
-import { ModalType } from '../../models/modal';
-import { openModalState } from '../../store/atoms';
 import { NodeBase } from './NodeBase';
 
 export const InputFileNode = ({ id }: NodeProps) => {

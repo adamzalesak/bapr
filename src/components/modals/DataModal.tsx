@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { openModalState } from '../../store/atoms';
 import { useOpenDataModalNode } from '../../hooks/nodes';
 import { DataGrid } from '../common/DataGrid';
@@ -14,3 +14,4 @@ export const DataModal = () => {
     </Modal>
   );
 };
+

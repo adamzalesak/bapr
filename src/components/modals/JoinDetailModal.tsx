@@ -2,7 +2,7 @@ import { MenuItem, Select } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useOpenModalNode } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
 import { JoinNode } from '../../models/node';
@@ -13,7 +13,7 @@ export const JoinDetailModal = () => {
   const { t } = useTranslation();
 
   const [nodes, setNodes] = useRecoilState(nodesState);
-  const [edges, setEdges] = useRecoilState(edgesState);
+  const edges = useRecoilValue(edgesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
 
   const node = useOpenModalNode() as JoinNode;
@@ -24,7 +24,7 @@ export const JoinDetailModal = () => {
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
     return sourceNode?.data;
-  }, [edges, nodes]);
+  }, [edges, nodes, node.id]);
 
   const sourceDataB = useMemo(() => {
     const edge = edges.find((edge) => edge.target === node.id && edge.targetHandle == 'b');
@@ -32,7 +32,7 @@ export const JoinDetailModal = () => {
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
     return sourceNode?.data;
-  }, [edges, nodes]);
+  }, [edges, nodes, node.id]);
 
   const handleColumnASelectChange = (event: SelectChangeEvent) => {
     setNodes([
@@ -102,7 +102,7 @@ export const JoinDetailModal = () => {
             </Select>
           </>
         ) : (
-          <>{t("detailModal.selectDataSource")}</>
+          <>{t('detailModal.selectDataSource')}</>
         )}
       </>
     </Modal>

@@ -1,7 +1,7 @@
 import { ChangeEventHandler, useMemo, useRef } from 'react';
 import { Button } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { DataFrame, DataFrameRow } from '../../classes/DataFrame';
+import { DataFrame } from '../../classes/DataFrame';
 import { ModalType } from '../../models/modal';
 import { nodesState, openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
@@ -26,6 +26,7 @@ export const InputFileDetailModal = () => {
     const data = await DataFrame.fromCSVFile(file);
 
     const updatedNode: FileNode = {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...nodes.find((n) => n.id === openModal?.nodeId)!,
       data: data,
       fileName: file.name,

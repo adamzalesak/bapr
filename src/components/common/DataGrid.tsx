@@ -20,9 +20,7 @@ export const DataGrid = memo(({ data }: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(TABLE_ROWS_PER_PAGE_OPTIONS[0]);
 
-  console.log(data);
-
-  let rows = useMemo(
+  const rows = useMemo(
     () => data?.rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage),
     [data, page, rowsPerPage],
   );

@@ -35,6 +35,6 @@ export const useSourceData = (nodeId: string) => {
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
     return sourceNode?.data;
-  }, [edges, nodes]);
+  }, [edges, nodes, nodeId]);
 };
 

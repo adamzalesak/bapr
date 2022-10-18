@@ -1,23 +1,20 @@
-import { Row } from 'dataframe-js';
 import _ from 'lodash';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { DataFrame } from '../../classes/DataFrame';
+import { useSetRecoilState } from 'recoil';
 import { useNode, useSourceData } from '../../hooks/nodes';
-import { ModalType } from '../../models/modal';
 import { SortNode as SortNodeModel } from '../../models/node';
-import { nodesState, openModalState } from '../../store/atoms';
+import { nodesState } from '../../store/atoms';
 import { NodeBase } from './NodeBase';
 
-export const SortNode = ({ id, data }: NodeProps) => {
+export const SortNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
 
   const node = useNode(id) as SortNodeModel;
   const sourceData = useSourceData(id);
 
-  const [nodes, setNodes] = useRecoilState(nodesState);
+  const setNodes = useSetRecoilState(nodesState);
 
   // update node data
   useEffect(() => {
@@ -30,7 +27,7 @@ export const SortNode = ({ id, data }: NodeProps) => {
       (nodes) =>
         [...nodes.filter((n) => n.id !== id), { ...node, data: nodeData }] as SortNodeModel[],
     );
-  }, [sourceData, node.settings]);
+  }, [sourceData, node.settings, node, setNodes, id]);
 
   // keep settings valid if sourceData changes
   useEffect(() => {
@@ -45,7 +42,7 @@ export const SortNode = ({ id, data }: NodeProps) => {
           { ...node, settings: { ...node.settings, sortColumn } },
         ] as SortNodeModel[],
     );
-  }, [sourceData]);
+  }, [sourceData, id, node, setNodes]);
 
   return (
     <NodeBase nodeId={node.id} nodeTypeName={t('nodes.sort.title')}>

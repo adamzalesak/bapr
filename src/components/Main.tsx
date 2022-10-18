@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import ReactFlow, {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
-  Background,
   Controls,
   MiniMap,
-  Node,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,

@@ -1,10 +1,9 @@
 import { useEffect, useMemo } from 'react';
 import { Handle, NodeProps, Position } from 'react-flow-renderer';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { useNode, useSourceData } from '../../hooks/nodes';
-import { ModalType } from '../../models/modal';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useNode } from '../../hooks/nodes';
 import { JoinNode as JoinNodeModel, NodeState } from '../../models/node';
-import { edgesState, nodesState, openModalState } from '../../store/atoms';
+import { edgesState, nodesState } from '../../store/atoms';
 import * as _ from 'lodash';
 import { NodeBase } from './NodeBase';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +22,7 @@ export const JoinNode = ({ id }: NodeProps) => {
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
     return sourceNode?.data;
-  }, [edges, nodes]);
+  }, [edges, nodes, id]);
 
   const sourceDataB = useMemo(() => {
     const edge = edges.find((edge) => edge.target === id && edge.targetHandle == 'b');
@@ -31,7 +30,7 @@ export const JoinNode = ({ id }: NodeProps) => {
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
     return sourceNode?.data;
-  }, [edges, nodes]);
+  }, [edges, nodes, id]);
 
   useEffect(() => {
     if (!sourceDataA || !sourceDataB || !node.settings?.columnA || !node.settings?.columnB) {
@@ -60,15 +59,12 @@ export const JoinNode = ({ id }: NodeProps) => {
     //     break;
     // }
 
-    console.log(node.settings.columnA);
-    console.log(node.settings.columnB);
-
-    const args: [any, any, any, any] = [
-      sourceDataB,
-      (a: any) => a[node.settings.columnA],
-      (b: any) => b[node.settings.columnB],
-      (a: any, b: any) => ({ ...a, ...b }),
-    ];
+    // const args: [any, any, any, any] = [
+    //   sourceDataB,
+    //   (a: any) => a[node.settings.columnA],
+    //   (b: any) => b[node.settings.columnB],
+    //   (a: any, b: any) => ({ ...a, ...b }),
+    // ];
 
     const nodeData = sourceDataA.join(sourceDataB, node.settings.columnA, node.settings.columnB);
 
@@ -99,12 +95,11 @@ export const JoinNode = ({ id }: NodeProps) => {
     //     break;
     // }
 
-
     setNodes(
       (nodes) =>
         [...nodes.filter((n) => n.id !== id), { ...node, data: nodeData }] as JoinNodeModel[],
     );
-  }, [sourceDataA, sourceDataB, node.settings]);
+  }, [sourceDataA, sourceDataB, node.settings, id, node, setNodes]);
 
   return (
     <NodeBase

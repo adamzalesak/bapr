@@ -14,6 +14,7 @@ export const SortDetailModal = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const node = useNode(openModal!.nodeId) as SortNode;
   const sourceData = useSourceData(node.id);
 
@@ -38,7 +39,7 @@ export const SortDetailModal = () => {
       onClose={() => setOpenModal(null)}
     >
       <>
-        {!!sourceData ? (
+        {sourceData ? (
           <>
             <Select onChange={handleColumnSelectChange} value={node.settings?.sortColumn ?? ' '}>
               <MenuItem value={' '}>
