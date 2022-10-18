@@ -68,43 +68,41 @@ export const JoinDetailModal = () => {
       open={openModal?.modalType == ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
-      <>
-        {!!sourceDataA && sourceDataB ? (
-          <>
-            <Select onChange={handleColumnASelectChange} value={node.settings?.columnA ?? ' '}>
-              <MenuItem value={' '}>
-                <em>{t('common.notSelected')}</em>
+      {sourceDataA && sourceDataB ? (
+        <>
+          <Select onChange={handleColumnASelectChange} value={node.settings?.columnA ?? ' '}>
+            <MenuItem value={' '}>
+              <em>{t('common.notSelected')}</em>
+            </MenuItem>
+            {sourceDataA?.columns.map((columnName, index) => (
+              <MenuItem key={index} value={columnName}>
+                {columnName}
               </MenuItem>
-              {sourceDataA?.columns.map((columnName, index) => (
-                <MenuItem key={index} value={columnName}>
-                  {columnName}
-                </MenuItem>
-              ))}
-            </Select>
-            <Select onChange={handleColumnBSelectChange} value={node.settings?.columnB ?? ' '}>
-              <MenuItem value={' '}>
-                <em>{t('common.notSelected')}</em>
+            ))}
+          </Select>
+          <Select onChange={handleColumnBSelectChange} value={node.settings?.columnB ?? ' '}>
+            <MenuItem value={' '}>
+              <em>{t('common.notSelected')}</em>
+            </MenuItem>
+            {sourceDataB?.columns.map((columnName, index) => (
+              <MenuItem key={index} value={columnName}>
+                {columnName}
               </MenuItem>
-              {sourceDataB?.columns.map((columnName, index) => (
-                <MenuItem key={index} value={columnName}>
-                  {columnName}
-                </MenuItem>
-              ))}
-            </Select>
-            <Select onChange={handleTypeSelectChange} value={node.settings?.type ?? ' '}>
-              <MenuItem value={' '}>
-                <em>{t('common.notSelected')}</em>
-              </MenuItem>
-              <MenuItem value={'join'}>Join</MenuItem>
-              <MenuItem value={'joinOuter'}>Outer Join</MenuItem>
-              <MenuItem value={'joinOuterLeft'}>Left outer join</MenuItem>
-              <MenuItem value={'joinOuterRight'}>Right outer join</MenuItem>
-            </Select>
-          </>
-        ) : (
-          <>{t('detailModal.selectDataSource')}</>
-        )}
-      </>
+            ))}
+          </Select>
+          <Select onChange={handleTypeSelectChange} value={node.settings?.type ?? ' '}>
+            <MenuItem value={' '}>
+              <em>{t('common.notSelected')}</em>
+            </MenuItem>
+            <MenuItem value={'join'}>Join</MenuItem>
+            <MenuItem value={'joinOuter'}>Outer Join</MenuItem>
+            <MenuItem value={'joinOuterLeft'}>Left outer join</MenuItem>
+            <MenuItem value={'joinOuterRight'}>Right outer join</MenuItem>
+          </Select>
+        </>
+      ) : (
+        <>{t('detailModal.selectDataSource')}</>
+      )}
     </Modal>
   );
 };

@@ -38,28 +38,26 @@ export const SortDetailModal = () => {
       open={openModal?.modalType == ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
-      <>
-        {sourceData ? (
-          <>
-            <Select onChange={handleColumnSelectChange} value={node.settings?.sortColumn ?? ' '}>
-              <MenuItem value={' '}>
-                <em>{t('common.notSelected')}</em>
+      {sourceData ? (
+        <>
+          <Select onChange={handleColumnSelectChange} value={node.settings?.sortColumn ?? ' '}>
+            <MenuItem value={' '}>
+              <em>{t('common.notSelected')}</em>
+            </MenuItem>
+            {sourceData?.columns.map((columnName, index) => (
+              <MenuItem key={index} value={columnName}>
+                {columnName}
               </MenuItem>
-              {sourceData?.columns.map((columnName, index) => (
-                <MenuItem key={index} value={columnName}>
-                  {columnName}
-                </MenuItem>
-              ))}
-            </Select>
-            <Select onChange={handleOrderSelectChange} value={node.settings?.desc ? 'desc' : 'asc'}>
-              <MenuItem value="asc">{t('nodes.sort.asc')}</MenuItem>
-              <MenuItem value="desc">{t('nodes.sort.desc')}</MenuItem>
-            </Select>
-          </>
-        ) : (
-          <>{t('detailModal.selectDataSource')}</>
-        )}
-      </>
+            ))}
+          </Select>
+          <Select onChange={handleOrderSelectChange} value={node.settings?.desc ? 'desc' : 'asc'}>
+            <MenuItem value="asc">{t('nodes.sort.asc')}</MenuItem>
+            <MenuItem value="desc">{t('nodes.sort.desc')}</MenuItem>
+          </Select>
+        </>
+      ) : (
+        <>{t('detailModal.selectDataSource')}</>
+      )}
     </Modal>
   );
 };
