@@ -1,13 +1,14 @@
-import { MenuItem, Select } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
+import { Button, MenuItem } from '@mui/material';
 import { useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useOpenModalNode } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
-import { JoinNode } from '../../models/node';
+import { JoinNode, JoinNodeSetting } from '../../models/node';
 import { edgesState, nodesState, openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
+import { Select } from '../form/Select';
 
 export const JoinDetailModal = () => {
   const { t } = useTranslation();
@@ -34,25 +35,17 @@ export const JoinDetailModal = () => {
     return sourceNode?.data;
   }, [edges, nodes, node.id]);
 
-  const handleColumnASelectChange = (event: SelectChangeEvent) => {
-    setNodes([
-      ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, settings: { ...node.settings, columnA: event.target.value } } as JoinNode,
-    ]);
-  };
+  const { control, handleSubmit } = useForm<JoinNodeSetting>({
+    defaultValues: node.settings,
+  });
 
-  const handleColumnBSelectChange = (event: SelectChangeEvent) => {
+  const onSubmit = (settings: JoinNodeSetting) => {
     setNodes([
       ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, settings: { ...node.settings, columnB: event.target.value } } as JoinNode,
+      { ...node, settings } as JoinNode,
     ]);
-  };
 
-  const handleTypeSelectChange = (event: SelectChangeEvent) => {
-    setNodes([
-      ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, settings: { ...node.settings, type: event.target.value } } as JoinNode,
-    ]);
+    setOpenModal(null);
   };
 
   return (
@@ -62,8 +55,8 @@ export const JoinDetailModal = () => {
       onClose={() => setOpenModal(null)}
     >
       {sourceDataA && sourceDataB ? (
-        <>
-          <Select onChange={handleColumnASelectChange} value={node.settings?.columnA ?? ' '}>
+        <form>
+          <Select name="columnA" control={control}>
             <MenuItem value={' '}>
               <em>{t('common.notSelected')}</em>
             </MenuItem>
@@ -73,7 +66,7 @@ export const JoinDetailModal = () => {
               </MenuItem>
             ))}
           </Select>
-          <Select onChange={handleColumnBSelectChange} value={node.settings?.columnB ?? ' '}>
+          <Select name="columnB" control={control}>
             <MenuItem value={' '}>
               <em>{t('common.notSelected')}</em>
             </MenuItem>
@@ -83,7 +76,7 @@ export const JoinDetailModal = () => {
               </MenuItem>
             ))}
           </Select>
-          <Select onChange={handleTypeSelectChange} value={node.settings?.type ?? ' '}>
+          <Select name="type" control={control}>
             <MenuItem value={' '}>
               <em>{t('common.notSelected')}</em>
             </MenuItem>
@@ -92,7 +85,9 @@ export const JoinDetailModal = () => {
             <MenuItem value={'joinOuterLeft'}>Left outer join</MenuItem>
             <MenuItem value={'joinOuterRight'}>Right outer join</MenuItem>
           </Select>
-        </>
+
+          <Button onClick={handleSubmit(onSubmit)}>Save</Button>
+        </form>
       ) : (
         <>{t('detailModal.selectDataSource')}</>
       )}

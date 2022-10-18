@@ -46,8 +46,8 @@ export class DataFrame {
     return this.data.length;
   }
 
-  sort = (by: string, desc?: boolean) => {
-    const sorted = _.orderBy(this.data, by, desc ? 'desc' : 'asc');
+  sort = (by: string, direction?: 'asc' | 'desc') => {
+    const sorted = _.orderBy(this.data, by, direction);
     return new DataFrame(sorted);
   };
 

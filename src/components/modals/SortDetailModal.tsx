@@ -1,12 +1,13 @@
-import { MenuItem, Select } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
+import { Button, MenuItem } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { useNode, useSourceData } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
-import { SortNode } from '../../models/node';
+import { SortNode, SortNodeSetting } from '../../models/node';
 import { nodesState, openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
+import { Select } from '../form/Select';
 
 export const SortDetailModal = () => {
   const { t } = useTranslation();
@@ -18,18 +19,17 @@ export const SortDetailModal = () => {
   const node = useNode(openModal!.nodeId) as SortNode;
   const sourceData = useSourceData(node.id);
 
-  const handleColumnSelectChange = (event: SelectChangeEvent) => {
-    setNodes([
-      ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, settings: { ...node.settings, sortColumn: event.target.value } } as SortNode,
-    ]);
-  };
+  const { control, handleSubmit } = useForm<SortNodeSetting>({
+    defaultValues: { ...node.settings, direction: node.settings.direction ?? 'asc' },
+  });
 
-  const handleOrderSelectChange = (event: SelectChangeEvent) => {
+  const onSubmit = (settings: SortNodeSetting) => {
     setNodes([
       ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, settings: { ...node.settings, desc: event.target.value === 'desc' } } as SortNode,
+      { ...node, settings } as SortNode,
     ]);
+
+    setOpenModal(null);
   };
 
   return (
@@ -39,8 +39,8 @@ export const SortDetailModal = () => {
       onClose={() => setOpenModal(null)}
     >
       {sourceData ? (
-        <>
-          <Select onChange={handleColumnSelectChange} value={node.settings?.sortColumn ?? ' '}>
+        <form>
+          <Select name="sortColumn" control={control}>
             <MenuItem value={' '}>
               <em>{t('common.notSelected')}</em>
             </MenuItem>
@@ -50,11 +50,13 @@ export const SortDetailModal = () => {
               </MenuItem>
             ))}
           </Select>
-          <Select onChange={handleOrderSelectChange} value={node.settings?.desc ? 'desc' : 'asc'}>
+          <Select name="direction" control={control}>
             <MenuItem value="asc">{t('nodes.sort.asc')}</MenuItem>
             <MenuItem value="desc">{t('nodes.sort.desc')}</MenuItem>
           </Select>
-        </>
+
+          <Button onClick={handleSubmit(onSubmit)}>Save</Button>
+        </form>
       ) : (
         <>{t('detailModal.selectDataSource')}</>
       )}

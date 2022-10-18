@@ -20,7 +20,7 @@ export const SortNode = ({ id }: NodeProps) => {
   useEffect(() => {
     const nodeData =
       node.settings?.sortColumn && node.settings?.sortColumn !== ' '
-        ? sourceData?.sort(node.settings?.sortColumn, node.settings?.desc)
+        ? sourceData?.sort(node.settings?.sortColumn, node.settings?.direction)
         : undefined;
 
     setNodes(
@@ -34,7 +34,7 @@ export const SortNode = ({ id }: NodeProps) => {
   useEffect(() => {
     const sortColumn = sourceData?.columns.includes(node.settings?.sortColumn)
       ? node.settings?.sortColumn
-      : undefined;
+      : ' ';
 
     setNodes(
       (nodes) =>

@@ -21,7 +21,7 @@ export interface FileNode extends DataNode {
 
 export interface SortNodeSetting {
   sortColumn: string;
-  desc?: boolean;
+  direction?: 'asc' | 'desc';
 }
 
 export interface SortNode extends DataNode {
