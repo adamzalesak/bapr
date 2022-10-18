@@ -1,6 +1,5 @@
 import { ChangeEventHandler, useMemo, useRef } from 'react';
 import { Button } from '@mui/material';
-import { parse } from 'papaparse';
 import { useRecoilState } from 'recoil';
 import { DataFrame, DataFrameRow } from '../../classes/DataFrame';
 import { ModalType } from '../../models/modal';
@@ -8,37 +7,31 @@ import { nodesState, openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
 import { useOpenModalNode } from '../../hooks/nodes';
 import { FileNode } from '../../models/node';
+import { useTranslation } from 'react-i18next';
 
 export const InputFileDetailModal = () => {
+  const { t } = useTranslation();
+
   const [nodes, setNodes] = useRecoilState(nodesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
 
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange: ChangeEventHandler = (event) => {
+  const handleFileChange: ChangeEventHandler = async (event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
 
     if (!file) return;
 
-    parse(file, {
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      header: true,
-      fastMode: true,
-      // worker: true,
-      complete: (result) => {
-        const data = new DataFrame(result.data as DataFrameRow[]);
+    const data = await DataFrame.fromCSVFile(file);
 
-        const updatedNode: FileNode = {
-          ...nodes.find((n) => n.id === openModal?.nodeId)!,
-          data: data,
-          fileName: file.name,
-        };
+    const updatedNode: FileNode = {
+      ...nodes.find((n) => n.id === openModal?.nodeId)!,
+      data: data,
+      fileName: file.name,
+    };
 
-        setNodes([...nodes.filter((n) => n.id !== openModal?.nodeId), updatedNode]);
-      },
-    });
+    setNodes([...nodes.filter((n) => n.id !== openModal?.nodeId), updatedNode]);
 
     resetFileInput();
   };
@@ -55,13 +48,13 @@ export const InputFileDetailModal = () => {
 
   return (
     <Modal
-      title={'CSV file'}
+      title={t('nodes.CSVFile.title')}
       open={openModal?.modalType == ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
       <>
         <Button variant="outlined" onClick={() => fileRef.current?.click()}>
-          Select file
+          {t('nodes.CSVFile.selectFile')}
         </Button>
         <input hidden type="file" accept=".csv" onChange={handleFileChange} ref={fileRef} />
         <div>{node?.fileName}</div>
@@ -70,4 +63,3 @@ export const InputFileDetailModal = () => {
     </Modal>
   );
 };
-

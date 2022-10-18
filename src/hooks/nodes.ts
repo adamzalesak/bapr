@@ -3,6 +3,12 @@ import { useRecoilValue } from 'recoil';
 import { ModalType } from '../models/modal';
 import { edgesState, nodesState, openModalState } from '../store/atoms';
 
+export const useNode = (nodeId: string) => {
+  const nodes = useRecoilValue(nodesState);
+
+  return nodes.find((node) => node.id === nodeId);
+};
+
 export const useOpenModalNode = () => {
   const nodes = useRecoilValue(nodesState);
   const openModal = useRecoilValue(openModalState);

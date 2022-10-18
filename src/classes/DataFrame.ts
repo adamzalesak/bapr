@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { parse } from 'papaparse';
+import { saveDataToFile } from '../utils/saveDataToFile';
 
 export type DataFrameRow = { [key: string]: any };
 
@@ -8,6 +10,29 @@ export class DataFrame {
   constructor(data?: DataFrameRow[]) {
     this.data = data || [];
   }
+
+  static fromCSVFile = async (file: File): Promise<DataFrame> => {
+    const promise = new Promise<DataFrame>((resolve, _reject) => {
+      parse(file, {
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        header: true,
+        fastMode: true,
+        // worker: true,
+        complete: (result) => {
+          const data = new DataFrame(result.data as DataFrameRow[]);
+
+          resolve(data);
+        },
+      });
+    });
+
+    return promise;
+  };
+
+  toCSVFile = () => {
+    saveDataToFile(this);
+  };
 
   get columns() {
     return Object.keys(this.data[0]);
@@ -22,7 +47,8 @@ export class DataFrame {
   }
 
   sort = (by: string, desc?: boolean) => {
-    return new DataFrame(_.orderBy(this.data, by, desc ? 'desc' : 'asc'));
+    const sorted = _.orderBy(this.data, by, desc ? 'desc' : 'asc');
+    return new DataFrame(sorted);
   };
 
   join = (second: DataFrame, keyA: string, keyB: string) => {
@@ -55,10 +81,7 @@ export class DataFrame {
     const b = second.data;
 
     const result = equijoin(a, b, keyA, keyB, (a, b) => ({ ...a, ...b }));
-    console.log(result);
 
-    // TODO: implement
     return new DataFrame(result);
   };
 }
-

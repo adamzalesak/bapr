@@ -5,8 +5,14 @@ import { NodeType } from './nodeTypes';
 export interface DataNode extends Node<DataFrame | undefined> {
   id: string;
   type: NodeType;
-  name: string;
+  name?: string;
   data: DataFrame | undefined;
+}
+
+export enum NodeState {
+  NoSource = 'NO_SOURCE',
+  InvalidSettings = 'INVALID_SETTINGS',
+  Done = 'DONE',
 }
 
 export interface FileNode extends DataNode {

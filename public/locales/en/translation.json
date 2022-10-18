@@ -1,8 +1,23 @@
 {
   "nodes": {
     "sort": {
-      "title": "Sort"
+      "title": "Sort",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "join": {
+      "title": "Join"
+    },
+    "CSVFile": {
+      "title": "CSV File",
+      "selectFile": "Select file"
     }
+  },
+  "detailModal": {
+    "selectDataSource": "Select data source"
+  },
+  "common": {
+    "notSelected": "Not selected"
   }
 }
 

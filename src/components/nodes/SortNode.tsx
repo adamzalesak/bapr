@@ -5,20 +5,19 @@ import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { DataFrame } from '../../classes/DataFrame';
-import { useSourceData } from '../../hooks/nodes';
+import { useNode, useSourceData } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
 import { SortNode as SortNodeModel } from '../../models/node';
 import { nodesState, openModalState } from '../../store/atoms';
+import { NodeBase } from './NodeBase';
 
 export const SortNode = ({ id, data }: NodeProps) => {
   const { t } = useTranslation();
 
-  const setOpenModal = useSetRecoilState(openModalState);
-  const [nodes, setNodes] = useRecoilState(nodesState);
-
+  const node = useNode(id) as SortNodeModel;
   const sourceData = useSourceData(id);
 
-  const node = useMemo(() => nodes.find((n) => n.id === id) as SortNodeModel, [nodes]);
+  const [nodes, setNodes] = useRecoilState(nodesState);
 
   // update node data
   useEffect(() => {
@@ -49,20 +48,10 @@ export const SortNode = ({ id, data }: NodeProps) => {
   }, [sourceData]);
 
   return (
-    <div
-      style={{ padding: '1rem', border: '1px solid var(--primary-color)', borderRadius: '3px' }}
-      onClick={() => {
-        setOpenModal({ modalType: ModalType.Detail, nodeId: id });
-      }}
-      onContextMenu={(event) => {
-        event.preventDefault();
-        setOpenModal({ modalType: ModalType.Data, nodeId: id });
-      }}
-    >
-      <div>{t('nodes.sort.title')}</div>
+    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.sort.title')}>
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
-    </div>
+    </NodeBase>
   );
 };
 

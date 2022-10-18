@@ -1,8 +1,22 @@
 {
   "nodes": {
     "sort": {
-      "title": "Sort"
+      "title": "Řazení",
+      "asc": "Vzestupně",
+      "desc": "Sestupně"
+    },
+    "join": {
+      "title": "Sloučení"
+    },
+    "CSVFile": {
+      "title": "CSV soubor",
+      "selectFile": "Vybrat soubor"
     }
+  },
+  "detailModal": {
+    "selectDataSource": "Vyberte zdroj dat"
+  },
+  "common": {
+    "notSelected": "Nevybráno"
   }
 }
-

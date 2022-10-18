@@ -11,7 +11,6 @@ export const nodesState = atom<DataNode[]>({
     {
       id: '1',
       type: NodeType.InputFile,
-      name: 'CSV File',
       position: {
         x: -100,
         y: 10,
@@ -21,7 +20,6 @@ export const nodesState = atom<DataNode[]>({
     {
       id: '2',
       type: NodeType.Sort,
-      name: 'Sort',
       position: {
         x: 40,
         y: 50,
@@ -31,7 +29,6 @@ export const nodesState = atom<DataNode[]>({
     {
       id: '3',
       type: NodeType.Sort,
-      name: 'Sort',
       position: {
         x: 40,
         y: -60,
@@ -41,7 +38,6 @@ export const nodesState = atom<DataNode[]>({
     {
       id: '4',
       type: NodeType.Join,
-      name: 'Merge',
       position: {
         x: 40,
         y: 160,
@@ -51,7 +47,6 @@ export const nodesState = atom<DataNode[]>({
     {
       id: '5',
       type: NodeType.InputFile,
-      name: 'CSV File',
       position: {
         x: -200,
         y: 300,
