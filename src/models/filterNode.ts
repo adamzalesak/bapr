@@ -1,7 +1,8 @@
+import { JoinType } from "./joinNode";
 import { DataNode } from "./node";
 
 export interface JoinNodeSetting {
-    type: 'join' | 'joinOuter' | 'joinOuterLeft' | 'joinOuterRight';
+    type: JoinType;
     columnA: string;
     columnB: string;
   }
