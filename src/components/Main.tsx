@@ -14,6 +14,7 @@ import { DataNode } from '../models/node';
 import { NodeType } from '../models/nodeTypes';
 import { edgesState, nodesState } from '../store/atoms';
 import { Modals } from './modals/Modals';
+import { FilterNode } from './nodes/FilterNode';
 import { InputFileNode } from './nodes/InputFileNode';
 import { JoinNode } from './nodes/JoinNode';
 import { SortNode } from './nodes/SortNode';
@@ -26,6 +27,7 @@ export const Main = () => {
     () => ({
       [NodeType.InputFile]: InputFileNode,
       [NodeType.Sort]: SortNode,
+      [NodeType.Filter]: FilterNode,
       [NodeType.Join]: JoinNode,
     }),
     [],
@@ -59,7 +61,6 @@ export const Main = () => {
       >
         <Controls />
         <MiniMap />
-        {/* <Background /> */}
       </ReactFlow>
     </>
   );

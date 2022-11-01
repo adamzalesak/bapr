@@ -4,7 +4,7 @@ import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { useSetRecoilState } from 'recoil';
 import { useNode, useSourceData } from '../../hooks/nodes';
-import { SortNode as SortNodeModel } from '../../models/node';
+import { SortNode as SortNodeModel } from '../../models/sortNode';
 import { nodesState } from '../../store/atoms';
 import { NodeBase } from './NodeBase';
 
@@ -16,8 +16,10 @@ export const SortNode = ({ id }: NodeProps) => {
 
   const setNodes = useSetRecoilState(nodesState);
 
-  // update node data
+  // // update node data
   useEffect(() => {
+    if (!node) return;
+
     const nodeData =
       node?.settings.sortColumn && node.settings.sortColumn !== ' '
         ? sourceData?.sort(node.settings.sortColumn, node.settings.direction)
@@ -30,8 +32,10 @@ export const SortNode = ({ id }: NodeProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceData, node?.settings]);
 
-  // keep settings valid if sourceData changes
+  // // keep settings valid if sourceData changes
   useEffect(() => {
+    if (!node) return;
+
     const sortColumn = node
       ? sourceData?.columns.includes(node.settings.sortColumn)
         ? node?.settings.sortColumn

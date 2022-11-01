@@ -10,7 +10,7 @@ import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
 
-export const SortDetailModal = () => {
+export const FilterDetailModal = () => {
   const { t } = useTranslation();
 
   const [nodes, setNodes] = useRecoilState(nodesState);
@@ -33,7 +33,7 @@ export const SortDetailModal = () => {
 
   return (
     <Modal
-      title={t('nodes.sort.title')}
+      title={t('nodes.filter.title')}
       open={openModal?.modalType == ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >

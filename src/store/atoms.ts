@@ -1,7 +1,9 @@
 import { Edge } from 'react-flow-renderer';
 import { atom } from 'recoil';
 import { OpenModal } from '../models/modal';
-import { DataNode, JoinNode, SortNode } from '../models/node';
+import { DataNode } from '../models/node';
+import { JoinNode, JoinType } from '../models/joinNode';
+import { SortNode } from '../models/sortNode';
 import { NodeType } from '../models/nodeTypes';
 
 export const nodesState = atom<DataNode[]>({
@@ -53,7 +55,7 @@ export const nodesState = atom<DataNode[]>({
       settings: {
         columnA: '',
         columnB: '',
-        type: 'join',
+        type: JoinType.innerJoin,
       },
     } as JoinNode,
     {
@@ -61,6 +63,15 @@ export const nodesState = atom<DataNode[]>({
       type: NodeType.InputFile,
       position: {
         x: -200,
+        y: 300,
+      },
+      data: undefined,
+    },
+    {
+      id: '6',
+      type: NodeType.Filter,
+      position: {
+        x: -500,
         y: 300,
       },
       data: undefined,

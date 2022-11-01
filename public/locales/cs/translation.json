@@ -7,6 +7,9 @@
       "asc": "Vzestupně",
       "desc": "Sestupně"
     },
+    "filter": {
+      "title": "Filtrování"
+    },
     "join": {
       "title": "Sloučení",
       "columnA": "Levý sloupec",
@@ -20,6 +23,9 @@
   },
   "detailModal": {
     "selectDataSource": "Vyberte zdroj dat"
+  },
+  "dataModal": {
+    "notExecuted": "Uzel ještě nebyl spuštěn. Nastavte prosím nejprve jeho parametry."
   },
   "common": {
     "save": "Uložit",

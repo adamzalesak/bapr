@@ -1,12 +1,12 @@
-import { ChangeEventHandler, useMemo, useRef } from 'react';
-import { Button } from '@mui/material';
+import { ChangeEventHandler, useMemo, useRef, useState } from 'react';
+import { LoadingButton } from '@mui/lab';
 import { useRecoilState } from 'recoil';
 import { DataFrame } from '../../classes/DataFrame';
 import { ModalType } from '../../models/modal';
 import { nodesState, openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
 import { useOpenModalNode } from '../../hooks/nodes';
-import { FileNode } from '../../models/node';
+import { FileNode } from '../../models/fileNode';
 import { useTranslation } from 'react-i18next';
 
 export const InputFileDetailModal = () => {
@@ -15,9 +15,13 @@ export const InputFileDetailModal = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange: ChangeEventHandler = async (event) => {
+    setIsLoading(true);
+
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
 
@@ -35,6 +39,8 @@ export const InputFileDetailModal = () => {
     setNodes([...nodes.filter((n) => n.id !== openModal?.nodeId), updatedNode]);
 
     resetFileInput();
+
+    setIsLoading(false);
   };
 
   const resetFileInput = () => {
@@ -54,9 +60,13 @@ export const InputFileDetailModal = () => {
       onClose={() => setOpenModal(null)}
     >
       <>
-        <Button variant="outlined" onClick={() => fileRef.current?.click()}>
+        <LoadingButton
+          variant="outlined"
+          onClick={() => fileRef.current?.click()}
+          loading={isLoading}
+        >
           {t('nodes.CSVFile.selectFile')}
-        </Button>
+        </LoadingButton>
         <input hidden type="file" accept=".csv" onChange={handleFileChange} ref={fileRef} />
         <div>{node?.fileName}</div>
         {!!dataCount && <div>{dataCount} rows </div>}

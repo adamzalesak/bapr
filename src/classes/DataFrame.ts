@@ -1,13 +1,22 @@
 import _ from 'lodash';
 import { parse } from 'papaparse';
+import { JoinType } from '../models/joinNode';
+import {
+  fullOuterJoin,
+  innerJoin,
+  leftOuterJoin as leftOuterJoin,
+  rightOuterJoin as rightOuterJoin,
+} from '../utils/join';
 import { saveDataToFile } from '../utils/saveDataToFile';
 
 export type DataFrameRow = { [key: string]: any };
 
-export class DataFrame {
-  private data: DataFrameRow[];
+export type DataFrameData = DataFrameRow[];
 
-  constructor(data?: DataFrameRow[]) {
+export class DataFrame {
+  private data: DataFrameData;
+
+  constructor(data?: DataFrameData) {
     this.data = data || [];
   }
 
@@ -18,10 +27,9 @@ export class DataFrame {
         skipEmptyLines: true,
         header: true,
         fastMode: true,
-        // worker: true,
+        worker: true,
         complete: (result) => {
-          const data = new DataFrame(result.data as DataFrameRow[]);
-
+          const data = new DataFrame(result.data as DataFrameData);
           resolve(data);
         },
       });
@@ -35,7 +43,7 @@ export class DataFrame {
   };
 
   get columns() {
-    return Object.keys(this.data[0]);
+    return this.data[0] ? Object.keys(this.data[0]) : [];
   }
 
   get rows() {
@@ -51,36 +59,27 @@ export class DataFrame {
     return new DataFrame(sorted);
   };
 
-  join = (second: DataFrame, keyA: string, keyB: string) => {
-    const equijoin = (
-      xs: DataFrameRow[],
-      ys: DataFrameRow[],
-      primary: string,
-      foreign: string,
-      sel: (a: DataFrameRow, b: DataFrameRow) => DataFrameRow,
-    ) => {
-      const ix = xs.reduce(
-        (
-          ix,
-          row, // loop through m items
-        ) => ix.set(row[primary], row), // populate index for primary table
-        new Map(),
-      ); // create an index for primary table
+  join = (dataFrameB: DataFrame, keyA: string, keyB: string, type: JoinType) => {
+    let result: DataFrameData;
 
-      return ys.map(
-        (
-          row, // loop through n items
-        ) =>
-          sel(
-            ix.get(row[foreign]), // get corresponding row from primary
-            row,
-          ),
-      ); // select only the columns you need
-    };
-    const a = this.data;
-    const b = second.data;
-
-    const result = equijoin(a, b, keyA, keyB, (a, b) => ({ ...a, ...b }));
+    switch (type) {
+      case JoinType.innerJoin: {
+        result = innerJoin(this.data, dataFrameB.data, keyA, keyB);
+        break;
+      }
+      case JoinType.leftOuterJoin: {
+        result = leftOuterJoin(this.data, dataFrameB.data, keyA, keyB);
+        break;
+      }
+      case JoinType.rightOuterJoin: {
+        result = rightOuterJoin(this.data, dataFrameB.data, keyA, keyB);
+        break;
+      }
+      case JoinType.fullOuterJoin: {
+        result = fullOuterJoin(this.data, dataFrameB.data, keyA, keyB);
+        break;
+      }
+    }
 
     return new DataFrame(result);
   };

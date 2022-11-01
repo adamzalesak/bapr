@@ -5,12 +5,38 @@ import { useNode, useSourceData } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
 import { NodeState } from '../../models/node';
 import { openModalState } from '../../store/atoms';
+import TableViewIcon from '@mui/icons-material/TableView';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const NodeBox = styled.div`
   padding: 1rem;
   border: 1px solid var(--primary-color);
   border-radius: 3px;
   background-color: var(--primary-background);
+`;
+
+const DisplayDataButton = styled(TableViewIcon)`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 2px;
+  font-size: 0.5rem;
+  max-height: 1rem;
+  max-width: 1rem;
+
+  cursor: pointer;
+`;
+
+const DownloadButton = styled(DownloadIcon)`
+  position: absolute;
+  left: 1rem;
+  bottom: 0;
+  margin: 2px;
+  font-size: 0.5rem;
+  max-height: 1rem;
+  max-width: 1rem;
+
+  cursor: pointer;
 `;
 
 interface StateBadgeProps {
@@ -37,6 +63,15 @@ const State = styled.div<StateBadgeProps>`
     transparent;
 `;
 
+const RowCount = styled.div`
+  margin-left: auto;
+  width: fit-content;
+  position: absolute;
+  margin-bottom: auto;
+  font-size: 0.4rem;
+  top: 0;
+`;
+
 interface BaseNodeProps {
   nodeId: string;
   nodeTypeName: string;
@@ -56,28 +91,46 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   const handleOpenPreview = () => {
     setOpenModal({ modalType: ModalType.Data, nodeId });
   };
+
   return (
-    <NodeBox
-      onClick={handleOpenDetail}
-      onDoubleClickCapture={(event) => {
-        event?.preventDefault();
-        handleOpenPreview();
-      }}
-    >
-      <div>{nodeTypeName.toUpperCase()}</div>
-      <State
-        state={
-          state !== undefined
-            ? state
-            : node?.data
-            ? NodeState.Done
-            : sourceData
-            ? NodeState.InvalidSettings
-            : NodeState.NoSource
-        }
-      />
-      {children}
-    </NodeBox>
+    <>
+      <NodeBox onClick={handleOpenDetail}>
+        {node?.data ? (
+          <RowCount>
+            {node?.data?.count} rows; {node?.data?.columns?.length} columns
+          </RowCount>
+        ) : null}
+
+        <div>{nodeTypeName.toUpperCase()}</div>
+        <DisplayDataButton
+          onClick={(event) => {
+            event?.stopPropagation();
+            handleOpenPreview();
+          }}
+        />
+        {!!node?.data && (
+          <DownloadButton
+            onClick={(event) => {
+              event?.stopPropagation();
+              node?.data?.toCSVFile();
+            }}
+          />
+        )}
+
+        <State
+          state={
+            state !== undefined
+              ? state
+              : node?.data
+              ? NodeState.Done
+              : sourceData
+              ? NodeState.InvalidSettings
+              : NodeState.NoSource
+          }
+        />
+        {children}
+      </NodeBox>
+    </>
   );
 };
 

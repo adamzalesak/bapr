@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useOpenModalNode } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
-import { JoinNode, JoinNodeSetting } from '../../models/node';
+import { JoinNode, JoinNodeSetting, JoinType } from '../../models/joinNode';
 import { edgesState, nodesState, openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
@@ -58,9 +58,6 @@ export const JoinDetailModal = () => {
       {sourceDataA && sourceDataB ? (
         <Form>
           <Select name="columnA" control={control} label={t('nodes.join.columnA')}>
-            {/* <MenuItem value="">
-              <em>{t('common.notSelected')}</em>
-            </MenuItem> */}
             {sourceDataA?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
@@ -68,9 +65,6 @@ export const JoinDetailModal = () => {
             ))}
           </Select>
           <Select name="columnB" control={control} label={t('nodes.join.columnB')}>
-            {/* <MenuItem value="">
-              <em>{t('common.notSelected')}</em>
-            </MenuItem> */}
             {sourceDataB?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
@@ -78,10 +72,16 @@ export const JoinDetailModal = () => {
             ))}
           </Select>
           <Select name="type" control={control} label={t('nodes.join.type')}>
-            <MenuItem value="join">Join</MenuItem>
-            <MenuItem value="joinOuter">Outer Join</MenuItem>
-            <MenuItem value="joinOuterLeft">Left outer join</MenuItem>
-            <MenuItem value="joinOuterRight">Right outer join</MenuItem>
+            <MenuItem value={JoinType.innerJoin}>{t('nodes.join.types.innerJoin')}</MenuItem>
+            <MenuItem value={JoinType.leftOuterJoin}>
+              {t('nodes.join.types.leftOuterJoin')}
+            </MenuItem>
+            <MenuItem value={JoinType.rightOuterJoin}>
+              {t('nodes.join.types.rightOuterJoin')}
+            </MenuItem>
+            <MenuItem value={JoinType.fullOuterJoin}>
+              {t('nodes.join.types.fullOuterJoin')}
+            </MenuItem>
           </Select>
 
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>

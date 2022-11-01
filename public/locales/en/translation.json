@@ -7,11 +7,20 @@
       "asc": "Ascending",
       "desc": "Descending"
     },
+    "filter": {
+      "title": "Filter"
+    },
     "join": {
       "title": "Join",
       "columnA": "Left columns",
       "columnB": "Right column",
-      "type": "Type"
+      "type": "Type",
+      "types": {
+        "innerJoin": "Inner Join",
+        "leftOuterJoin": "Left outer join",
+        "rightOuterJoin": "Right outer join",
+        "fullOuterJoin": "Full outer join"
+      }
     },
     "CSVFile": {
       "title": "CSV File",
@@ -20,6 +29,9 @@
   },
   "detailModal": {
     "selectDataSource": "Select data source"
+  },
+  "dataModal": {
+    "notExecuted": "The node has not been executed yet. Please setup the node first."
   },
   "common": {
     "save": "Save",
