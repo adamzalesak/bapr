@@ -6,10 +6,8 @@ export type NodeData<TAdditionalData> = {
   dataFrame?: DataFrame;
 } & TAdditionalData;
 
-export interface DataNode<
-  TNodeType extends NodeType = NodeType,
-  TAdditionalData = NodeData<unknown>,
-> extends Node<NodeData<TAdditionalData>> {
+export interface DataNode<TNodeType extends NodeType = NodeType, TAdditionalData = unknown>
+  extends Node<NodeData<TAdditionalData>> {
   type: TNodeType;
 }
 

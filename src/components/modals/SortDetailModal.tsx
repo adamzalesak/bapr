@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { useNode, useSourceDataFrame } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
-import { DataNode } from '../../models/dataNode';
 import { SortNode, SortNodeSetting } from '../../models/sortNode';
 import { nodesState, openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
@@ -26,7 +25,7 @@ export const SortDetailModal = () => {
   const onSubmit = (settings: SortNodeSetting) => {
     setNodes([
       ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, data: { ...node.data, settings } } as SortNode as DataNode,
+      { ...node, data: { ...node.data, settings } } as SortNode,
     ]);
 
     setOpenModal(null);

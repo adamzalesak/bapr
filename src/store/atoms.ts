@@ -32,7 +32,7 @@ export const nodesState = atom<DataNode[]>({
           direction: 'asc',
         },
       },
-    } as SortNode as DataNode,
+    } as SortNode,
     {
       id: '3',
       type: NodeType.Sort,
@@ -46,7 +46,7 @@ export const nodesState = atom<DataNode[]>({
           direction: 'asc',
         },
       },
-    } as SortNode as DataNode,
+    } as SortNode,
     {
       id: '4',
       type: NodeType.Join,
@@ -61,7 +61,7 @@ export const nodesState = atom<DataNode[]>({
           type: JoinType.innerJoin,
         },
       },
-    } as JoinNode as DataNode,
+    } as JoinNode,
     {
       id: '5',
       type: NodeType.InputFile,

@@ -10,7 +10,6 @@ import { edgesState, nodesState, openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
-import { DataNode } from '../../models/dataNode';
 
 export const JoinDetailModal = () => {
   const { t } = useTranslation();
@@ -44,7 +43,7 @@ export const JoinDetailModal = () => {
   const onSubmit = (settings: JoinNodeSetting) => {
     setNodes([
       ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, data: { ...node.data, settings } } as JoinNode as DataNode,
+      { ...node, data: { ...node.data, settings } } as JoinNode,
     ]);
 
     setOpenModal(null);
