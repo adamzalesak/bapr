@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { useNode, useSourceData } from '../../hooks/nodes';
+import { useNode, useSourceDataFrame } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
-import { NodeState } from '../../models/node';
+import { NodeState } from '../../models/dataNode';
 import { openModalState } from '../../store/atoms';
 import TableViewIcon from '@mui/icons-material/TableView';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -80,7 +80,7 @@ interface BaseNodeProps {
 }
 
 export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProps) => {
-  const sourceData = useSourceData(nodeId);
+  const sourceData = useSourceDataFrame(nodeId);
   const node = useNode(nodeId);
   const setOpenModal = useSetRecoilState(openModalState);
 
@@ -95,9 +95,9 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   return (
     <>
       <NodeBox onClick={handleOpenDetail}>
-        {node?.data ? (
+        {node?.data?.dataFrame ? (
           <RowCount>
-            {node?.data?.count} rows; {node?.data?.columns?.length} columns
+            {node?.data?.dataFrame?.count} rows; {node?.data?.dataFrame?.columns?.length} columns
           </RowCount>
         ) : null}
 
@@ -112,7 +112,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
           <DownloadButton
             onClick={(event) => {
               event?.stopPropagation();
-              node?.data?.toCSVFile();
+              node?.data?.dataFrame?.toCSVFile();
             }}
           />
         )}
@@ -121,7 +121,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
           state={
             state !== undefined
               ? state
-              : node?.data
+              : node?.data?.dataFrame
               ? NodeState.Done
               : sourceData
               ? NodeState.InvalidSettings
@@ -133,4 +133,3 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
     </>
   );
 };
-

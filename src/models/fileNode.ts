@@ -1,6 +1,8 @@
-import { DataNode } from './node';
+import { DataNode } from './dataNode';
+import { NodeType } from './nodeTypes';
 
-export interface FileNode extends DataNode {
+export interface FileNodeAdditionalData {
   fileName?: string;
 }
 
+export type FileNode = DataNode<NodeType.Filter, FileNodeAdditionalData>;

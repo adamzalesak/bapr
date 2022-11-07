@@ -8,6 +8,7 @@ import { Modal } from '../common/Modal';
 import { useOpenModalNode } from '../../hooks/nodes';
 import { FileNode } from '../../models/fileNode';
 import { useTranslation } from 'react-i18next';
+import { DataNode } from '../../models/dataNode';
 
 export const InputFileDetailModal = () => {
   const { t } = useTranslation();
@@ -27,16 +28,15 @@ export const InputFileDetailModal = () => {
 
     if (!file) return;
 
-    const data = await DataFrame.fromCSVFile(file);
+    const dataFrame = await DataFrame.fromCSVFile(file);
 
     const updatedNode: FileNode = {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ...nodes.find((n) => n.id === openModal?.nodeId)!,
-      data: data,
-      fileName: file.name,
+      ...(nodes.find((n) => n.id === openModal?.nodeId)! as FileNode),
+      data: { dataFrame, fileName: file.name },
     };
 
-    setNodes([...nodes.filter((n) => n.id !== openModal?.nodeId), updatedNode]);
+    setNodes([...nodes.filter((n) => n.id !== openModal?.nodeId), updatedNode as DataNode]);
 
     resetFileInput();
 
@@ -51,7 +51,7 @@ export const InputFileDetailModal = () => {
 
   const node = useOpenModalNode() as FileNode | undefined;
 
-  const dataCount = useMemo(() => node?.data?.count, [node?.data]);
+  const dataCount = useMemo(() => node?.data?.dataFrame?.count, [node?.data?.dataFrame]);
 
   return (
     <Modal
@@ -68,7 +68,7 @@ export const InputFileDetailModal = () => {
           {t('nodes.CSVFile.selectFile')}
         </LoadingButton>
         <input hidden type="file" accept=".csv" onChange={handleFileChange} ref={fileRef} />
-        <div>{node?.fileName}</div>
+        <div>{node?.data?.fileName}</div>
         {!!dataCount && <div>{dataCount} rows </div>}
       </>
     </Modal>

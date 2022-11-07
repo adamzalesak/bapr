@@ -25,7 +25,7 @@ export const useOpenDataModalNode = () => {
   );
 };
 
-export const useSourceData = (nodeId: string) => {
+export const useSourceDataFrame = (nodeId: string) => {
   const edges = useRecoilValue(edgesState);
   const nodes = useRecoilValue(nodesState);
 
@@ -34,7 +34,6 @@ export const useSourceData = (nodeId: string) => {
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
-    return sourceNode?.data;
+    return sourceNode?.data?.dataFrame;
   }, [edges, nodes, nodeId]);
 };
-

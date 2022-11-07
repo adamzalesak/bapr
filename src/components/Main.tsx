@@ -10,7 +10,7 @@ import ReactFlow, {
   OnNodesChange,
 } from 'react-flow-renderer';
 import { useRecoilState } from 'recoil';
-import { DataNode } from '../models/node';
+import { DataNode } from '../models/dataNode';
 import { NodeType } from '../models/nodeTypes';
 import { edgesState, nodesState } from '../store/atoms';
 import { Modals } from './modals/Modals';
@@ -65,4 +65,3 @@ export const Main = () => {
     </>
   );
 };
-

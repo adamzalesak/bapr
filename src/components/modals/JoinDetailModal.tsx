@@ -10,6 +10,7 @@ import { edgesState, nodesState, openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
+import { DataNode } from '../../models/dataNode';
 
 export const JoinDetailModal = () => {
   const { t } = useTranslation();
@@ -37,13 +38,13 @@ export const JoinDetailModal = () => {
   }, [edges, nodes, node.id]);
 
   const { control, handleSubmit } = useForm<JoinNodeSetting>({
-    defaultValues: node.settings,
+    defaultValues: node.data.settings,
   });
 
   const onSubmit = (settings: JoinNodeSetting) => {
     setNodes([
       ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, settings } as JoinNode,
+      { ...node, data: { ...node.data, settings } } as JoinNode as DataNode,
     ]);
 
     setOpenModal(null);
@@ -58,14 +59,14 @@ export const JoinDetailModal = () => {
       {sourceDataA && sourceDataB ? (
         <Form>
           <Select name="columnA" control={control} label={t('nodes.join.columnA')}>
-            {sourceDataA?.columns.map((columnName, index) => (
+            {sourceDataA?.dataFrame?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
               </MenuItem>
             ))}
           </Select>
           <Select name="columnB" control={control} label={t('nodes.join.columnB')}>
-            {sourceDataB?.columns.map((columnName, index) => (
+            {sourceDataB?.dataFrame?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
               </MenuItem>
@@ -94,4 +95,3 @@ export const JoinDetailModal = () => {
     </Modal>
   );
 };
-

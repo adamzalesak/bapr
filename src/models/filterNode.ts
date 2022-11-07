@@ -1,14 +1,15 @@
-import { JoinType } from "./joinNode";
-import { DataNode } from "./node";
+import { JoinType } from './joinNode';
+import { DataNode } from './dataNode';
+import { NodeType } from './nodeTypes';
 
-export interface JoinNodeSetting {
-    type: JoinType;
-    columnA: string;
-    columnB: string;
-  }
-  
-  export interface JoinNode extends DataNode {
-    settings: JoinNodeSetting;
-  }
-  
-  
+export interface FilterNodeSetting {
+  type: JoinType;
+  columnA: string;
+  columnB: string;
+}
+
+export interface FilterNodeAdditionalData {
+  settings: FilterNodeSetting;
+}
+
+export type FilterNode = DataNode<NodeType.Filter, FilterNodeAdditionalData>;

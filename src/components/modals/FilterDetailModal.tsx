@@ -2,7 +2,7 @@ import { Button, MenuItem } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
-import { useNode, useSourceData } from '../../hooks/nodes';
+import { useNode, useSourceDataFrame } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
 import { SortNode, SortNodeSetting } from '../../models/sortNode';
 import { nodesState, openModalState } from '../../store/atoms';
@@ -18,9 +18,9 @@ export const FilterDetailModal = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const node = useNode(openModal!.nodeId) as SortNode;
-  const sourceData = useSourceData(node.id);
+  const sourceData = useSourceDataFrame(node.id);
 
-  const { control, handleSubmit } = useForm<SortNodeSetting>({ defaultValues: node.settings });
+  const { control, handleSubmit } = useForm<SortNodeSetting>({ defaultValues: node.data.settings });
 
   const onSubmit = (settings: SortNodeSetting) => {
     setNodes([
@@ -62,4 +62,3 @@ export const FilterDetailModal = () => {
     </Modal>
   );
 };
-

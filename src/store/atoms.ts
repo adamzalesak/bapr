@@ -1,7 +1,7 @@
 import { Edge } from 'react-flow-renderer';
 import { atom } from 'recoil';
 import { OpenModal } from '../models/modal';
-import { DataNode } from '../models/node';
+import { DataNode } from '../models/dataNode';
 import { JoinNode, JoinType } from '../models/joinNode';
 import { SortNode } from '../models/sortNode';
 import { NodeType } from '../models/nodeTypes';
@@ -16,7 +16,7 @@ export const nodesState = atom<DataNode[]>({
         x: -100,
         y: 10,
       },
-      data: undefined,
+      data: {},
     },
     {
       id: '2',
@@ -25,12 +25,14 @@ export const nodesState = atom<DataNode[]>({
         x: 40,
         y: 50,
       },
-      data: undefined,
-      settings: {
-        sortColumn: '',
-        direction: 'asc',
+      data: {
+        dataFrame: undefined,
+        settings: {
+          sortColumn: '',
+          direction: 'asc',
+        },
       },
-    } as SortNode,
+    } as SortNode as DataNode,
     {
       id: '3',
       type: NodeType.Sort,
@@ -38,12 +40,13 @@ export const nodesState = atom<DataNode[]>({
         x: 40,
         y: -60,
       },
-      data: undefined,
-      settings: {
-        sortColumn: '',
-        direction: 'asc',
+      data: {
+        settings: {
+          sortColumn: '',
+          direction: 'asc',
+        },
       },
-    } as SortNode,
+    } as SortNode as DataNode,
     {
       id: '4',
       type: NodeType.Join,
@@ -51,13 +54,14 @@ export const nodesState = atom<DataNode[]>({
         x: 40,
         y: 160,
       },
-      data: undefined,
-      settings: {
-        columnA: '',
-        columnB: '',
-        type: JoinType.innerJoin,
+      data: {
+        settings: {
+          columnA: '',
+          columnB: '',
+          type: JoinType.innerJoin,
+        },
       },
-    } as JoinNode,
+    } as JoinNode as DataNode,
     {
       id: '5',
       type: NodeType.InputFile,
@@ -65,7 +69,7 @@ export const nodesState = atom<DataNode[]>({
         x: -200,
         y: 300,
       },
-      data: undefined,
+      data: {},
     },
     {
       id: '6',
@@ -74,7 +78,7 @@ export const nodesState = atom<DataNode[]>({
         x: -500,
         y: 300,
       },
-      data: undefined,
+      data: {},
     },
   ],
 });
@@ -88,4 +92,3 @@ export const openModalState = atom<OpenModal | null>({
   key: 'openModal',
   default: null,
 });
-

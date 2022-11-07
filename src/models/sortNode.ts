@@ -1,10 +1,13 @@
-import { DataNode } from "./node";
+import { DataNode } from './dataNode';
+import { NodeType } from './nodeTypes';
 
 export interface SortNodeSetting {
   sortColumn: string;
   direction?: 'asc' | 'desc';
 }
 
-export interface SortNode extends DataNode {
+export interface SortNodeAdditionalData {
   settings: SortNodeSetting;
 }
+
+export type SortNode = DataNode<NodeType.Sort, SortNodeAdditionalData>;

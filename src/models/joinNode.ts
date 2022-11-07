@@ -1,4 +1,5 @@
-import { DataNode } from './node';
+import { DataNode } from './dataNode';
+import { NodeType } from './nodeTypes';
 
 export interface JoinNodeSetting {
   type: JoinType;
@@ -6,9 +7,11 @@ export interface JoinNodeSetting {
   columnB: string;
 }
 
-export interface JoinNode extends DataNode {
+export interface JoinNodeAdditionalData {
   settings: JoinNodeSetting;
 }
+
+export type JoinNode = DataNode<NodeType.Join, JoinNodeAdditionalData>;
 
 export enum JoinType {
   innerJoin = 'INNER_JOIN',
@@ -16,4 +19,3 @@ export enum JoinType {
   rightOuterJoin = 'RIGHT_OUTER_JOIN',
   fullOuterJoin = 'FULL_OUTER_JOIN',
 }
-
