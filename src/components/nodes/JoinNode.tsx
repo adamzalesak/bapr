@@ -52,7 +52,6 @@ export const JoinNode = ({ id }: NodeProps) => {
       node.data.settings.type,
     );
     updateNodeData('dataFrame', nodeDataFrame);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrameA, sourceDataFrameB, node?.data?.settings]);
 
