@@ -8,6 +8,11 @@ import { JoinNode as JoinNodeModel } from '../../models/joinNode';
 import { edgesState, nodesState } from '../../store/atoms';
 import { NodeBase } from './NodeBase';
 
+enum HandleId {
+  A = 'A',
+  B = 'B',
+}
+
 export const JoinNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
 
@@ -17,7 +22,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   const edges = useRecoilValue(edgesState);
 
   const sourceDataFrameA = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == 'a');
+    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == HandleId.A);
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
@@ -25,7 +30,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   }, [edges, id, nodes]);
 
   const sourceDataFrameB = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == 'b');
+    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == HandleId.B);
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
@@ -63,8 +68,18 @@ export const JoinNode = ({ id }: NodeProps) => {
 
   return (
     <NodeBase nodeId={id} nodeTypeName={t('nodes.join.title')} state={nodeState}>
-      <Handle type="target" id="a" position={Position.Left} style={{ marginTop: '-0.5rem' }} />
-      <Handle type="target" id="b" position={Position.Left} style={{ marginTop: '0.5rem' }} />
+      <Handle
+        type="target"
+        id={HandleId.A}
+        position={Position.Left}
+        style={{ marginTop: '-0.5rem' }}
+      />
+      <Handle
+        type="target"
+        id={HandleId.B}
+        position={Position.Left}
+        style={{ marginTop: '0.5rem' }}
+      />
       <Handle type="source" position={Position.Right} />
     </NodeBase>
   );
