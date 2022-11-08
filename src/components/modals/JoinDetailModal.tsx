@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useOpenModalNode } from '../../hooks/nodes';
+import { useOpenModalNode, useUpdateNodeData } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
 import { JoinNode, JoinNodeSetting, JoinType } from '../../models/joinNode';
 import { edgesState, nodesState, openModalState } from '../../store/atoms';
@@ -14,9 +14,10 @@ import { Select } from '../form/Select';
 export const JoinDetailModal = () => {
   const { t } = useTranslation();
 
-  const [nodes, setNodes] = useRecoilState(nodesState);
+  const nodes = useRecoilValue(nodesState);
   const edges = useRecoilValue(edgesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
+  const updateNodeData = useUpdateNodeData<JoinNode>(openModal!.nodeId);
 
   const node = useOpenModalNode() as JoinNode;
 
@@ -41,11 +42,7 @@ export const JoinDetailModal = () => {
   });
 
   const onSubmit = (settings: JoinNodeSetting) => {
-    setNodes([
-      ...nodes.filter((node) => node.id !== openModal?.nodeId),
-      { ...node, data: { ...node.data, settings } } as JoinNode,
-    ]);
-
+    updateNodeData('settings', settings);
     setOpenModal(null);
   };
 

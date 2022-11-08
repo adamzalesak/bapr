@@ -3,18 +3,17 @@ import { LoadingButton } from '@mui/lab';
 import { useRecoilState } from 'recoil';
 import { DataFrame } from '../../classes/DataFrame';
 import { ModalType } from '../../models/modal';
-import { nodesState, openModalState } from '../../store/atoms';
+import { openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
-import { useOpenModalNode } from '../../hooks/nodes';
+import { useOpenModalNode, useUpdateNodeData } from '../../hooks/nodes';
 import { FileNode } from '../../models/fileNode';
 import { useTranslation } from 'react-i18next';
-import { DataNode } from '../../models/dataNode';
 
 export const InputFileDetailModal = () => {
   const { t } = useTranslation();
 
-  const [nodes, setNodes] = useRecoilState(nodesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
+  const updateNodeData = useUpdateNodeData<FileNode>(openModal!.nodeId);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,13 +29,8 @@ export const InputFileDetailModal = () => {
 
     const dataFrame = await DataFrame.fromCSVFile(file);
 
-    const updatedNode: FileNode = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ...(nodes.find((n) => n.id === openModal?.nodeId)! as FileNode),
-      data: { dataFrame, fileName: file.name },
-    };
-
-    setNodes([...nodes.filter((n) => n.id !== openModal?.nodeId), updatedNode as DataNode]);
+    updateNodeData('dataFrame', dataFrame);
+    updateNodeData('fileName', file.name);
 
     resetFileInput();
 

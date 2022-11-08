@@ -14,40 +14,6 @@ export const FilterNode = ({ id }: NodeProps) => {
   const node = useNode(id) as SortNodeModel | undefined;
   const sourceData = useSourceDataFrame(id);
 
-  const setNodes = useSetRecoilState(nodesState);
-
-  // update node data
-  // useEffect(() => {
-  //   const nodeData =
-  //     node?.data?.settings.sortColumn && node.data.settings.sortColumn !== ' '
-  //       ? sourceData?.sort(node.data.settings.sortColumn, node.data.settings.direction)
-  //       : undefined;
-
-  //   setNodes(
-  //     (nodes) =>
-  //       [...nodes.filter((n) => n.id !== id), { ...node, data: nodeData }] as SortNodeModel[],
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [sourceData, node?.data?.settings]);
-
-  // // keep settings valid if sourceData changes
-  // useEffect(() => {
-  //   const sortColumn = node
-  //     ? sourceData?.columns.includes(node.data.settings.sortColumn)
-  //       ? node?.data?.settings.sortColumn
-  //       : ''
-  //     : '';
-
-  //   setNodes(
-  //     (nodes) =>
-  //       [
-  //         ...nodes.filter((n) => n.id !== id),
-  //         { ...node, settings: { ...node?.data?.settings, sortColumn } },
-  //       ] as SortNodeModel[],
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [sourceData]);
-
   if (!node) return null;
 
   return (
