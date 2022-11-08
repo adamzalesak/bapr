@@ -23,7 +23,7 @@ export const JoinDetailModal = () => {
 
   const sourceDataA = useMemo(() => {
     const edge = edges.find(
-      (edge) => edge.target === node.id && edge.targetHandle == JoinNodeHandle.A,
+      (edge) => edge.target === node.id && edge.targetHandle === JoinNodeHandle.A,
     );
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
@@ -33,7 +33,7 @@ export const JoinDetailModal = () => {
 
   const sourceDataB = useMemo(() => {
     const edge = edges.find(
-      (edge) => edge.target === node.id && edge.targetHandle == JoinNodeHandle.B,
+      (edge) => edge.target === node.id && edge.targetHandle === JoinNodeHandle.B,
     );
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
@@ -53,22 +53,22 @@ export const JoinDetailModal = () => {
   return (
     <Modal
       title={t('nodes.join.title')}
-      open={openModal?.modalType == ModalType.Detail}
+      open={openModal?.modalType === ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
       {sourceDataA && sourceDataB ? (
         <Form>
           <Select name="columnA" control={control} label={t('nodes.join.columnA')}>
-            {sourceDataA?.dataFrame?.columns.map((columnName, index) => (
-              <MenuItem key={index} value={columnName}>
-                {columnName}
+            {sourceDataA?.dataFrame?.columns.map((column, index) => (
+              <MenuItem key={index} value={column.name}>
+                {column.name}
               </MenuItem>
             ))}
           </Select>
           <Select name="columnB" control={control} label={t('nodes.join.columnB')}>
-            {sourceDataB?.dataFrame?.columns.map((columnName, index) => (
-              <MenuItem key={index} value={columnName}>
-                {columnName}
+            {sourceDataB?.dataFrame?.columns.map((column, index) => (
+              <MenuItem key={index} value={column.name}>
+                {column.name}
               </MenuItem>
             ))}
           </Select>

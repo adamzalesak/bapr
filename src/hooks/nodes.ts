@@ -22,7 +22,7 @@ export const useOpenDataModalNode = () => {
   const openModal = useRecoilValue(openModalState);
 
   return nodes.find(
-    (node) => openModal?.modalType == ModalType.Data && node.id === openModal.nodeId,
+    (node) => openModal?.modalType === ModalType.Data && node.id === openModal.nodeId,
   );
 };
 

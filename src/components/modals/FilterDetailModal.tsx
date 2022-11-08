@@ -30,15 +30,15 @@ export const FilterDetailModal = () => {
   return (
     <Modal
       title={t('nodes.filter.title')}
-      open={openModal?.modalType == ModalType.Detail}
+      open={openModal?.modalType === ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
       {sourceDataFrame ? (
         <Form>
           <Select name="sortColumn" control={control} label={t('nodes.sort.column')}>
-            {sourceDataFrame?.columns.map((columnName, index) => (
-              <MenuItem key={index} value={columnName}>
-                {columnName}
+            {sourceDataFrame?.columns.map((column, index) => (
+              <MenuItem key={index} value={column.name}>
+                {column.name}
               </MenuItem>
             ))}
           </Select>

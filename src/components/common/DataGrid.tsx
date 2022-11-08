@@ -13,16 +13,16 @@ import { DataFrame } from '../../classes/DataFrame';
 import { TABLE_ROWS_PER_PAGE_OPTIONS } from '../../constants';
 
 interface Props {
-  data: DataFrame;
+  dataFrame: DataFrame;
 }
 
-export const DataGrid = memo(({ data }: Props) => {
+export const DataGrid = memo(({ dataFrame }: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(TABLE_ROWS_PER_PAGE_OPTIONS[0]);
 
   const rows = useMemo(
-    () => data?.rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage),
-    [data, page, rowsPerPage],
+    () => dataFrame?.rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage),
+    [dataFrame, page, rowsPerPage],
   );
 
   const handleChangePage = (_event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
@@ -44,17 +44,21 @@ export const DataGrid = memo(({ data }: Props) => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {data?.columns.map((x, index) => (
-                <TableCell key={index}>{x}</TableCell>
-              ))}
+              {dataFrame?.columns
+                .map((c) => c.name)
+                .map((x, index) => (
+                  <TableCell key={index}>{x}</TableCell>
+                ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row, index) => (
               <TableRow key={index}>
-                {data?.columns.map((x, index) => (
-                  <TableCell key={index}>{row[x]}</TableCell>
-                ))}
+                {dataFrame?.columns
+                  .map((c) => c.name)
+                  .map((columnName, index) => (
+                    <TableCell key={index}>{row[columnName]}</TableCell>
+                  ))}
               </TableRow>
             ))}
           </TableBody>
@@ -63,10 +67,11 @@ export const DataGrid = memo(({ data }: Props) => {
       <TablePagination
         rowsPerPageOptions={TABLE_ROWS_PER_PAGE_OPTIONS}
         colSpan={3}
-        count={data.count}
+        count={dataFrame.count}
         rowsPerPage={rowsPerPage}
         page={page}
         SelectProps={{
+          // TODO: translate
           inputProps: {
             'aria-label': 'rows per page',
           },
@@ -77,4 +82,3 @@ export const DataGrid = memo(({ data }: Props) => {
     </Paper>
   );
 });
-

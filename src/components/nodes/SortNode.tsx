@@ -27,7 +27,7 @@ export const SortNode = ({ id }: NodeProps) => {
   // // keep settings valid if sourceData changes
   useEffect(() => {
     const sortColumn = node
-      ? sourceDataFrame?.columns.includes(node.data.settings.sortColumn)
+      ? sourceDataFrame?.columns.map((c) => c.name).includes(node.data.settings.sortColumn)
         ? node?.data?.settings.sortColumn
         : ''
       : '';

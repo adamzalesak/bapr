@@ -50,7 +50,7 @@ export const InputFileDetailModal = () => {
   return (
     <Modal
       title={t('nodes.CSVFile.title')}
-      open={openModal?.modalType == ModalType.Detail}
+      open={openModal?.modalType === ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
       <>

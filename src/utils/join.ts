@@ -1,4 +1,4 @@
-import { DataFrameData, DataFrameRow } from '../classes/DataFrame';
+import { DataFrameRow, DataFrame } from '../classes/DataFrame';
 import { join as joinLib, leftJoin as leftJoinLib, fullJoin as fullJoinLib } from 'array-join';
 
 const combineRows = (
@@ -13,55 +13,54 @@ const combineRows = (
   return { ...a, ...b };
 };
 
-export const innerJoin = (
-  dataA: DataFrameData,
-  dataB: DataFrameData,
-  keyA: string,
-  keyB: string,
-) => {
+export const innerJoin = (dataA: DataFrame, dataB: DataFrame, keyA: string, keyB: string) => {
   return (
     joinLib(
-      dataA,
-      dataB,
+      dataA.rows,
+      dataB.rows,
       (rowA) => rowA[keyA],
       (rowB) => rowB[keyB],
-      (rowA, rowB) => combineRows(rowA, rowB, Object.keys(dataA[0]), Object.keys(dataB[0])),
+      (rowA, rowB) =>
+        combineRows(
+          rowA,
+          rowB,
+          dataA.columns.map((c) => c.name),
+          dataB.columns.map((c) => c.name),
+        ),
     ) || []
   );
 };
 
-export const leftOuterJoin = (
-  dataA: DataFrameData,
-  dataB: DataFrameData,
-  keyA: string,
-  keyB: string,
-) =>
+export const leftOuterJoin = (dataA: DataFrame, dataB: DataFrame, keyA: string, keyB: string) =>
   leftJoinLib(
-    dataA,
-    dataB,
+    dataA.rows,
+    dataB.rows,
     (rowA) => rowA[keyA],
     (rowB) => rowB[keyB],
-    (rowA, rowB) => combineRows(rowA, rowB, Object.keys(dataA[0]), Object.keys(dataB[0])),
+    (rowA, rowB) =>
+      combineRows(
+        rowA,
+        rowB,
+        dataA.columns.map((c) => c.name),
+        dataB.columns.map((c) => c.name),
+      ),
   ) || [];
 
-export const rightOuterJoin = (
-  dataA: DataFrameData,
-  dataB: DataFrameData,
-  keyA: string,
-  keyB: string,
-) => leftOuterJoin(dataB, dataA, keyA, keyB);
+export const rightOuterJoin = (dataA: DataFrame, dataB: DataFrame, keyA: string, keyB: string) =>
+  leftOuterJoin(dataB, dataA, keyA, keyB);
 
-export const fullOuterJoin = (
-  dataA: DataFrameData,
-  dataB: DataFrameData,
-  keyA: string,
-  keyB: string,
-) =>
+export const fullOuterJoin = (dataA: DataFrame, dataB: DataFrame, keyA: string, keyB: string) =>
   fullJoinLib(
-    dataA,
-    dataB,
+    dataA.rows,
+    dataB.rows,
     (rowA) => rowA[keyA],
     (rowB) => rowB[keyB],
-    (rowA, rowB) => combineRows(rowA, rowB, Object.keys(dataA[0]), Object.keys(dataB[0])),
+    (rowA, rowB) =>
+      combineRows(
+        rowA,
+        rowB,
+        dataA.columns.map((c) => c.name),
+        dataB.columns.map((c) => c.name),
+      ),
   ) || [];
 

@@ -17,7 +17,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   const edges = useRecoilValue(edgesState);
 
   const sourceDataFrameA = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == JoinNodeHandle.A);
+    const edge = edges.find((edge) => edge.target === id && edge.targetHandle === JoinNodeHandle.A);
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
@@ -25,7 +25,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   }, [edges, id, nodes]);
 
   const sourceDataFrameB = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == JoinNodeHandle.B);
+    const edge = edges.find((edge) => edge.target === id && edge.targetHandle === JoinNodeHandle.B);
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 

@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { parse } from 'papaparse';
 import { JoinType } from '../models/joinNode';
 import {
   fullOuterJoin,
@@ -7,80 +6,71 @@ import {
   leftOuterJoin as leftOuterJoin,
   rightOuterJoin as rightOuterJoin,
 } from '../utils/join';
-import { saveDataToFile } from '../utils/saveDataToFile';
+import { parseCSVFile, saveDataToCSVFile } from '../utils/parse';
 
 export type DataFrameRow = { [key: string]: any };
 
-export type DataFrameData = DataFrameRow[];
+export interface Column {
+  name: string;
+  type: string;
+}
 
 export class DataFrame {
-  private data: DataFrameData;
+  private _rows: DataFrameRow[];
+  private _columns: Column[];
 
-  constructor(data?: DataFrameData) {
-    this.data = data || [];
+  constructor(data?: DataFrameRow[], columns?: Column[]) {
+    this._rows = data || [];
+    this._columns = columns || [];
   }
 
   static fromCSVFile = async (file: File): Promise<DataFrame> => {
-    const promise = new Promise<DataFrame>((resolve, _reject) => {
-      parse(file, {
-        dynamicTyping: true,
-        skipEmptyLines: true,
-        header: true,
-        fastMode: true,
-        worker: true,
-        complete: (result) => {
-          const data = new DataFrame(result.data as DataFrameData);
-          resolve(data);
-        },
-      });
-    });
-
-    return promise;
+    return parseCSVFile(file);
   };
 
   toCSVFile = () => {
-    saveDataToFile(this);
+    saveDataToCSVFile(this);
   };
 
   get columns() {
-    return this.data[0] ? Object.keys(this.data[0]) : [];
+    return this._columns;
   }
 
   get rows() {
-    return this.data;
+    return this._rows;
   }
 
   get count() {
-    return this.data.length;
+    return this._rows.length;
   }
 
   sort = (by: string, direction?: 'asc' | 'desc') => {
-    const sorted = _.orderBy(this.data, by, direction);
-    return new DataFrame(sorted);
+    const sorted = _.orderBy(this._rows, by, direction);
+    return new DataFrame(sorted, this._columns);
   };
 
   join = (dataFrameB: DataFrame, keyA: string, keyB: string, type: JoinType) => {
-    let result: DataFrameData;
+    let result: DataFrameRow[];
 
     switch (type) {
       case JoinType.innerJoin: {
-        result = innerJoin(this.data, dataFrameB.data, keyA, keyB);
+        result = innerJoin(this, dataFrameB, keyA, keyB);
         break;
       }
       case JoinType.leftOuterJoin: {
-        result = leftOuterJoin(this.data, dataFrameB.data, keyA, keyB);
+        result = leftOuterJoin(this, dataFrameB, keyA, keyB);
         break;
       }
       case JoinType.rightOuterJoin: {
-        result = rightOuterJoin(this.data, dataFrameB.data, keyA, keyB);
+        result = rightOuterJoin(this, dataFrameB, keyA, keyB);
         break;
       }
       case JoinType.fullOuterJoin: {
-        result = fullOuterJoin(this.data, dataFrameB.data, keyA, keyB);
+        result = fullOuterJoin(this, dataFrameB, keyA, keyB);
         break;
       }
     }
 
-    return new DataFrame(result);
+    return new DataFrame(result, [...this._columns, ...dataFrameB.columns]);
   };
 }
