@@ -80,7 +80,7 @@ interface BaseNodeProps {
 }
 
 export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProps) => {
-  const sourceData = useSourceDataFrame(nodeId);
+  const sourceDataFrame = useSourceDataFrame(nodeId);
   const node = useNode(nodeId);
   const setOpenModal = useSetRecoilState(openModalState);
 
@@ -123,7 +123,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
               ? state
               : node?.data?.dataFrame
               ? NodeState.Done
-              : sourceData
+              : sourceDataFrame
               ? NodeState.InvalidSettings
               : NodeState.NoSource
           }

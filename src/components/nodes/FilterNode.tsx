@@ -12,7 +12,7 @@ export const FilterNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
 
   const node = useNode(id) as SortNodeModel | undefined;
-  const sourceData = useSourceDataFrame(id);
+  const sourceDataFrame = useSourceDataFrame(id);
 
   if (!node) return null;
 

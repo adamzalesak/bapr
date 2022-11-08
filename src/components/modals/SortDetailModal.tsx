@@ -18,7 +18,7 @@ export const SortDetailModal = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const node = useNode(openModal!.nodeId) as SortNode;
-  const sourceData = useSourceDataFrame(node.id);
+  const sourceDataFrame = useSourceDataFrame(node.id);
 
   const { control, handleSubmit } = useForm<SortNodeSetting>({ defaultValues: node.data.settings });
 
@@ -33,10 +33,10 @@ export const SortDetailModal = () => {
       open={openModal?.modalType == ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
-      {sourceData ? (
+      {sourceDataFrame ? (
         <Form>
           <Select name="sortColumn" control={control} label={t('nodes.sort.column')}>
-            {sourceData?.columns.map((columnName, index) => (
+            {sourceDataFrame?.columns.map((columnName, index) => (
               <MenuItem key={index} value={columnName}>
                 {columnName}
               </MenuItem>
