@@ -4,14 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
 import { useNode, useUpdateNodeData } from '../../hooks/nodes';
 import { NodeState } from '../../models/dataNode';
-import { JoinNode as JoinNodeModel } from '../../models/joinNode';
+import { JoinNode as JoinNodeModel, JoinNodeHandle } from '../../models/joinNode';
 import { edgesState, nodesState } from '../../store/atoms';
 import { NodeBase } from './NodeBase';
-
-enum HandleId {
-  A = 'A',
-  B = 'B',
-}
 
 export const JoinNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
@@ -22,7 +17,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   const edges = useRecoilValue(edgesState);
 
   const sourceDataFrameA = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == HandleId.A);
+    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == JoinNodeHandle.A);
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
@@ -30,7 +25,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   }, [edges, id, nodes]);
 
   const sourceDataFrameB = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == HandleId.B);
+    const edge = edges.find((edge) => edge.target === id && edge.targetHandle == JoinNodeHandle.B);
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
@@ -70,13 +65,13 @@ export const JoinNode = ({ id }: NodeProps) => {
     <NodeBase nodeId={id} nodeTypeName={t('nodes.join.title')} state={nodeState}>
       <Handle
         type="target"
-        id={HandleId.A}
+        id={JoinNodeHandle.A}
         position={Position.Left}
         style={{ marginTop: '-0.5rem' }}
       />
       <Handle
         type="target"
-        id={HandleId.B}
+        id={JoinNodeHandle.B}
         position={Position.Left}
         style={{ marginTop: '0.5rem' }}
       />

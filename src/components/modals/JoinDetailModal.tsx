@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useOpenModalNode, useUpdateNodeData } from '../../hooks/nodes';
 import { ModalType } from '../../models/modal';
-import { JoinNode, JoinNodeSetting, JoinType } from '../../models/joinNode';
+import { JoinNode, JoinNodeHandle, JoinNodeSetting, JoinType } from '../../models/joinNode';
 import { edgesState, nodesState, openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
@@ -22,7 +22,9 @@ export const JoinDetailModal = () => {
   const node = useOpenModalNode() as JoinNode;
 
   const sourceDataA = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === node.id && edge.targetHandle == 'a');
+    const edge = edges.find(
+      (edge) => edge.target === node.id && edge.targetHandle == JoinNodeHandle.A,
+    );
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
@@ -30,7 +32,9 @@ export const JoinDetailModal = () => {
   }, [edges, nodes, node.id]);
 
   const sourceDataB = useMemo(() => {
-    const edge = edges.find((edge) => edge.target === node.id && edge.targetHandle == 'b');
+    const edge = edges.find(
+      (edge) => edge.target === node.id && edge.targetHandle == JoinNodeHandle.B,
+    );
     const sourceNodeId = edge?.source;
     const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 

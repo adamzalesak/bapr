@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { DataNode } from '../models/dataNode';
 import { ModalType } from '../models/modal';
 import { edgesState, nodesState, openModalState } from '../store/atoms';
@@ -40,20 +40,22 @@ export const useSourceDataFrame = (nodeId: string) => {
 };
 
 export const useUpdateNodeData = <TDataNode extends DataNode>(nodeId: string) => {
-  const [nodes, setNodes] = useRecoilState(nodesState);
-  const node = useNode(nodeId);
+  const setNodes = useSetRecoilState(nodesState);
 
   const updateNodeData = <TKey extends keyof TDataNode['data']>(
     key: TKey,
     value: TDataNode['data'][TKey],
-  ) => {
-    if (!node) return;
+  ) =>
+    setNodes((nodes) => {
+      const node = nodes.find((node) => node.id === nodeId);
 
-    const restOfNodes = nodes.filter((node) => node.id !== nodeId);
-    const updatedNodeData = { ...node?.data, [key]: value };
+      if (!node) return nodes;
 
-    setNodes([...restOfNodes, { ...node, data: updatedNodeData }]);
-  };
+      const restOfNodes = nodes.filter((node) => node.id !== nodeId);
+      const updatedNodeData = { ...node?.data, [key]: value };
+
+      return [...restOfNodes, { ...node, data: updatedNodeData }];
+    });
 
   return updateNodeData;
 };

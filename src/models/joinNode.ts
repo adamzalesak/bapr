@@ -19,3 +19,8 @@ export enum JoinType {
   rightOuterJoin = 'RIGHT_OUTER_JOIN',
   fullOuterJoin = 'FULL_OUTER_JOIN',
 }
+
+export enum JoinNodeHandle {
+  A = 'A',
+  B = 'B',
+}
