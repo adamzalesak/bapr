@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { DataNode } from '../models/dataNode';
 import { ModalType } from '../models/modal';
 import { edgesState, nodesState, openModalState } from '../store/atoms';
 
@@ -36,4 +37,23 @@ export const useSourceDataFrame = (nodeId: string) => {
 
     return sourceNode?.data?.dataFrame;
   }, [edges, nodes, nodeId]);
+};
+
+export const useUpdateNodeData = <TDataNode extends DataNode>(nodeId: string) => {
+  const [nodes, setNodes] = useRecoilState(nodesState);
+  const node = useNode(nodeId);
+
+  const updateNodeData = <TKey extends keyof TDataNode['data']>(
+    key: TKey,
+    value: TDataNode['data'][TKey],
+  ) => {
+    if (!node) return;
+
+    const restOfNodes = nodes.filter((node) => node.id !== nodeId);
+    const updatedNodeData = { ...node?.data, [key]: value };
+
+    setNodes([...restOfNodes, { ...node, data: updatedNodeData }]);
+  };
+
+  return updateNodeData;
 };
