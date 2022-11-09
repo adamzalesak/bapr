@@ -43,19 +43,19 @@ export const JoinNode = ({ id }: NodeProps) => {
   useEffect(() => {
     if (!node) return;
 
-    const columnA = node
-      ? sourceDataFrameA?.columns.map((c) => c.name).includes(node.data.settings.columnA)
-        ? node?.data.settings.columnA
-        : ''
+    const columnA = sourceDataFrameA?.columns
+      .map((c) => c.name)
+      .includes(node.data.settings.columnA)
+      ? node.data.settings.columnA
       : '';
 
-    const columnB = node
-      ? sourceDataFrameB?.columns.map((c) => c.name).includes(node.data.settings.columnB)
-        ? node?.data.settings.columnB
-        : ''
+    const columnB = sourceDataFrameB?.columns
+      .map((c) => c.name)
+      .includes(node.data.settings.columnB)
+      ? node.data.settings.columnB
       : '';
 
-    updateNodeData('settings', { ...node?.data.settings, columnA, columnB });
+    updateNodeData('settings', { ...node.data.settings, columnA, columnB });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrameA, sourceDataFrameB]);
 

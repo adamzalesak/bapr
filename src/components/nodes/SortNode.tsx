@@ -15,8 +15,10 @@ export const SortNode = ({ id }: NodeProps) => {
 
   // // update node data
   useEffect(() => {
+    if (!node) return;
+
     const nodeDataFrame =
-      node?.data.settings.sortColumn && node.data.settings.sortColumn !== ' '
+      node.data.settings.sortColumn && node.data.settings.sortColumn !== ' '
         ? sourceDataFrame?.sort(node.data.settings.sortColumn, node.data.settings.direction)
         : undefined;
 
@@ -26,10 +28,12 @@ export const SortNode = ({ id }: NodeProps) => {
 
   // // keep settings valid if sourceData changes
   useEffect(() => {
-    const sortColumn = node
-      ? sourceDataFrame?.columns.map((c) => c.name).includes(node.data.settings.sortColumn)
-        ? node?.data.settings.sortColumn
-        : ''
+    if (!node) return;
+
+    const sortColumn = sourceDataFrame?.columns
+      .map((c) => c.name)
+      .includes(node.data.settings.sortColumn)
+      ? node.data.settings.sortColumn
       : '';
 
     updateNodeData('settings', { ...node?.data.settings, sortColumn });
