@@ -2,7 +2,7 @@ import { Button, MenuItem } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/nodes';
+import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { SortNode, SortNodeSetting } from '../../models/sortNode';
 import { openModalState } from '../../store/atoms';
@@ -14,10 +14,10 @@ export const SortDetailModal = () => {
   const { t } = useTranslation();
 
   const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<SortNode>(openModal!.nodeId);
+  const updateNodeData = useUpdateNodeData<SortNode>(openModal?.nodeId);
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const node = useNode(openModal!.nodeId) as SortNode;
+  const node = useNode(openModal?.nodeId) as SortNode;
   const sourceDataFrame = useSourceDataFrame(node.id);
 
   const { control, handleSubmit } = useForm<SortNodeSetting>({ defaultValues: node.data.settings });

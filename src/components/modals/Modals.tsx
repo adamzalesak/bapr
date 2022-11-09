@@ -1,4 +1,4 @@
-import { useOpenModalNode } from '../../hooks/nodes';
+import { useOpenModalNode } from '../../hooks/node';
 import { NodeType } from '../../models/nodeTypes';
 import { DataModal } from './DataModal';
 import { FilterDetailModal } from './FilterDetailModal';
@@ -19,4 +19,3 @@ export const Modals = () => {
     </>
   );
 };
-

@@ -1,11 +1,8 @@
 import _ from 'lodash';
-import { useEffect } from 'react';
 import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import { useSetRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame } from '../../hooks/nodes';
+import { useNode, useSourceDataFrame } from '../../hooks/node';
 import { SortNode as SortNodeModel } from '../../models/sortNode';
-import { nodesState } from '../../store/atoms';
 import { NodeBase } from './NodeBase';
 
 export const FilterNode = ({ id }: NodeProps) => {

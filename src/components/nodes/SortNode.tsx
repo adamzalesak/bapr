@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { useEffect } from 'react';
 import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/nodes';
+import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SortNode as SortNodeModel } from '../../models/sortNode';
 import { NodeBase } from './NodeBase';
 

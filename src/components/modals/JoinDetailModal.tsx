@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useOpenModalNode, useUpdateNodeData } from '../../hooks/nodes';
+import { useOpenModalNode, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { JoinNode, JoinNodeHandle, JoinNodeSetting, JoinType } from '../../models/joinNode';
 import { edgesState, nodesState, openModalState } from '../../store/atoms';
@@ -17,7 +17,7 @@ export const JoinDetailModal = () => {
   const nodes = useRecoilValue(nodesState);
   const edges = useRecoilValue(edgesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<JoinNode>(openModal!.nodeId);
+  const updateNodeData = useUpdateNodeData<JoinNode>(openModal?.nodeId);
 
   const node = useOpenModalNode() as JoinNode;
 

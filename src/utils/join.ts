@@ -7,6 +7,7 @@ const combineRows = (
   dataAColumns: string[],
   dataBColumns: string[],
 ): DataFrameRow => {
+  // keep all columns in object
   const a = rowA ?? Object.fromEntries(dataAColumns.map((key) => [key, null]));
   const b = rowB ?? Object.fromEntries(dataBColumns.map((key) => [key, null]));
 

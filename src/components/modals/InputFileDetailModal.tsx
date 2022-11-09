@@ -1,11 +1,11 @@
-import { ChangeEventHandler, useMemo, useRef, useState } from 'react';
+import { ChangeEventHandler, useRef, useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { useRecoilState } from 'recoil';
 import { DataFrame } from '../../classes/DataFrame';
 import { ModalType } from '../../models/modal';
 import { openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
-import { useOpenModalNode, useUpdateNodeData } from '../../hooks/nodes';
+import { useOpenModalNode, useUpdateNodeData } from '../../hooks/node';
 import { FileNode } from '../../models/fileNode';
 import { useTranslation } from 'react-i18next';
 
@@ -13,14 +13,14 @@ export const InputFileDetailModal = () => {
   const { t } = useTranslation();
 
   const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<FileNode>(openModal!.nodeId);
+  const updateNodeData = useUpdateNodeData<FileNode>(openModal?.nodeId);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange: ChangeEventHandler = async (event) => {
-    setIsLoading(true);
+    setIsProcessing(true);
 
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
@@ -34,7 +34,7 @@ export const InputFileDetailModal = () => {
 
     resetFileInput();
 
-    setIsLoading(false);
+    setIsProcessing(false);
   };
 
   const resetFileInput = () => {
@@ -45,7 +45,7 @@ export const InputFileDetailModal = () => {
 
   const node = useOpenModalNode() as FileNode | undefined;
 
-  const dataCount = useMemo(() => node?.data?.dataFrame?.count, [node?.data?.dataFrame]);
+  const dataCount = node?.data?.dataFrame?.count;
 
   return (
     <Modal
@@ -57,7 +57,7 @@ export const InputFileDetailModal = () => {
         <LoadingButton
           variant="outlined"
           onClick={() => fileRef.current?.click()}
-          loading={isLoading}
+          loading={isProcessing}
         >
           {t('nodes.CSVFile.selectFile')}
         </LoadingButton>

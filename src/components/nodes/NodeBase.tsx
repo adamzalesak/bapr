@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { useNode, useSourceDataFrame } from '../../hooks/nodes';
+import { useNode, useSourceDataFrame } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { NodeState } from '../../models/dataNode';
 import { openModalState } from '../../store/atoms';
@@ -80,8 +80,8 @@ interface BaseNodeProps {
 }
 
 export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProps) => {
-  const sourceDataFrame = useSourceDataFrame(nodeId);
   const node = useNode(nodeId);
+  const sourceDataFrame = useSourceDataFrame(nodeId);
   const setOpenModal = useSetRecoilState(openModalState);
 
   const handleOpenDetail = () => {
@@ -91,6 +91,15 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   const handleOpenPreview = () => {
     setOpenModal({ modalType: ModalType.Data, nodeId });
   };
+
+  const nodeState =
+    state !== undefined
+      ? state
+      : node?.data?.dataFrame
+      ? NodeState.Done
+      : sourceDataFrame
+      ? NodeState.InvalidSettings
+      : NodeState.NoSource;
 
   return (
     <>
@@ -108,7 +117,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
             handleOpenPreview();
           }}
         />
-        {!!node?.data && (
+        {!!node?.data?.dataFrame && (
           <DownloadButton
             onClick={(event) => {
               event?.stopPropagation();
@@ -117,17 +126,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
           />
         )}
 
-        <State
-          state={
-            state !== undefined
-              ? state
-              : node?.data?.dataFrame
-              ? NodeState.Done
-              : sourceDataFrame
-              ? NodeState.InvalidSettings
-              : NodeState.NoSource
-          }
-        />
+        <State state={nodeState} />
         {children}
       </NodeBox>
     </>
