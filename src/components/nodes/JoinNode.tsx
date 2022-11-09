@@ -14,6 +14,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   const sourceDataFrameB = useSourceDataFrame(id, JoinNodeHandle.B);
   const updateNodeData = useUpdateNodeData<JoinNodeModel>(id);
 
+  // // update node data
   useEffect(() => {
     if (!node) return;
 
