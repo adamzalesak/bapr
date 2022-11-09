@@ -40,10 +40,8 @@ export const SortNode = ({ id }: NodeProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrame]);
 
-  if (!node) return null;
-
   return (
-    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.sort.title')}>
+    <NodeBase nodeId={id} nodeTypeName={t('nodes.sort.title')}>
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
     </NodeBase>
