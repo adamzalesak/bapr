@@ -16,23 +16,23 @@ export const SortNode = ({ id }: NodeProps) => {
   // // update node data
   useEffect(() => {
     const nodeDataFrame =
-      node?.data?.settings.sortColumn && node.data?.settings.sortColumn !== ' '
+      node?.data.settings.sortColumn && node.data.settings.sortColumn !== ' '
         ? sourceDataFrame?.sort(node.data.settings.sortColumn, node.data.settings.direction)
         : undefined;
 
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sourceDataFrame, node?.data?.settings]);
+  }, [sourceDataFrame, node?.data.settings]);
 
   // // keep settings valid if sourceData changes
   useEffect(() => {
     const sortColumn = node
       ? sourceDataFrame?.columns.map((c) => c.name).includes(node.data.settings.sortColumn)
-        ? node?.data?.settings.sortColumn
+        ? node?.data.settings.sortColumn
         : ''
       : '';
 
-    updateNodeData('settings', { ...node?.data?.settings, sortColumn });
+    updateNodeData('settings', { ...node?.data.settings, sortColumn });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrame]);
 

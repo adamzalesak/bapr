@@ -16,8 +16,8 @@ export const DataModal = () => {
   return (
     // TODO: translate
     <Modal title={'Data'} open={!!node} onClose={() => setOpenModal(null)}>
-      {node?.data?.dataFrame ? (
-        <DataGrid dataFrame={node?.data?.dataFrame} />
+      {node?.data.dataFrame ? (
+        <DataGrid dataFrame={node?.data.dataFrame} />
       ) : (
         t('dataModal.notExecuted')
       )}

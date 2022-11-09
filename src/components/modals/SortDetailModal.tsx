@@ -16,11 +16,12 @@ export const SortDetailModal = () => {
   const [openModal, setOpenModal] = useRecoilState(openModalState);
   const updateNodeData = useUpdateNodeData<SortNode>(openModal?.nodeId);
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const node = useNode(openModal?.nodeId) as SortNode;
-  const sourceDataFrame = useSourceDataFrame(node.id);
+  const node = useNode(openModal?.nodeId) as SortNode | undefined;
+  const sourceDataFrame = useSourceDataFrame(node?.id);
 
-  const { control, handleSubmit } = useForm<SortNodeSetting>({ defaultValues: node.data.settings });
+  const { control, handleSubmit } = useForm<SortNodeSetting>({
+    defaultValues: node?.data.settings,
+  });
 
   const onSubmit = (settings: SortNodeSetting) => {
     updateNodeData('settings', settings);

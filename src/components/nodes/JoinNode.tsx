@@ -20,8 +20,8 @@ export const JoinNode = ({ id }: NodeProps) => {
     if (
       !sourceDataFrameA ||
       !sourceDataFrameB ||
-      !node?.data?.settings?.columnA ||
-      !node.data.settings?.columnB
+      !node.data.settings.columnA ||
+      !node.data.settings.columnB
     ) {
       updateNodeData('dataFrame', undefined);
       return;
@@ -37,7 +37,7 @@ export const JoinNode = ({ id }: NodeProps) => {
     );
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sourceDataFrameA, sourceDataFrameB, node?.data?.settings]);
+  }, [sourceDataFrameA, sourceDataFrameB, node?.data.settings]);
 
   // // keep settings valid if sourceData changes
   useEffect(() => {
@@ -45,21 +45,21 @@ export const JoinNode = ({ id }: NodeProps) => {
 
     const columnA = node
       ? sourceDataFrameA?.columns.map((c) => c.name).includes(node.data.settings.columnA)
-        ? node?.data?.settings.columnA
+        ? node?.data.settings.columnA
         : ''
       : '';
 
     const columnB = node
       ? sourceDataFrameB?.columns.map((c) => c.name).includes(node.data.settings.columnB)
-        ? node?.data?.settings.columnB
+        ? node?.data.settings.columnB
         : ''
       : '';
 
-    updateNodeData('settings', { ...node?.data?.settings, columnA, columnB });
+    updateNodeData('settings', { ...node?.data.settings, columnA, columnB });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrameA, sourceDataFrameB]);
 
-  const nodeState = node?.data?.dataFrame
+  const nodeState = node?.data.dataFrame
     ? NodeState.Done
     : sourceDataFrameA && sourceDataFrameB
     ? NodeState.InvalidSettings

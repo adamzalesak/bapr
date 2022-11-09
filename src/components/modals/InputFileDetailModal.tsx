@@ -45,7 +45,7 @@ export const InputFileDetailModal = () => {
 
   const node = useOpenModalNode() as FileNode | undefined;
 
-  const dataCount = node?.data?.dataFrame?.count;
+  const dataCount = node?.data.dataFrame?.count;
 
   return (
     <Modal
@@ -62,7 +62,7 @@ export const InputFileDetailModal = () => {
           {t('nodes.CSVFile.selectFile')}
         </LoadingButton>
         <input hidden type="file" accept=".csv" onChange={handleFileChange} ref={fileRef} />
-        <div>{node?.data?.fileName}</div>
+        <div>{node?.data.fileName}</div>
         {!!dataCount && <div>{dataCount} rows </div>}
       </>
     </Modal>

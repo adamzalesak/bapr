@@ -95,7 +95,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   const nodeState =
     state !== undefined
       ? state
-      : node?.data?.dataFrame
+      : node?.data.dataFrame
       ? NodeState.Done
       : sourceDataFrame
       ? NodeState.InvalidSettings
@@ -104,9 +104,9 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   return (
     <>
       <NodeBox onClick={handleOpenDetail}>
-        {node?.data?.dataFrame ? (
+        {node?.data.dataFrame ? (
           <RowCount>
-            {node?.data?.dataFrame?.count} rows; {node?.data?.dataFrame?.columns?.length} columns
+            {node?.data.dataFrame?.count} rows; {node?.data.dataFrame?.columns?.length} columns
           </RowCount>
         ) : null}
 
@@ -117,11 +117,11 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
             handleOpenPreview();
           }}
         />
-        {!!node?.data?.dataFrame && (
+        {!!node?.data.dataFrame && (
           <DownloadButton
             onClick={(event) => {
               event?.stopPropagation();
-              node?.data?.dataFrame?.toCSVFile();
+              node?.data.dataFrame?.toCSVFile();
             }}
           />
         )}

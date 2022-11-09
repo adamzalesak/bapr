@@ -27,7 +27,7 @@ export const sourceDataFrameSelector = selectorFamily({
       const sourceNodeId = edge?.source;
       const sourceNode = nodes.find((node) => node.id === sourceNodeId);
 
-      return sourceNode?.data?.dataFrame;
+      return sourceNode?.data.dataFrame;
     },
 });
 
