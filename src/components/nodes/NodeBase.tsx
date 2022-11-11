@@ -63,13 +63,15 @@ const State = styled.div<StateBadgeProps>`
     transparent;
 `;
 
-const RowCount = styled.div`
+const RowColumnCount = styled.div`
+  position: absolute;
+  right: 0;
+  margin-top: -0.3rem;
+  margin-bottom: auto;
   margin-left: auto;
   width: fit-content;
-  position: absolute;
-  margin-bottom: auto;
-  font-size: 0.4rem;
-  top: 0;
+  font-size: 0.5rem;
+  white-space: nowrap;
 `;
 
 interface BaseNodeProps {
@@ -104,12 +106,6 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   return (
     <>
       <NodeBox onClick={handleOpenDetail}>
-        {node?.data.dataFrame ? (
-          <RowCount>
-            {node?.data.dataFrame?.count} rows; {node?.data.dataFrame?.columns?.length} columns
-          </RowCount>
-        ) : null}
-
         <div>{nodeTypeName.toUpperCase()}</div>
         <DisplayDataButton
           onClick={(event) => {
@@ -129,6 +125,11 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
         <State state={nodeState} />
         {children}
       </NodeBox>
+      {node?.data.dataFrame ? (
+        <RowColumnCount>
+          {node?.data.dataFrame?.count} rows; {node?.data.dataFrame?.columns?.length} columns
+        </RowColumnCount>
+      ) : null}
     </>
   );
 };

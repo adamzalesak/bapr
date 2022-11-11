@@ -14,6 +14,9 @@ const ModalContainer = styled.div`
   max-width: 85vw;
   max-height: 85vh;
   border-radius: 5px;
+  :focus-visible {
+    outline: none;
+  }
 `;
 
 const ModalHeader = styled.div`
@@ -64,3 +67,4 @@ export const Modal = ({ title, open, onClose, children }: Props) => (
     </ModalContainer>
   </MuiModal>
 );
+
