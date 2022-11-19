@@ -17,7 +17,7 @@ export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<Data
 
         // get column types
         columnsNames?.forEach((columnName) => {
-          let type = 'number';
+          let type: 'string' | 'number' = 'number';
 
           let rowNumber = 0;
           while (

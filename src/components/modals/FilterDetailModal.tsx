@@ -15,7 +15,6 @@ import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
-import { useEffect } from 'react';
 
 export const FilterDetailModal = () => {
   const { t } = useTranslation();
@@ -43,7 +42,7 @@ export const FilterDetailModal = () => {
   if (
     column?.type === 'number' &&
     condition &&
-    !Object.values(FilterNumberCondition).includes(condition)
+    !(Object.values(FilterNumberCondition) as any).includes(condition)
   ) {
     console.log('foo');
     setValue('condition', undefined);
