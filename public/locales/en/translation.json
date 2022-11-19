@@ -10,7 +10,26 @@
     },
     "filter": {
       "title": "Filter",
-      "description": "Filter out some rows by selected condition"
+      "description": "Filter out some rows by selected condition",
+      "column": "Column",
+      "condition": "Condition",
+      "value": "Value",
+      "conditions": {
+        "EQUALS": "=",
+        "NOT_EQUALS": "!=",
+        "LESS_THEN": "<",
+        "LESS_THEN_OR_EQUAL": "<=",
+        "GREATER_THEN": ">",
+        "GREATER_THEN_OR_EQUAL": ">=",
+        "IS_NOT_NULL": "Is not null",
+        "CONTAINS": "Contains",
+        "NOT_CONTAINS": "Does not contain",
+        "STARTS_WITH": "Starts with",
+        "NOT_STARTS_WITH": "Does not start with",
+        "ENDS_WITH": "Ends with",
+        "NOT_ENDS_WITH": "Does not end with",
+        "MATCHES_REGEX": "Matches regex"
+      }
     },
     "join": {
       "title": "Join",

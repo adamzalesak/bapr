@@ -10,7 +10,26 @@
     },
     "filter": {
       "title": "Filtrování",
-      "description": "Vyfiltrování řádků podle zvolené podmínky"
+      "description": "Vyfiltrování řádků podle zvolené podmínky",
+      "column": "Sloupec",
+      "condition": "Podmínka",
+      "value": "Hodnota",
+      "conditions": {
+        "EQUALS": "=",
+        "NOT_EQUALS": "!=",
+        "LESS_THAN": "<",
+        "LESS_THAN_OR_EQUAL": "<=",
+        "GREATER_THAN": ">",
+        "GREATER_THAN_OR_EQUAL": ">=",
+        "IS_NOT_NULL": "Není null",
+        "CONTAINS": "Obsahuje",
+        "NOT_CONTAINS": "Neobsahuje",
+        "STARTS_WITH": "Začíná s",
+        "NOT_STARTS_WITH": "Nezačítá s",
+        "ENDS_WITH": "Končí s",
+        "NOT_ENDS_WITH": "Nekončí s",
+        "MATCHES_REGEX": "Splňuje regex"
+      }
     },
     "join": {
       "title": "Sloučení",

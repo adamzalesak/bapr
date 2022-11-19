@@ -36,16 +36,17 @@ export const FilterDetailModal = () => {
 
   const columnName = watch('column');
   const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
-
   const condition = watch('condition');
 
   if (
-    column?.type === 'number' &&
     condition &&
-    !(Object.values(FilterNumberCondition) as any).includes(condition)
+    ((column?.type === 'number' &&
+      !Object.values(FilterNumberCondition).includes(condition as any)) ||
+      (column?.type === 'string' &&
+        !Object.values(FilterStringCondition).includes(condition as any)))
   ) {
-    console.log('foo');
     setValue('condition', undefined);
+    setValue('value', '');
   }
 
   return (
