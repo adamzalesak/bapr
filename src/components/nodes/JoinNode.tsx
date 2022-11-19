@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Handle, NodeProps, Position } from 'react-flow-renderer';
+import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { NodeState } from '../../models/dataNode';

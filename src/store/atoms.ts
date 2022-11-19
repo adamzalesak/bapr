@@ -1,4 +1,4 @@
-import { Edge } from 'react-flow-renderer';
+import { Edge } from 'reactflow';
 import { atom } from 'recoil';
 import { OpenModal } from '../models/modal';
 import { DataNode } from '../models/dataNode';

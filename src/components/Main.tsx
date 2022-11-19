@@ -4,12 +4,11 @@ import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
   Controls,
-  Edge,
   MiniMap,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
-} from 'react-flow-renderer';
+} from 'reactflow';
 import { useRecoilState } from 'recoil';
 import { DataNode } from '../models/dataNode';
 import { NodeType } from '../models/nodeTypes';
@@ -21,6 +20,8 @@ import { FileNode } from './nodes/FileNode';
 import { JoinNode } from './nodes/JoinNode';
 import { SortNode } from './nodes/SortNode';
 import { SliceNode } from './nodes/SliceNode';
+
+import 'reactflow/dist/style.css';
 
 export const Main = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
@@ -53,18 +54,7 @@ export const Main = () => {
       return;
     }
 
-    if (connection.source === null || connection.target === null) {
-      return;
-    }
-
-    const edge: Edge = {
-      ...connection,
-      id: `${connection.sourceHandle}-${connection.targetHandle}`,
-      source: connection.source,
-      target: connection.target,
-      animated: true,
-    };
-    setEdges((eds) => addEdge(edge, eds));
+    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
   };
 
   return (

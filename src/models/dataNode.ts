@@ -1,4 +1,4 @@
-import { Node } from 'react-flow-renderer';
+import { Node } from 'reactflow';
 import { DataFrame } from '../classes/DataFrame';
 import { NodeType } from './nodeTypes';
 
