@@ -50,7 +50,11 @@ export const Main = () => {
 
   const onConnect: OnConnect = (connection) => {
     // prevent connecting multiple input nodes
-    if (edges.find((e) => e.targetHandle === connection.targetHandle)) {
+    if (
+      edges.find(
+        (e) => e.target === connection.target && e.targetHandle === connection.targetHandle,
+      )
+    ) {
       return;
     }
 

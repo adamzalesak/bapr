@@ -23,7 +23,14 @@ export const TextField = <TFieldValues extends FieldValues>({
       control={control}
       rules={rules}
       render={({ field }) => (
-        <MuiTextField variant="outlined" {...field} id={name} label={label} type={type} />
+        <MuiTextField
+          {...field}
+          value={field.value ?? ''}
+          variant="outlined"
+          id={name}
+          label={label}
+          type={type}
+        />
       )}
     />
   );

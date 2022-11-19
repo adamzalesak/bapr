@@ -15,6 +15,7 @@ import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
+import { useEffect } from 'react';
 
 export const FilterDetailModal = () => {
   const { t } = useTranslation();
@@ -38,16 +39,29 @@ export const FilterDetailModal = () => {
   const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
   const condition = watch('condition');
 
-  if (
-    condition &&
-    ((column?.type === 'number' &&
-      !Object.values(FilterNumberCondition).includes(condition as any)) ||
-      (column?.type === 'string' &&
-        !Object.values(FilterStringCondition).includes(condition as any)))
-  ) {
-    setValue('condition', undefined);
-    setValue('value', '');
-  }
+  // keep form values valid
+  useEffect(() => {
+    if (
+      condition &&
+      ((column?.type === 'number' &&
+        !Object.values(FilterNumberCondition).includes(condition as any)) ||
+        (column?.type === 'string' &&
+          !Object.values(FilterStringCondition).includes(condition as any)))
+    ) {
+      setValue('condition', null);
+      setValue('value', '');
+    }
+
+    if (
+      condition === FilterStringCondition.isNotNull ||
+      condition === FilterNumberCondition.isNotNull
+    ) {
+      setValue('value', '');
+    }
+  }, [column?.type, condition, setValue]);
+
+  const displayValue =
+    condition !== FilterNumberCondition.isNotNull && condition !== FilterStringCondition.isNotNull;
 
   return (
     <Modal
@@ -68,19 +82,25 @@ export const FilterDetailModal = () => {
           <Select name="condition" control={control} label={t('nodes.filter.condition')}>
             {column?.type === 'number'
               ? Object.values(FilterNumberCondition).map((x) => (
-                  <MenuItem value={x}>{t(`nodes.filter.conditions.${x}`)}</MenuItem>
+                  <MenuItem key={x} value={x}>
+                    {t(`nodes.filter.conditions.${x}`)}
+                  </MenuItem>
                 ))
               : Object.values(FilterStringCondition).map((x) => (
-                  <MenuItem value={x}>{t(`nodes.filter.conditions.${x}`)}</MenuItem>
+                  <MenuItem key={x} value={x}>
+                    {t(`nodes.filter.conditions.${x}`)}
+                  </MenuItem>
                 ))}
           </Select>
 
-          <TextField
-            name="value"
-            type={column?.type === 'number' ? 'number' : 'text'}
-            control={control}
-            label={t('nodes.filter.value')}
-          />
+          {displayValue && (
+            <TextField
+              name="value"
+              type={column?.type === 'number' ? 'number' : 'text'}
+              control={control}
+              label={t('nodes.filter.value')}
+            />
+          )}
 
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}

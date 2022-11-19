@@ -2,20 +2,19 @@ import { DataNode } from './dataNode';
 import { NodeType } from './nodeTypes';
 
 export enum FilterNumberCondition {
-  equals = 'EQUALS',
-  notEquals = 'NOT_EQUALS',
-  isNotNull = 'IS_NOT_NULL',
-
+  isNotNull = 'NUMBER_IS_NOT_NULL',
   lessThan = 'LESS_THAN',
   lessThanOrEqual = 'LESS_THAN_OR_EQUAL',
-  greaterThan = 'GREATER_THAN',
+  equals = 'NUMBER_EQUALS',
+  notEquals = 'NUMBER_NOT_EQUALS',
   greaterThanOrEqual = 'GREATER_THAN_OR_EQUAL',
+  greaterThan = 'GREATER_THAN',
 }
 
 export enum FilterStringCondition {
-  equals = 'EQUALS',
-  notEquals = 'NOT_EQUALS',
-  isNotNull = 'IS_NOT_NULL',
+  equals = 'STRING_EQUALS',
+  notEquals = 'STRING_NOT_EQUALS',
+  isNotNull = 'STRING_IS_NOT_NULL',
 
   contains = 'CONTAINS',
   notContains = 'NOT_CONTAINS',
@@ -28,8 +27,8 @@ export enum FilterStringCondition {
 
 export interface FilterNodeSetting {
   column?: string;
-  condition?: FilterNumberCondition | FilterStringCondition;
-  value: string | number;
+  condition?: FilterNumberCondition | FilterStringCondition | null;
+  value?: string;
 }
 
 export interface FilterNodeAdditionalData {

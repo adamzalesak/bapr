@@ -83,15 +83,85 @@ export class DataFrame {
   filter = (
     column: string,
     condition: FilterNumberCondition | FilterStringCondition,
-    value: string | number,
+    value?: string,
   ) => {
     let result: DataFrameRow[];
 
     switch (condition) {
       case FilterNumberCondition.greaterThan: {
-        result = this.rows?.filter((row) => row[column] > value);
+        result = this.rows?.filter((row) => row[column] > +(value as string));
         break;
       }
+      case FilterNumberCondition.greaterThanOrEqual: {
+        result = this.rows?.filter((row) => row[column] >= +(value as string));
+        break;
+      }
+      case FilterNumberCondition.lessThan: {
+        result = this.rows?.filter((row) => row[column] < +(value as string));
+
+        break;
+      }
+      case FilterNumberCondition.lessThanOrEqual: {
+        result = this.rows?.filter((row) => row[column] <= +(value as string));
+        break;
+      }
+      case FilterNumberCondition.equals: {
+        result = this.rows?.filter((row) => row[column] === +(value as string));
+        break;
+      }
+      case FilterNumberCondition.notEquals: {
+        result = this.rows?.filter((row) => row[column] !== +(value as string));
+        break;
+      }
+      case FilterNumberCondition.isNotNull: {
+        result = this.rows?.filter((row) => row[column] !== null);
+        break;
+      }
+
+      case FilterStringCondition.contains: {
+        result = this.rows?.filter((row) => row[column].includes(value as string));
+        break;
+      }
+      case FilterStringCondition.notContains: {
+        result = this.rows?.filter((row) => !row[column].includes(value as string));
+        break;
+      }
+      case FilterStringCondition.startsWith: {
+        result = this.rows?.filter((row) => row[column].startsWith(value as string));
+        break;
+      }
+      case FilterStringCondition.notStartsWith: {
+        result = this.rows?.filter((row) => !row[column].startsWith(value as string));
+        break;
+      }
+      case FilterStringCondition.endsWith: {
+        result = this.rows?.filter((row) => row[column].endsWith(value as string));
+        break;
+      }
+      case FilterStringCondition.notEndsWith: {
+        result = this.rows?.filter((row) => !row[column].endsWith(value as string));
+        break;
+      }
+      case FilterStringCondition.equals: {
+        result = this.rows?.filter((row) => row[column] === value);
+        break;
+      }
+      case FilterStringCondition.notEquals: {
+        result = this.rows?.filter((row) => row[column] !== value);
+        console.log(value);
+        break;
+      }
+      case FilterStringCondition.isNotNull: {
+        result = this.rows?.filter((row) => row[column] !== null);
+        break;
+      }
+      case FilterStringCondition.matchesRegex: {
+        result = this.rows?.filter(
+          (row) => typeof row[column] === 'string' && row[column].match(value as string),
+        );
+        break;
+      }
+
       default: {
         result = this.rows;
         break;

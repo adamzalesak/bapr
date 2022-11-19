@@ -22,7 +22,7 @@ export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<Data
           let rowNumber = 0;
           while (
             rowNumber < data.length &&
-            (data[rowNumber][columnName] == null || !isNaN(+data[rowNumber][columnName]))
+            (data[rowNumber][columnName] === null || !isNaN(+data[rowNumber][columnName]))
           ) {
             rowNumber++;
           }
@@ -34,14 +34,21 @@ export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<Data
           columns.push({ name: columnName, type });
         });
 
-        // parse values of number columns to number type
         columns.forEach((column) => {
-          if (column.type === 'string') return;
-
           let rowNumber = 0;
           while (rowNumber < data.length) {
-            data[rowNumber][column.name] =
-              data[rowNumber][column.name] === null ? null : +data[rowNumber][column.name];
+            if (column.type === 'number') {
+              // parse values of number columns to number type
+              data[rowNumber][column.name] =
+                data[rowNumber][column.name] === null || data[rowNumber][column.name] === ''
+                  ? null
+                  : +data[rowNumber][column.name];
+            } else if (column.type === 'string') {
+              // substitute empty strings with null
+              data[rowNumber][column.name] =
+                data[rowNumber][column.name] === '' ? null : data[rowNumber][column.name];
+            }
+
             rowNumber++;
           }
         });

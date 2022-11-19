@@ -3,7 +3,11 @@ import { useEffect } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { FilterNode as FilterNodeModel } from '../../models/filterNode';
+import {
+  FilterNode as FilterNodeModel,
+  FilterNumberCondition,
+  FilterStringCondition,
+} from '../../models/filterNode';
 import { NodeBase } from './NodeBase';
 
 export const FilterNode = ({ id }: NodeProps) => {
@@ -19,8 +23,19 @@ export const FilterNode = ({ id }: NodeProps) => {
     }
 
     const settings = node.data.settings;
+    if (
+      !settings.column ||
+      !settings.condition ||
+      (!settings.value &&
+        settings.condition !== FilterNumberCondition.isNotNull &&
+        settings.condition !== FilterStringCondition.isNotNull)
+    ) {
+      updateNodeData('dataFrame', undefined);
+      return;
+    }
 
-    if (!settings.column || !settings.condition || !settings.value) {
+    const column = sourceDataFrame.columns.find((c) => c.name === settings.column);
+    if (!column) {
       updateNodeData('dataFrame', undefined);
       return;
     }
