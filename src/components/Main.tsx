@@ -4,6 +4,7 @@ import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
   Controls,
+  Edge,
   MiniMap,
   OnConnect,
   OnEdgesChange,
@@ -47,7 +48,23 @@ export const Main = () => {
   };
 
   const onConnect: OnConnect = (connection) => {
-    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
+    // prevent connecting multiple input nodes
+    if (edges.find((e) => e.targetHandle === connection.targetHandle)) {
+      return;
+    }
+
+    if (connection.source === null || connection.target === null) {
+      return;
+    }
+
+    const edge: Edge = {
+      ...connection,
+      id: `${connection.sourceHandle}-${connection.targetHandle}`,
+      source: connection.source,
+      target: connection.target,
+      animated: true,
+    };
+    setEdges((eds) => addEdge(edge, eds));
   };
 
   return (
@@ -61,6 +78,7 @@ export const Main = () => {
         onNodesChange={handleNodesChange}
         onEdgesChange={handleEdgesChange}
         onConnect={onConnect}
+        deleteKeyCode={['Delete', 'Backspace']}
         fitView
       >
         <ControlPanel />
