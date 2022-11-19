@@ -1,12 +1,11 @@
-import _ from 'lodash';
 import { useEffect } from 'react';
-import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
+import { Handle, NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import {
   FilterNode as FilterNodeModel,
   FilterNumberCondition,
-  FilterStringCondition,
+  FilterStringCondition
 } from '../../models/filterNode';
 import { NodeBase } from './NodeBase';
 
