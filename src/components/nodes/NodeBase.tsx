@@ -106,7 +106,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   return (
     <>
       <NodeBox onClick={handleOpenDetail}>
-        <div>{nodeTypeName.toUpperCase()}</div>
+        <div>{nodeTypeName}</div>
         <DisplayDataButton
           onClick={(event) => {
             event?.stopPropagation();

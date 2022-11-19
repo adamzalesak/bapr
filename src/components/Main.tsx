@@ -13,11 +13,13 @@ import { useRecoilState } from 'recoil';
 import { DataNode } from '../models/dataNode';
 import { NodeType } from '../models/nodeTypes';
 import { edgesState, nodesState } from '../store/atoms';
+import { ControlPanel } from './ControlPanel/ControlPanel';
 import { Modals } from './modals/Modals';
 import { FilterNode } from './nodes/FilterNode';
-import { InputFileNode } from './nodes/InputFileNode';
+import { FileNode } from './nodes/FileNode';
 import { JoinNode } from './nodes/JoinNode';
 import { SortNode } from './nodes/SortNode';
+import { SliceNode } from './nodes/SliceNode';
 
 export const Main = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
@@ -25,10 +27,11 @@ export const Main = () => {
 
   const nodeTypes = useMemo(
     () => ({
-      [NodeType.InputFile]: InputFileNode,
+      [NodeType.File]: FileNode,
       [NodeType.Sort]: SortNode,
       [NodeType.Filter]: FilterNode,
       [NodeType.Join]: JoinNode,
+      [NodeType.Slice]: SliceNode,
     }),
     [],
   );
@@ -50,6 +53,7 @@ export const Main = () => {
   return (
     <>
       <Modals />
+
       <ReactFlow
         nodeTypes={nodeTypes}
         nodes={nodes}
@@ -59,6 +63,7 @@ export const Main = () => {
         onConnect={onConnect}
         fitView
       >
+        <ControlPanel />
         <Controls />
         <MiniMap />
       </ReactFlow>

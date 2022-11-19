@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { FilterNumberCondition, FilterStringCondition } from '../models/filterNode';
 import { JoinType } from '../models/joinNode';
 import {
   fullOuterJoin,
@@ -12,7 +13,7 @@ export type DataFrameRow = { [key: string]: any };
 
 export interface Column {
   name: string;
-  type: string;
+  type: 'string' | 'number';
 }
 
 export class DataFrame {
@@ -24,8 +25,8 @@ export class DataFrame {
     this._columns = columns || [];
   }
 
-  static fromCSVFile = async (file: File): Promise<DataFrame> => {
-    return parseCSVFile(file);
+  static fromCSVFile = async (file: File, rowsLimit?: number): Promise<DataFrame> => {
+    return parseCSVFile(file, rowsLimit);
   };
 
   toCSVFile = () => {
@@ -43,6 +44,11 @@ export class DataFrame {
   get count() {
     return this._rows.length;
   }
+
+  slice = (from: number, to: number) => {
+    const sliced = this._rows.slice(from - 1, to);
+    return new DataFrame(sliced, this._columns);
+  };
 
   sort = (by: string, direction?: 'asc' | 'desc') => {
     const sorted = _.orderBy(this._rows, by, direction);
@@ -72,5 +78,26 @@ export class DataFrame {
     }
 
     return new DataFrame(result, [...this._columns, ...dataFrameB.columns]);
+  };
+
+  filter = (
+    column: string,
+    condition: FilterNumberCondition | FilterStringCondition,
+    value: string | number,
+  ) => {
+    let result: DataFrameRow[];
+
+    switch (condition) {
+      case FilterNumberCondition.greaterThan: {
+        result = this.rows?.filter((row) => row[column] > value);
+        break;
+      }
+      default: {
+        result = this.rows;
+        break;
+      }
+    }
+
+    return new DataFrame(result, this._columns);
   };
 }

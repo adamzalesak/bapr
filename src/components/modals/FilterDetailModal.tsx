@@ -4,29 +4,50 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
-import { SortNode, SortNodeSetting } from '../../models/sortNode';
+import {
+  FilterNode,
+  FilterNodeSetting,
+  FilterNumberCondition,
+  FilterStringCondition,
+} from '../../models/filterNode';
 import { openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
+import { TextField } from '../form/TextField';
+import { useEffect } from 'react';
 
 export const FilterDetailModal = () => {
   const { t } = useTranslation();
 
   const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<SortNode>(openModal?.nodeId);
+  const updateNodeData = useUpdateNodeData<FilterNode>(openModal?.nodeId);
 
-  const node = useNode(openModal?.nodeId) as SortNode | undefined;
+  const node = useNode(openModal?.nodeId) as FilterNode | undefined;
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
-  const { control, handleSubmit } = useForm<SortNodeSetting>({
+  const { control, handleSubmit, watch, setValue } = useForm<FilterNodeSetting>({
     defaultValues: node?.data.settings,
   });
 
-  const onSubmit = (settings: SortNodeSetting) => {
+  const onSubmit = (settings: FilterNodeSetting) => {
     updateNodeData('settings', settings);
     setOpenModal(null);
   };
+
+  const columnName = watch('column');
+  const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
+
+  const condition = watch('condition');
+
+  if (
+    column?.type === 'number' &&
+    condition &&
+    !Object.values(FilterNumberCondition).includes(condition)
+  ) {
+    console.log('foo');
+    setValue('condition', undefined);
+  }
 
   return (
     <Modal
@@ -36,7 +57,7 @@ export const FilterDetailModal = () => {
     >
       {sourceDataFrame ? (
         <Form>
-          <Select name="sortColumn" control={control} label={t('nodes.sort.column')}>
+          <Select name="column" control={control} label={t('nodes.filter.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
                 {column.name}
@@ -44,10 +65,22 @@ export const FilterDetailModal = () => {
             ))}
           </Select>
 
-          <Select name="direction" control={control} label={t('nodes.sort.direction')}>
-            <MenuItem value="asc">{t('nodes.sort.asc')}</MenuItem>
-            <MenuItem value="desc">{t('nodes.sort.desc')}</MenuItem>
+          <Select name="condition" control={control} label={t('nodes.filter.condition')}>
+            {column?.type === 'number'
+              ? Object.values(FilterNumberCondition).map((x) => (
+                  <MenuItem value={x}>{t(`nodes.filter.conditions.${x}`)}</MenuItem>
+                ))
+              : Object.values(FilterStringCondition).map((x) => (
+                  <MenuItem value={x}>{t(`nodes.filter.conditions.${x}`)}</MenuItem>
+                ))}
           </Select>
+
+          <TextField
+            name="value"
+            type={column?.type === 'number' ? 'number' : 'text'}
+            control={control}
+            label={t('nodes.filter.value')}
+          />
 
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}

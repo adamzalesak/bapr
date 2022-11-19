@@ -2,30 +2,48 @@
   "nodes": {
     "sort": {
       "title": "Řazení",
+      "description": "Řazení dat podle zvoleného sloupce",
       "column": "Sloupec",
       "direction": "Směr",
       "asc": "Vzestupně",
       "desc": "Sestupně"
     },
     "filter": {
-      "title": "Filtrování"
+      "title": "Filtrování",
+      "description": "Vyfiltrování řádků podle zvolené podmínky"
     },
     "join": {
       "title": "Sloučení",
+      "description": "Sloučení dvou tabulek do jedné",
       "columnA": "Levý sloupec",
       "columnB": "Pravý sloupec",
       "type": "Typ"
     },
-    "CSVFile": {
+    "file": {
       "title": "CSV soubor",
+      "description": "Načtení dat z CSV souboru",
+      "rowsLimit": "Limit počtu řádků",
       "selectFile": "Vybrat soubor"
+    },
+    "slice": {
+      "title": "Slice",
+      "description": "Výběr části řádků v určeném intervalu",
+      "from": "Od řádku",
+      "to": "Do řádku"
     }
+  },
+  "addNode": {
+    "title": "Přidat uzel"
   },
   "detailModal": {
     "selectDataSource": "Vyberte zdroj dat"
   },
   "dataModal": {
     "notExecuted": "Uzel ještě nebyl spuštěn. Nastavte prosím nejprve jeho parametry."
+  },
+  "dataGrid": {
+    "rowsPerPage": "Řádků na stránce:",
+    "of": "z"
   },
   "common": {
     "save": "Uložit",

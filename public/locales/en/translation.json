@@ -2,16 +2,19 @@
   "nodes": {
     "sort": {
       "title": "Sort",
+      "description": "Sort data by selected column",
       "column": "Column",
       "direction": "Direction",
       "asc": "Ascending",
       "desc": "Descending"
     },
     "filter": {
-      "title": "Filter"
+      "title": "Filter",
+      "description": "Filter out some rows by selected condition"
     },
     "join": {
       "title": "Join",
+      "description": "Join two tables into one",
       "columnA": "Left columns",
       "columnB": "Right column",
       "type": "Type",
@@ -22,16 +25,31 @@
         "fullOuterJoin": "Full outer join"
       }
     },
-    "CSVFile": {
+    "file": {
       "title": "CSV File",
+      "description": "Load data from CSV file",
+      "rowsLimit": "Rows limit",
       "selectFile": "Select file"
+    },
+    "slice": {
+      "title": "Slice",
+      "description": "Get a portion of data by given interval",
+      "from": "From row",
+      "to": "To row"
     }
+  },
+  "addNode": {
+    "title": "Add node"
   },
   "detailModal": {
     "selectDataSource": "Select data source"
   },
   "dataModal": {
     "notExecuted": "The node has not been executed yet. Please setup the node first."
+  },
+  "dataGrid": {
+    "rowsPerPage": "Rows per page:",
+    "of": "of"
   },
   "common": {
     "save": "Save",

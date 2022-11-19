@@ -25,7 +25,7 @@ export const Select = <TFieldValues extends FieldValues>({
       render={({ field }) => (
         <FormControl>
           <InputLabel id={name}>{label}</InputLabel>
-          <MuiSelect displayEmpty {...field} label={label} id={name}>
+          <MuiSelect displayEmpty {...field} value={field.value ?? ''} label={label} id={name}>
             {children}
           </MuiSelect>
         </FormControl>

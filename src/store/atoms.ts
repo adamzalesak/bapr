@@ -5,19 +5,13 @@ import { DataNode } from '../models/dataNode';
 import { JoinNode, JoinType } from '../models/joinNode';
 import { SortNode } from '../models/sortNode';
 import { NodeType } from '../models/nodeTypes';
+import { FilterNode } from '../models/filterNode';
+import { getInitialFileNode } from '../initialNodes';
 
 export const nodesState = atom<DataNode[]>({
   key: 'nodes',
   default: [
-    {
-      id: '1',
-      type: NodeType.InputFile,
-      position: {
-        x: -100,
-        y: 10,
-      },
-      data: {},
-    },
+    getInitialFileNode('1'),
     {
       id: '2',
       type: NodeType.Sort,
@@ -64,12 +58,16 @@ export const nodesState = atom<DataNode[]>({
     } as JoinNode,
     {
       id: '5',
-      type: NodeType.InputFile,
+      type: NodeType.File,
       position: {
         x: -200,
         y: 300,
       },
-      data: {},
+      data: {
+        settings: {
+          rowsLimit: undefined,
+        },
+      },
     },
     {
       id: '6',
@@ -78,8 +76,14 @@ export const nodesState = atom<DataNode[]>({
         x: -500,
         y: 300,
       },
-      data: {},
-    },
+      data: {
+        settings: {
+          column: '',
+          // condition: '',
+          value: '',
+        },
+      },
+    } as FilterNode,
   ],
 });
 
@@ -91,4 +95,10 @@ export const edgesState = atom<Edge[]>({
 export const openModalState = atom<OpenModal | null>({
   key: 'openModal',
   default: null,
+});
+
+// TODO: default 100 -> 0
+export const nodeCountState = atom<number>({
+  key: 'nodeCount',
+  default: 100,
 });

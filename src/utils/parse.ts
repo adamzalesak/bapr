@@ -1,13 +1,14 @@
 import { parse, unparse } from 'papaparse';
 import { Column, DataFrame, DataFrameRow } from '../classes/DataFrame';
 
-export const parseCSVFile = async (file: File): Promise<DataFrame> => {
+export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<DataFrame> => {
   const promise = new Promise<DataFrame>((resolve, _reject) => {
     parse(file, {
       skipEmptyLines: true,
       header: true,
       fastMode: true,
       worker: true,
+      preview: rowsLimit,
       complete: (result) => {
         const data = result.data as DataFrameRow[];
         const columnsNames = result.meta.fields;

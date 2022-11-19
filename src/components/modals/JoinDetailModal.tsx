@@ -1,12 +1,11 @@
 import { Button, MenuItem } from '@mui/material';
-import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useOpenModalNode, useUpdateNodeData } from '../../hooks/node';
+import { useRecoilState } from 'recoil';
+import { useOpenModalNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { JoinNode, JoinNodeHandle, JoinNodeSetting, JoinType } from '../../models/joinNode';
-import { edgesState, nodesState, openModalState } from '../../store/atoms';
+import { openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
@@ -14,32 +13,13 @@ import { Select } from '../form/Select';
 export const JoinDetailModal = () => {
   const { t } = useTranslation();
 
-  const nodes = useRecoilValue(nodesState);
-  const edges = useRecoilValue(edgesState);
   const [openModal, setOpenModal] = useRecoilState(openModalState);
   const updateNodeData = useUpdateNodeData<JoinNode>(openModal?.nodeId);
 
   const node = useOpenModalNode() as JoinNode;
 
-  const sourceDataA = useMemo(() => {
-    const edge = edges.find(
-      (edge) => edge.target === node.id && edge.targetHandle === JoinNodeHandle.A,
-    );
-    const sourceNodeId = edge?.source;
-    const sourceNode = nodes.find((node) => node.id === sourceNodeId);
-
-    return sourceNode?.data;
-  }, [edges, nodes, node.id]);
-
-  const sourceDataB = useMemo(() => {
-    const edge = edges.find(
-      (edge) => edge.target === node.id && edge.targetHandle === JoinNodeHandle.B,
-    );
-    const sourceNodeId = edge?.source;
-    const sourceNode = nodes.find((node) => node.id === sourceNodeId);
-
-    return sourceNode?.data;
-  }, [edges, nodes, node.id]);
+  const sourceDataFrameA = useSourceDataFrame(node.id, JoinNodeHandle.A);
+  const sourceDataFrameB = useSourceDataFrame(node.id, JoinNodeHandle.B);
 
   const { control, handleSubmit } = useForm<JoinNodeSetting>({
     defaultValues: node.data.settings,
@@ -56,17 +36,17 @@ export const JoinDetailModal = () => {
       open={openModal?.modalType === ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
-      {sourceDataA && sourceDataB ? (
+      {sourceDataFrameA && sourceDataFrameB ? (
         <Form>
           <Select name="columnA" control={control} label={t('nodes.join.columnA')}>
-            {sourceDataA?.dataFrame?.columns.map((column, index) => (
+            {sourceDataFrameA?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
                 {column.name}
               </MenuItem>
             ))}
           </Select>
           <Select name="columnB" control={control} label={t('nodes.join.columnB')}>
-            {sourceDataB?.dataFrame?.columns.map((column, index) => (
+            {sourceDataFrameB?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
                 {column.name}
               </MenuItem>

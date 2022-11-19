@@ -13,7 +13,7 @@ export const SortNode = ({ id }: NodeProps) => {
   const sourceDataFrame = useSourceDataFrame(id);
   const updateNodeData = useUpdateNodeData<SortNodeModel>(id);
 
-  // // update node data
+  // update node data
   useEffect(() => {
     if (!node) return;
 
@@ -26,7 +26,7 @@ export const SortNode = ({ id }: NodeProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrame, node?.data.settings]);
 
-  // // keep settings valid if sourceData changes
+  // keep settings valid if sourceData changes
   useEffect(() => {
     if (!node) return;
 

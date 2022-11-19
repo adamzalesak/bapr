@@ -1,8 +1,13 @@
 import { DataNode } from './dataNode';
 import { NodeType } from './nodeTypes';
 
-export interface FileNodeAdditionalData {
-  fileName?: string;
+export interface FileNodeSettings {
+  rowsLimit?: number;
 }
 
-export type FileNode = DataNode<NodeType.Filter, FileNodeAdditionalData>;
+export interface FileNodeAdditionalData {
+  fileName?: string;
+  settings: FileNodeSettings;
+}
+
+export type FileNode = DataNode<NodeType.File, FileNodeAdditionalData>;

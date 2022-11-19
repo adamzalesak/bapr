@@ -1,7 +1,7 @@
 export enum NodeType {
-  InputFile = 'INPUT_FILE',
+  File = 'FILE',
   Sort = 'SORT',
   Filter = 'FILTER',
   Join = 'JOIN',
+  Slice = 'SLICE',
 }
-

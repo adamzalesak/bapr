@@ -9,14 +9,23 @@ import {
   TableRow,
 } from '@mui/material';
 import { memo, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { DataFrame } from '../../classes/DataFrame';
 import { TABLE_ROWS_PER_PAGE_OPTIONS } from '../../constants';
+
+const HeaderTableCellContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 interface Props {
   dataFrame: DataFrame;
 }
 
 export const DataGrid = memo(({ dataFrame }: Props) => {
+  const { t } = useTranslation();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(TABLE_ROWS_PER_PAGE_OPTIONS[0]);
 
@@ -36,19 +45,20 @@ export const DataGrid = memo(({ dataFrame }: Props) => {
     setPage(0);
   };
 
-  // TODO: maxHeight - fix
-
   return (
     <Paper>
       <TableContainer sx={{ maxHeight: '75vh' }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {dataFrame?.columns
-                .map((c) => c.name)
-                .map((x, index) => (
-                  <TableCell key={index}>{x}</TableCell>
-                ))}
+              {dataFrame?.columns.map((c, index) => (
+                <TableCell key={index}>
+                  <HeaderTableCellContent>
+                    {c.name}
+                    <em>{c.type}</em>
+                  </HeaderTableCellContent>
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -70,14 +80,10 @@ export const DataGrid = memo(({ dataFrame }: Props) => {
         count={dataFrame.count}
         rowsPerPage={rowsPerPage}
         page={page}
-        SelectProps={{
-          // TODO: translate
-          inputProps: {
-            'aria-label': 'rows per page',
-          },
-        }}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage={t('dataGrid.rowsPerPage')}
+        labelDisplayedRows={({ from, to, count }) => `${from}–${to} ${t('dataGrid.of')} ${count}`}
       />
     </Paper>
   );

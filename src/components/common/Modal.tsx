@@ -12,8 +12,9 @@ const ModalContainer = styled.div`
   min-width: 15rem;
   min-height: 5rem;
   max-width: 85vw;
-  max-height: 85vh;
+  max-height: calc(100vh - 1rem);
   border-radius: 5px;
+
   :focus-visible {
     outline: none;
   }
@@ -36,7 +37,8 @@ const ModalTitle = styled.h1`
 
 const ModalContent = styled.div`
   padding: 1rem;
-  max-height: 100%;
+  max-height: calc(100vh - 6.5rem);
+  overflow-y: auto;
 `;
 
 const StyledButton = styled(Button)`

@@ -6,14 +6,21 @@ import { ModalType } from '../../models/modal';
 import { openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';
 import { useOpenModalNode, useUpdateNodeData } from '../../hooks/node';
-import { FileNode } from '../../models/fileNode';
+import { FileNode, FileNodeSettings } from '../../models/fileNode';
 import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import { TextField } from '../form/TextField';
+import { Form } from '../common/Form';
 
-export const InputFileDetailModal = () => {
+export const FileDetailModal = () => {
   const { t } = useTranslation();
+
+  const node = useOpenModalNode() as FileNode | undefined;
 
   const [openModal, setOpenModal] = useRecoilState(openModalState);
   const updateNodeData = useUpdateNodeData<FileNode>(openModal?.nodeId);
+
+  const { control, getValues } = useForm<FileNodeSettings>({ defaultValues: node?.data.settings });
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -27,7 +34,7 @@ export const InputFileDetailModal = () => {
 
     if (!file) return;
 
-    const dataFrame = await DataFrame.fromCSVFile(file);
+    const dataFrame = await DataFrame.fromCSVFile(file, getValues().rowsLimit);
 
     updateNodeData('dataFrame', dataFrame);
     updateNodeData('fileName', file.name);
@@ -43,28 +50,32 @@ export const InputFileDetailModal = () => {
     }
   };
 
-  const node = useOpenModalNode() as FileNode | undefined;
-
   const dataCount = node?.data.dataFrame?.count;
 
   return (
     <Modal
-      title={t('nodes.CSVFile.title')}
+      title={t('nodes.file.title')}
       open={openModal?.modalType === ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
-      <>
+      <Form>
+        <TextField
+          name="rowsLimit"
+          type="number"
+          label={t('nodes.file.rowsLimit')}
+          control={control}
+        />
         <LoadingButton
           variant="outlined"
           onClick={() => fileRef.current?.click()}
           loading={isProcessing}
         >
-          {t('nodes.CSVFile.selectFile')}
+          {t('nodes.file.selectFile')}
         </LoadingButton>
         <input hidden type="file" accept=".csv" onChange={handleFileChange} ref={fileRef} />
         <div>{node?.data.fileName}</div>
         {!!dataCount && <div>{dataCount} rows </div>}
-      </>
+      </Form>
     </Modal>
   );
 };

@@ -48,7 +48,7 @@ export const leftOuterJoin = (dataA: DataFrame, dataB: DataFrame, keyA: string, 
   ) || [];
 
 export const rightOuterJoin = (dataA: DataFrame, dataB: DataFrame, keyA: string, keyB: string) =>
-  leftOuterJoin(dataB, dataA, keyA, keyB);
+  leftOuterJoin(dataB, dataA, keyB, keyA);
 
 export const fullOuterJoin = (dataA: DataFrame, dataB: DataFrame, keyA: string, keyB: string) =>
   fullJoinLib(
