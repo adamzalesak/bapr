@@ -75,6 +75,7 @@ export const DataGrid = memo(({ dataFrame }: Props) => {
         </Table>
       </TableContainer>
       <TablePagination
+        component="div"
         rowsPerPageOptions={TABLE_ROWS_PER_PAGE_OPTIONS}
         colSpan={3}
         count={dataFrame.count}
