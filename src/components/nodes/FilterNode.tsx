@@ -17,7 +17,7 @@ export const FilterNode = ({ id }: NodeProps) => {
   const updateNodeData = useUpdateNodeData<FilterNodeModel>(id);
 
   useEffect(() => {
-    if (!node || !sourceDataFrame) {
+    if (!node) {
       return;
     }
 
@@ -33,7 +33,7 @@ export const FilterNode = ({ id }: NodeProps) => {
       return;
     }
 
-    const column = sourceDataFrame.columns.find((c) => c.name === settings.column);
+    const column = sourceDataFrame?.columns.find((c) => c.name === settings.column);
     if (!column) {
       updateNodeData('dataFrame', undefined);
       updateNodeData('settings', { ...settings, column: undefined, condition: undefined });

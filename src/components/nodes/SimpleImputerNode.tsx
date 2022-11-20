@@ -17,7 +17,7 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
   const updateNodeData = useUpdateNodeData<SimpleImputerNodeModel>(id);
 
   useEffect(() => {
-    if (!node || !sourceDataFrame) {
+    if (!node) {
       return;
     }
 
@@ -33,7 +33,7 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
       return;
     }
 
-    const column = sourceDataFrame.columns.find((c) => c.name === settings.column);
+    const column = sourceDataFrame?.columns.find((c) => c.name === settings.column);
     if (!column) {
       updateNodeData('dataFrame', undefined);
       updateNodeData('settings', { ...settings, column: undefined, strategy: undefined });
