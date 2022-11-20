@@ -70,7 +70,7 @@ export const JoinDetailModal = () => {
           </Button>
         </Form>
       ) : (
-        <>{t('detailModal.selectDataSource')}</>
+        t('detailModal.selectDataSource')
       )}
     </Modal>
   );

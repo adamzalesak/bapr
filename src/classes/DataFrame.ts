@@ -2,6 +2,10 @@ import _ from 'lodash';
 import { FilterNumberCondition, FilterStringCondition } from '../models/filterNode';
 import { JoinType } from '../models/joinNode';
 import {
+  SimpleImputerNumberStrategy,
+  SimpleImputerStringStrategy,
+} from '../models/simpleImputerNode';
+import {
   fullOuterJoin,
   innerJoin,
   leftOuterJoin as leftOuterJoin,
@@ -167,6 +171,59 @@ export class DataFrame {
         break;
       }
     }
+
+    return new DataFrame(result, this._columns);
+  };
+
+  simpleImputer = (
+    column: string,
+    strategy: SimpleImputerNumberStrategy | SimpleImputerStringStrategy,
+    value?: string,
+  ) => {
+    let valueToImpute: string | number | undefined = value;
+
+    switch (strategy) {
+      case SimpleImputerNumberStrategy.Constant: {
+        break;
+      }
+      case SimpleImputerNumberStrategy.Mean: {
+        valueToImpute = this.rows?.reduce((acc, row) => acc + row[column], 0) / this.count;
+        break;
+      }
+      case SimpleImputerNumberStrategy.Median: {
+        const sorted = _.orderBy(this.rows, column, 'asc');
+        const middle = Math.floor(this.count / 2);
+        valueToImpute = sorted[middle][column];
+        break;
+      }
+      case SimpleImputerNumberStrategy.MostFrequent: {
+        const grouped = _.groupBy(this.rows, column);
+        const sorted = Object.entries(grouped).sort((a, b) => b[1].length - a[1].length);
+        valueToImpute = sorted[0][0] !== 'null' ? +sorted[0][0] : +sorted[1][0];
+        break;
+      }
+
+      case SimpleImputerStringStrategy.Constant: {
+        break;
+      }
+      case SimpleImputerStringStrategy.MostFrequent: {
+        const grouped = _.groupBy(this.rows, column);
+        const sorted = Object.entries(grouped).sort((a, b) => b[1].length - a[1].length);
+        valueToImpute = sorted[0][0] !== 'null' ? sorted[0][0] : sorted[1][0];
+        break;
+      }
+    }
+
+    const result: DataFrameRow[] = this.rows.map((row) => {
+      if (row[column] === null) {
+        return {
+          ...row,
+          [column]: valueToImpute as number | string,
+        };
+      } else {
+        return row;
+      }
+    });
 
     return new DataFrame(result, this._columns);
   };

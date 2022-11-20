@@ -22,6 +22,7 @@ import { SortNode } from './nodes/SortNode';
 import { SliceNode } from './nodes/SliceNode';
 
 import 'reactflow/dist/style.css';
+import { SimpleImputerNode } from './nodes/SimpleImputerNode';
 
 export const Main = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
@@ -34,6 +35,7 @@ export const Main = () => {
       [NodeType.Filter]: FilterNode,
       [NodeType.Join]: JoinNode,
       [NodeType.Slice]: SliceNode,
+      [NodeType.SimpleImputer]: SimpleImputerNode,
     }),
     [],
   );

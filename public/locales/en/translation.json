@@ -58,6 +58,21 @@
       "description": "Get a portion of data by given interval",
       "from": "From row",
       "to": "To row"
+    },
+    "simpleImputer": {
+      "title": "Simple Imputer",
+      "description": "Fill missing values with given value",
+      "column": "Column",
+      "strategy": "Strategy",
+      "value": "Value",
+      "strategies": {
+        "MEAN": "Mean",
+        "MEDIAN": "Median",
+        "MOST_FREQUENT_NUMBER": "Most frequent",
+        "MOST_FREQUENT_STRING": "Most frequent",
+        "CONSTANT_NUMBER": "Constant",
+        "CONSTANT_STRING": "Constant"
+      }
     }
   },
   "addNode": {

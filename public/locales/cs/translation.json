@@ -52,6 +52,21 @@
       "description": "Výběr části řádků v určeném intervalu",
       "from": "Od řádku",
       "to": "Do řádku"
+    },
+    "simpleImputer": {
+      "title": "Simple Imputer",
+      "description": "Nahrazení chybějících hodnot v určeném sloupci",
+      "column": "Sloupec",
+      "strategy": "Strategie",
+      "value": "Hodnota",
+      "strategies": {
+        "MEAN": "Průměr",
+        "MEDIAN": "Medián",
+        "MOST_FREQUENT_NUMBER": "Nejčastější hodnota",
+        "MOST_FREQUENT_STRING": "Nejčastější hodnota",
+        "CONSTANT_NUMBER": "Konstanta",
+        "CONSTANT_STRING": "Konstanta"
+      }
     }
   },
   "addNode": {

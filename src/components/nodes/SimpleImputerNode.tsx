@@ -3,18 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import {
-  FilterNode as FilterNodeModel,
-  FilterNumberCondition,
-  FilterStringCondition
-} from '../../models/filterNode';
+  SimpleImputerNode as SimpleImputerNodeModel,
+  SimpleImputerNumberStrategy,
+} from '../../models/simpleImputerNode';
 import { NodeBase } from './NodeBase';
 
-export const FilterNode = ({ id }: NodeProps) => {
+export const SimpleImputerNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
 
-  const node = useNode(id) as FilterNodeModel | undefined;
+  const node = useNode(id) as SimpleImputerNodeModel | undefined;
   const sourceDataFrame = useSourceDataFrame(id);
-  const updateNodeData = useUpdateNodeData<FilterNodeModel>(id);
+  const updateNodeData = useUpdateNodeData<SimpleImputerNodeModel>(id);
 
   useEffect(() => {
     if (!node || !sourceDataFrame) {
@@ -24,10 +23,8 @@ export const FilterNode = ({ id }: NodeProps) => {
     const settings = node.data.settings;
     if (
       !settings.column ||
-      !settings.condition ||
-      (!settings.value &&
-        settings.condition !== FilterNumberCondition.isNotNull &&
-        settings.condition !== FilterStringCondition.isNotNull)
+      !settings.strategy ||
+      (!settings.value && settings.strategy === SimpleImputerNumberStrategy.Constant)
     ) {
       updateNodeData('dataFrame', undefined);
       return;
@@ -40,9 +37,9 @@ export const FilterNode = ({ id }: NodeProps) => {
       return;
     }
 
-    const nodeDataFrame = sourceDataFrame?.filter(
+    const nodeDataFrame = sourceDataFrame?.simpleImputer(
       settings.column,
-      settings.condition,
+      settings.strategy,
       settings.value,
     );
 
@@ -53,7 +50,7 @@ export const FilterNode = ({ id }: NodeProps) => {
   if (!node) return null;
 
   return (
-    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.filter.title')}>
+    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.simpleImputer.title')}>
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
     </NodeBase>

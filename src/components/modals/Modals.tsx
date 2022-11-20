@@ -10,6 +10,7 @@ import { FileDetailModal } from './FileDetailModal';
 import { JoinDetailModal } from './JoinDetailModal';
 import { SortDetailModal } from './SortDetailModal';
 import { SliceDetailModal } from './SliceDetailModal';
+import { SimpleImputerDetailModal } from './SimpleImputerDetailModal';
 
 export const Modals = () => {
   const openNode = useOpenModalNode();
@@ -22,6 +23,7 @@ export const Modals = () => {
       {openNode?.type === NodeType.Filter && <FilterDetailModal />}
       {openNode?.type === NodeType.Join && <JoinDetailModal />}
       {openNode?.type === NodeType.Slice && <SliceDetailModal />}
+      {openNode?.type === NodeType.SimpleImputer && <SimpleImputerDetailModal />}
 
       {openModal?.modalType === ModalType.Add && <AddNodeModal />}
 

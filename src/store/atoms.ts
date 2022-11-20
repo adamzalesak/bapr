@@ -1,11 +1,11 @@
 import { Edge } from 'reactflow';
 import { atom } from 'recoil';
+import { getInitialSimpleImputerNode } from '../initialNodes';
 import { DataNode } from '../models/dataNode';
 import { FileNode } from '../models/fileNode';
 import { FilterNode } from '../models/filterNode';
 import { OpenModal } from '../models/modal';
 import { NodeType } from '../models/nodeTypes';
-import { SortNode } from '../models/sortNode';
 
 export const nodesState = atom<DataNode[]>({
   key: 'nodes',
@@ -23,21 +23,7 @@ export const nodesState = atom<DataNode[]>({
         },
       },
     } as FileNode,
-    {
-      id: '101',
-      type: NodeType.Sort,
-      position: {
-        x: 0,
-        y: 0,
-      },
-      data: {
-        dataFrame: undefined,
-        settings: {
-          sortColumn: '',
-          direction: 'asc',
-        },
-      },
-    } as SortNode,
+    getInitialSimpleImputerNode('101'),
     {
       id: '102',
       type: NodeType.Filter,
@@ -48,7 +34,7 @@ export const nodesState = atom<DataNode[]>({
       data: {
         settings: {
           column: '',
-          // condition: '',
+          condition: undefined,
           value: '',
         },
       },

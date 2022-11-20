@@ -4,4 +4,5 @@ export enum NodeType {
   Filter = 'FILTER',
   Join = 'JOIN',
   Slice = 'SLICE',
+  SimpleImputer = 'SIMPLE_IMPUTER',
 }

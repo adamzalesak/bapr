@@ -107,19 +107,21 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
     <>
       <NodeBox onClick={handleOpenDetail}>
         <div>{nodeTypeName}</div>
-        <DisplayDataButton
-          onClick={(event) => {
-            event?.stopPropagation();
-            handleOpenPreview();
-          }}
-        />
         {!!node?.data.dataFrame && (
-          <DownloadButton
-            onClick={(event) => {
-              event?.stopPropagation();
-              node?.data.dataFrame?.toCSVFile();
-            }}
-          />
+          <>
+            <DisplayDataButton
+              onClick={(event) => {
+                event?.stopPropagation();
+                handleOpenPreview();
+              }}
+            />
+            <DownloadButton
+              onClick={(event) => {
+                event?.stopPropagation();
+                node?.data.dataFrame?.toCSVFile();
+              }}
+            />
+          </>
         )}
 
         <State state={nodeState} />

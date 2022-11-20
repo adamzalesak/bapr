@@ -5,6 +5,7 @@ import {
   getInitialFileNode,
   getInitialFilterNode,
   getInitialJoinNode,
+  getInitialSimpleImputerNode,
   getInitialSliceNode,
   getInitialSortNode,
 } from '../../initialNodes';
@@ -52,6 +53,10 @@ export const AddNodeModal = () => {
         newNode = getInitialSliceNode(nodeCountString);
         break;
       }
+      case NodeType.SimpleImputer: {
+        newNode = getInitialSimpleImputerNode(nodeCountString);
+        break;
+      }
     }
 
     setNodes((nodes) => [...nodes, newNode]);
@@ -87,8 +92,12 @@ export const AddNodeModal = () => {
           description={t('nodes.slice.description')}
           onClick={() => handleAddNode(NodeType.Slice)}
         />
+        <Card
+          title={t('nodes.simpleImputer.title')}
+          description={t('nodes.simpleImputer.description')}
+          onClick={() => handleAddNode(NodeType.SimpleImputer)}
+        />
       </CardsWrapper>
     </Modal>
   );
 };
-

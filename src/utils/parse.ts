@@ -22,7 +22,9 @@ export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<Data
           let rowNumber = 0;
           while (
             rowNumber < data.length &&
-            (data[rowNumber][columnName] === null || !isNaN(+data[rowNumber][columnName]))
+            (data[rowNumber][columnName] === null ||
+              data[rowNumber][columnName].match(/^ *$/) !== null ||
+              !isNaN(+data[rowNumber][columnName]))
           ) {
             rowNumber++;
           }
@@ -35,21 +37,21 @@ export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<Data
         });
 
         columns.forEach((column) => {
-          let rowNumber = 0;
-          while (rowNumber < data.length) {
+          for (let rowNumber = 0; rowNumber < data.length; rowNumber++) {
             if (column.type === 'number') {
               // parse values of number columns to number type
               data[rowNumber][column.name] =
-                data[rowNumber][column.name] === null || data[rowNumber][column.name] === ''
+                data[rowNumber][column.name] === null ||
+                data[rowNumber][column.name].match(/^ *$/) !== null
                   ? null
                   : +data[rowNumber][column.name];
             } else if (column.type === 'string') {
               // substitute empty strings with null
               data[rowNumber][column.name] =
-                data[rowNumber][column.name] === '' ? null : data[rowNumber][column.name];
+                data[rowNumber][column.name].match(/^ *$/) !== null
+                  ? null
+                  : data[rowNumber][column.name];
             }
-
-            rowNumber++;
           }
         });
 
@@ -64,8 +66,10 @@ export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<Data
   return promise;
 };
 
-export const saveDataToCSVFile = (data: DataFrame) => {
-  const csv = unparse(data?.rows);
+export const saveDataToCSVFile = (dataFrame: DataFrame) => {
+  const csv = unparse(dataFrame?.rows, {
+    columns: dataFrame.columns.map((column) => column.name),
+  });
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
 

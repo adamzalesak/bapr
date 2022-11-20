@@ -5,11 +5,11 @@ import { useRecoilState } from 'recoil';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import {
-  FilterNode,
-  FilterNodeSetting,
-  FilterNumberCondition,
-  FilterStringCondition,
-} from '../../models/filterNode';
+  SimpleImputerNode,
+  SimpleImputerNodeSetting,
+  SimpleImputerNumberStrategy,
+  SimpleImputerStringStrategy,
+} from '../../models/simpleImputerNode';
 import { openModalState } from '../../store/atoms';
 import { Form } from '../common/Form';
 import { Modal } from '../common/Modal';
@@ -17,61 +17,62 @@ import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
 import { useEffect } from 'react';
 
-export const FilterDetailModal = () => {
+export const SimpleImputerDetailModal = () => {
   const { t } = useTranslation();
 
   const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<FilterNode>(openModal?.nodeId);
+  const updateNodeData = useUpdateNodeData<SimpleImputerNode>(openModal?.nodeId);
 
-  const node = useNode(openModal?.nodeId) as FilterNode | undefined;
+  const node = useNode(openModal?.nodeId) as SimpleImputerNode | undefined;
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
-  const { control, handleSubmit, watch, setValue } = useForm<FilterNodeSetting>({
+  const { control, handleSubmit, watch, setValue } = useForm<SimpleImputerNodeSetting>({
     defaultValues: node?.data.settings,
   });
 
-  const onSubmit = (settings: FilterNodeSetting) => {
+  const onSubmit = (settings: SimpleImputerNodeSetting) => {
     updateNodeData('settings', settings);
     setOpenModal(null);
   };
 
   const columnName = watch('column');
   const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
-  const condition = watch('condition');
+  const strategy = watch('strategy');
 
   // keep form values valid
   useEffect(() => {
     if (
-      condition &&
+      strategy &&
       ((column?.type === 'number' &&
-        !Object.values(FilterNumberCondition).includes(condition as any)) ||
+        !Object.values(SimpleImputerNumberStrategy).includes(strategy as any)) ||
         (column?.type === 'string' &&
-          !Object.values(FilterStringCondition).includes(condition as any)))
+          !Object.values(SimpleImputerStringStrategy).includes(strategy as any)))
     ) {
-      setValue('condition', null);
+      setValue('strategy', null);
       setValue('value', '');
     }
 
     if (
-      condition === FilterStringCondition.isNotNull ||
-      condition === FilterNumberCondition.isNotNull
+      strategy !== SimpleImputerStringStrategy.Constant &&
+      strategy !== SimpleImputerNumberStrategy.Constant
     ) {
       setValue('value', '');
     }
-  }, [column?.type, condition, setValue]);
+  }, [column?.type, strategy, setValue]);
 
   const displayValue =
-    condition !== FilterNumberCondition.isNotNull && condition !== FilterStringCondition.isNotNull;
+    strategy === SimpleImputerNumberStrategy.Constant ||
+    strategy === SimpleImputerStringStrategy.Constant;
 
   return (
     <Modal
-      title={t('nodes.filter.title')}
+      title={t('nodes.simpleImputer.title')}
       open={openModal?.modalType === ModalType.Detail}
       onClose={() => setOpenModal(null)}
     >
       {sourceDataFrame ? (
         <Form>
-          <Select name="column" control={control} label={t('nodes.filter.column')}>
+          <Select name="column" control={control} label={t('nodes.simpleImputer.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
                 {column.name}
@@ -79,16 +80,16 @@ export const FilterDetailModal = () => {
             ))}
           </Select>
 
-          <Select name="condition" control={control} label={t('nodes.filter.condition')}>
+          <Select name="strategy" control={control} label={t('nodes.simpleImputer.strategy')}>
             {column?.type === 'number'
-              ? Object.values(FilterNumberCondition).map((x) => (
+              ? Object.values(SimpleImputerNumberStrategy).map((x) => (
                   <MenuItem key={x} value={x}>
-                    {t(`nodes.filter.conditions.${x}`)}
+                    {t(`nodes.simpleImputer.strategies.${x}`)}
                   </MenuItem>
                 ))
-              : Object.values(FilterStringCondition).map((x) => (
+              : Object.values(SimpleImputerStringStrategy).map((x) => (
                   <MenuItem key={x} value={x}>
-                    {t(`nodes.filter.conditions.${x}`)}
+                    {t(`nodes.simpleImputer.strategies.${x}`)}
                   </MenuItem>
                 ))}
           </Select>
@@ -98,7 +99,7 @@ export const FilterDetailModal = () => {
               name="value"
               type={column?.type === 'number' ? 'number' : 'text'}
               control={control}
-              label={t('nodes.filter.value')}
+              label={t('nodes.simpleImputer.value')}
             />
           )}
 
