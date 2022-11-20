@@ -1,23 +1,34 @@
 import { Edge } from 'reactflow';
 import { atom } from 'recoil';
-import { OpenModal } from '../models/modal';
 import { DataNode } from '../models/dataNode';
-import { JoinNode, JoinType } from '../models/joinNode';
-import { SortNode } from '../models/sortNode';
-import { NodeType } from '../models/nodeTypes';
+import { FileNode } from '../models/fileNode';
 import { FilterNode } from '../models/filterNode';
-import { getInitialFileNode } from '../initialNodes';
+import { OpenModal } from '../models/modal';
+import { NodeType } from '../models/nodeTypes';
+import { SortNode } from '../models/sortNode';
 
 export const nodesState = atom<DataNode[]>({
   key: 'nodes',
   default: [
-    getInitialFileNode('1'),
     {
-      id: '2',
+      id: '100',
+      type: NodeType.File,
+      position: {
+        x: -200,
+        y: 0,
+      },
+      data: {
+        settings: {
+          rowsLimit: undefined,
+        },
+      },
+    } as FileNode,
+    {
+      id: '101',
       type: NodeType.Sort,
       position: {
-        x: 40,
-        y: 50,
+        x: 0,
+        y: 0,
       },
       data: {
         dataFrame: undefined,
@@ -28,53 +39,11 @@ export const nodesState = atom<DataNode[]>({
       },
     } as SortNode,
     {
-      id: '3',
-      type: NodeType.Sort,
-      position: {
-        x: 40,
-        y: -60,
-      },
-      data: {
-        settings: {
-          sortColumn: '',
-          direction: 'asc',
-        },
-      },
-    } as SortNode,
-    {
-      id: '4',
-      type: NodeType.Join,
-      position: {
-        x: 40,
-        y: 160,
-      },
-      data: {
-        settings: {
-          columnA: '',
-          columnB: '',
-          type: JoinType.innerJoin,
-        },
-      },
-    } as JoinNode,
-    {
-      id: '5',
-      type: NodeType.File,
-      position: {
-        x: -200,
-        y: 300,
-      },
-      data: {
-        settings: {
-          rowsLimit: undefined,
-        },
-      },
-    },
-    {
-      id: '6',
+      id: '102',
       type: NodeType.Filter,
       position: {
-        x: -500,
-        y: 300,
+        x: 200,
+        y: 0,
       },
       data: {
         settings: {
@@ -97,8 +66,7 @@ export const openModalState = atom<OpenModal | null>({
   default: null,
 });
 
-// TODO: default 100 -> 0
 export const nodeCountState = atom<number>({
   key: 'nodeCount',
-  default: 100,
+  default: 0,
 });
