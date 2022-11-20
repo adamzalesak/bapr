@@ -26,20 +26,6 @@ export const SliceNode = ({ id }: NodeProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrame, node?.data.settings]);
 
-  // TODO:  keep settings valid if sourceData changes
-  //   useEffect(() => {
-  //     if (!node) return;
-
-  //     const sortColumn = sourceDataFrame?.columns
-  //       .map((c) => c.name)
-  //       .includes(node.data.settings.sortColumn)
-  //       ? node.data.settings.sortColumn
-  //       : '';
-
-  //     updateNodeData('settings', { ...node?.data.settings, sortColumn });
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [sourceDataFrame]);
-
   return (
     <NodeBase nodeId={id} nodeTypeName={t('nodes.slice.title')}>
       <Handle type="target" position={Position.Left} />

@@ -5,7 +5,7 @@ import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node
 import {
   FilterNode as FilterNodeModel,
   FilterNumberCondition,
-  FilterStringCondition
+  FilterStringCondition,
 } from '../../models/filterNode';
 import { NodeBase } from './NodeBase';
 
@@ -36,7 +36,7 @@ export const FilterNode = ({ id }: NodeProps) => {
     const column = sourceDataFrame.columns.find((c) => c.name === settings.column);
     if (!column) {
       updateNodeData('dataFrame', undefined);
-      updateNodeData('settings', { ...settings, column: undefined });
+      updateNodeData('settings', { ...settings, column: undefined, condition: undefined });
       return;
     }
 
@@ -45,7 +45,6 @@ export const FilterNode = ({ id }: NodeProps) => {
       settings.condition,
       settings.value,
     );
-
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node?.data.settings, sourceDataFrame]);

@@ -36,7 +36,7 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
     const column = sourceDataFrame.columns.find((c) => c.name === settings.column);
     if (!column) {
       updateNodeData('dataFrame', undefined);
-      updateNodeData('settings', { ...settings, column: undefined });
+      updateNodeData('settings', { ...settings, column: undefined, strategy: undefined });
       return;
     }
 
@@ -45,7 +45,6 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
       settings.strategy,
       settings.value,
     );
-
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node?.data.settings, sourceDataFrame]);
