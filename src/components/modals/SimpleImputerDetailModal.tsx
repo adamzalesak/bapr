@@ -48,7 +48,7 @@ export const SimpleImputerDetailModal = () => {
         (column?.type === 'string' &&
           !Object.values(SimpleImputerStringStrategy).includes(strategy as any)))
     ) {
-      setValue('strategy', null);
+      setValue('strategy', undefined);
       setValue('value', '');
     }
 

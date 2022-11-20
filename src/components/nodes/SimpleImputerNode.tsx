@@ -5,6 +5,7 @@ import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node
 import {
   SimpleImputerNode as SimpleImputerNodeModel,
   SimpleImputerNumberStrategy,
+  SimpleImputerStringStrategy,
 } from '../../models/simpleImputerNode';
 import { NodeBase } from './NodeBase';
 
@@ -24,7 +25,9 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
     if (
       !settings.column ||
       !settings.strategy ||
-      (!settings.value && settings.strategy === SimpleImputerNumberStrategy.Constant)
+      (settings.value === undefined &&
+        settings.strategy === SimpleImputerNumberStrategy.Constant) ||
+      (!settings.value && settings.strategy === SimpleImputerStringStrategy.Constant)
     ) {
       updateNodeData('dataFrame', undefined);
       return;

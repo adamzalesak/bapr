@@ -48,7 +48,7 @@ export const FilterDetailModal = () => {
         (column?.type === 'string' &&
           !Object.values(FilterStringCondition).includes(condition as any)))
     ) {
-      setValue('condition', null);
+      setValue('condition', undefined);
       setValue('value', '');
     }
 

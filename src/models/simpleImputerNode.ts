@@ -15,7 +15,7 @@ export enum SimpleImputerStringStrategy {
 
 export interface SimpleImputerNodeSetting {
   column?: string;
-  strategy?: SimpleImputerNumberStrategy | SimpleImputerStringStrategy | null;
+  strategy?: SimpleImputerNumberStrategy | SimpleImputerStringStrategy;
   value?: string;
 }
 
