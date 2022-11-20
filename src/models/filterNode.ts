@@ -28,7 +28,7 @@ export enum FilterStringCondition {
 export interface FilterNodeSetting {
   column?: string;
   condition?: FilterNumberCondition | FilterStringCondition;
-  value?: string;
+  value: string;
 }
 
 export interface FilterNodeAdditionalData {

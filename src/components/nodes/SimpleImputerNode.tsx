@@ -25,9 +25,9 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
     if (
       !settings.column ||
       !settings.strategy ||
-      (settings.value === undefined &&
-        settings.strategy === SimpleImputerNumberStrategy.Constant) ||
-      (!settings.value && settings.strategy === SimpleImputerStringStrategy.Constant)
+      (!settings.value &&
+        (settings.strategy === SimpleImputerNumberStrategy.Constant ||
+          settings.strategy === SimpleImputerStringStrategy.Constant))
     ) {
       updateNodeData('dataFrame', undefined);
       return;

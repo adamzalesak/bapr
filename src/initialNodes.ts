@@ -94,7 +94,7 @@ export const getInitialSimpleImputerNode = (id: string): SimpleImputerNode => ({
     settings: {
       column: undefined,
       strategy: undefined,
-      value: undefined,
+      value: '',
     },
   },
 });
