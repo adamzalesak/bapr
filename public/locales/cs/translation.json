@@ -67,6 +67,15 @@
         "CONSTANT_NUMBER": "Konstanta",
         "CONSTANT_STRING": "Konstanta"
       }
+    },
+    "standardScaler": {
+      "title": "Standard Scaler",
+      "description": "Standardizace hodnot v určeném sloupci",
+      "column": "Sloupec",
+      "withMean": "S průměrem",
+      "withStd": "Se standardní odchylkou",
+      "withMeanDescription": "Přepočítat hodnoty tak, aby měly průměr 0",
+      "withStdDescription": "Přepočítat hodnoty tak, aby měly standardní odchylku 1"
     }
   },
   "addNode": {

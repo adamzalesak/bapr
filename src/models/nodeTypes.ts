@@ -5,4 +5,5 @@ export enum NodeType {
   Join = 'JOIN',
   Slice = 'SLICE',
   SimpleImputer = 'SIMPLE_IMPUTER',
+  StandardScaler = 'STANDARD_SCALER',
 }

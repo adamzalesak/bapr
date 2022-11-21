@@ -8,6 +8,7 @@ import {
   getInitialSimpleImputerNode,
   getInitialSliceNode,
   getInitialSortNode,
+  getInitialStandardScalerNode,
 } from '../../initialNodes';
 import { DataNode } from '../../models/dataNode';
 import { NodeType } from '../../models/nodeTypes';
@@ -15,10 +16,14 @@ import { nodeCountState, nodesState, openModalState } from '../../store/atoms';
 import { Card } from '../common/Card';
 import { Modal } from '../common/Modal';
 
-const CardsWrapper = styled.div`
+const CardsContainer = styled.div`
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const AddNodeModal = () => {
@@ -57,6 +62,10 @@ export const AddNodeModal = () => {
         newNode = getInitialSimpleImputerNode(nodeCountString);
         break;
       }
+      case NodeType.StandardScaler: {
+        newNode = getInitialStandardScalerNode(nodeCountString);
+        break;
+      }
     }
 
     setNodes((nodes) => [...nodes, newNode]);
@@ -66,7 +75,7 @@ export const AddNodeModal = () => {
 
   return (
     <Modal title={t('addNode.title')} open={true} onClose={() => setOpenModal(null)}>
-      <CardsWrapper>
+      <CardsContainer>
         <Card
           title={t('nodes.file.title')}
           description={t('nodes.file.description')}
@@ -97,7 +106,12 @@ export const AddNodeModal = () => {
           description={t('nodes.simpleImputer.description')}
           onClick={() => handleAddNode(NodeType.SimpleImputer)}
         />
-      </CardsWrapper>
+        <Card
+          title={t('nodes.standardScaler.title')}
+          description={t('nodes.standardScaler.description')}
+          onClick={() => handleAddNode(NodeType.StandardScaler)}
+        />
+      </CardsContainer>
     </Modal>
   );
 };

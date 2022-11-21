@@ -11,6 +11,7 @@ import { JoinDetailModal } from './JoinDetailModal';
 import { SortDetailModal } from './SortDetailModal';
 import { SliceDetailModal } from './SliceDetailModal';
 import { SimpleImputerDetailModal } from './SimpleImputerDetailModal';
+import { StandardScalerDetailModal } from './StandardScalerDetailModal';
 
 export const Modals = () => {
   const openNode = useOpenModalNode();
@@ -24,6 +25,7 @@ export const Modals = () => {
       {openNode?.type === NodeType.Join && <JoinDetailModal />}
       {openNode?.type === NodeType.Slice && <SliceDetailModal />}
       {openNode?.type === NodeType.SimpleImputer && <SimpleImputerDetailModal />}
+      {openNode?.type === NodeType.StandardScaler && <StandardScalerDetailModal />}
 
       {openModal?.modalType === ModalType.Add && <AddNodeModal />}
 

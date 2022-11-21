@@ -11,7 +11,7 @@ import {
   FilterStringCondition,
 } from '../../models/filterNode';
 import { openModalState } from '../../store/atoms';
-import { Form } from '../common/Form';
+import { Form } from '../common/styled';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';

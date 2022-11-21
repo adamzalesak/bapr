@@ -227,4 +227,52 @@ export class DataFrame {
 
     return new DataFrame(result, this._columns);
   };
+
+  standardScaler = (column: string, withMean: boolean, withStd: boolean) => {
+    const mean = this.rows.reduce((acc, row) => acc + row[column], 0) / this.count;
+    const std = Math.sqrt(
+      this.rows.reduce((acc, row) => acc + (row[column] - mean) ** 2, 0) / this.count,
+    );
+
+    const result: DataFrameRow[] = this.rows.map((row) => ({
+      ...row,
+      [column]: (row[column] - (withMean ? mean : 0)) / (withStd ? std : 1),
+    }));
+
+    return new DataFrame(result, this._columns);
+  };
+
+  renameColumns = (oldNames: string[], newNames: string[]) => {
+    const result: DataFrameRow[] = this.rows.map((row) => {
+      const newRow = { ...row };
+      oldNames.forEach((oldName, index) => {
+        newRow[newNames[index]] = row[oldName];
+        delete newRow[oldName];
+      });
+
+      return newRow;
+    });
+
+    return new DataFrame(
+      result,
+      this._columns.map((column) => {
+        const index = oldNames.indexOf(column.name);
+        return index !== -1 ? { ...column, name: newNames[index] } : column;
+      }),
+    );
+  };
+
+  dropColumns = (columns: string[]) => {
+    const result: DataFrameRow[] = this.rows.map((row) => {
+      const newRow = { ...row };
+      columns.forEach((column) => delete newRow[column]);
+
+      return newRow;
+    });
+
+    return new DataFrame(
+      result,
+      this._columns.filter((col) => !columns.includes(col.name)),
+    );
+  };
 }

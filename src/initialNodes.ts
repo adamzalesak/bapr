@@ -5,6 +5,7 @@ import { FilterNode } from './models/filterNode';
 import { FileNode } from './models/fileNode';
 import { SliceNode } from './models/sliceNode';
 import { SimpleImputerNode } from './models/simpleImputerNode';
+import { StandardScalerNode } from './models/standardScalerNode';
 
 export const getInitialFileNode = (id: string): FileNode => ({
   id,
@@ -95,6 +96,22 @@ export const getInitialSimpleImputerNode = (id: string): SimpleImputerNode => ({
       column: undefined,
       strategy: undefined,
       value: '',
+    },
+  },
+});
+
+export const getInitialStandardScalerNode = (id: string): StandardScalerNode => ({
+  id,
+  type: NodeType.StandardScaler,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  data: {
+    settings: {
+      column: undefined,
+      withMean: true,
+      withStd: true,
     },
   },
 });

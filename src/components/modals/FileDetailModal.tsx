@@ -10,7 +10,7 @@ import { FileNode, FileNodeSettings } from '../../models/fileNode';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { TextField } from '../form/TextField';
-import { Form } from '../common/Form';
+import { Form } from '../common/styled';
 
 export const FileDetailModal = () => {
   const { t } = useTranslation();

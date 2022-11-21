@@ -6,7 +6,7 @@ import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node
 import { ModalType } from '../../models/modal';
 import { SortNode, SortNodeSetting } from '../../models/sortNode';
 import { openModalState } from '../../store/atoms';
-import { Form } from '../common/Form';
+import { Form } from '../common/styled';
 import { Modal } from '../common/Modal';
 import { Select } from '../form/Select';
 

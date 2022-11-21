@@ -23,6 +23,7 @@ import { SliceNode } from './nodes/SliceNode';
 
 import 'reactflow/dist/style.css';
 import { SimpleImputerNode } from './nodes/SimpleImputerNode';
+import { StandardScalerNode } from './nodes/StandardScalerNode';
 
 export const Main = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
@@ -36,6 +37,7 @@ export const Main = () => {
       [NodeType.Join]: JoinNode,
       [NodeType.Slice]: SliceNode,
       [NodeType.SimpleImputer]: SimpleImputerNode,
+      [NodeType.StandardScaler]: StandardScalerNode,
     }),
     [],
   );
