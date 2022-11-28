@@ -1,0 +1,10 @@
+import 'i18next';
+import { resources } from './i18n';
+
+declare module 'i18next' {
+  interface CustomTypeOptions {
+    // keep keys type-safe for both resources
+    resources: typeof resources['en'] | typeof resources['cs'];
+  }
+}
+

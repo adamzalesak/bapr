@@ -39,7 +39,13 @@
       "description": "Sloučení dvou tabulek do jedné",
       "columnA": "Levý sloupec",
       "columnB": "Pravý sloupec",
-      "type": "Typ"
+      "type": "Typ",
+      "types": {
+        "innerJoin": "Inner Join",
+        "leftOuterJoin": "Left outer join",
+        "rightOuterJoin": "Right outer join",
+        "fullOuterJoin": "Full outer join"
+      }
     },
     "file": {
       "title": "CSV soubor",
@@ -73,9 +79,9 @@
       "description": "Standardizace hodnot v určeném sloupci",
       "column": "Sloupec",
       "withMean": "S průměrem",
-      "withStd": "Se standardní odchylkou",
+      "withStd": "Se směrodatnou odchylkou",
       "withMeanDescription": "Přepočítat hodnoty tak, aby měly průměr 0",
-      "withStdDescription": "Přepočítat hodnoty tak, aby měly standardní odchylku 1"
+      "withStdDescription": "Přepočítat hodnoty tak, aby měly směrodatnou odchylku 1"
     }
   },
   "addNode": {

@@ -1,31 +1,34 @@
-import i18n from 'i18next';
+import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import Backend from 'i18next-http-backend';
+import LocalStorageBackend from 'i18next-localstorage-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import translation from '../locales/en/translation.json';
+import * as transaltionCzech from '../locales/cs/translation.json';
 
-i18n
+export const resources = {
+  en: {
+    translation,
+  },
+  cs: {
+    translation: transaltionCzech,
+  },
+} as const;
+
+i18next
+  .use(LocalStorageBackend)
   .use(LanguageDetector)
-  .use(Backend)
   .use(initReactI18next)
   .init({
-    supportedLngs: ['en', 'cs'],
+    resources,
     fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
-    },
     detection: {
       order: [
-        'navigator', // browser language first
-        'querystring',
-        'cookie',
         'localStorage',
-        'sessionStorage',
-        'htmlTag',
-        'path',
-        'subdomain',
+        'navigator', // browser language
       ],
     },
+    returnNull: false,
   });
 
-export default i18n;
+export default i18next;
 
