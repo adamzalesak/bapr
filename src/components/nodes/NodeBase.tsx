@@ -1,26 +1,28 @@
 import { ReactNode } from 'react';
 import { useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
 import { useNode, useSourceDataFrame } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { NodeState } from '../../models/dataNode';
 import { openModalState } from '../../store/atoms';
 import TableViewIcon from '@mui/icons-material/TableView';
 import DownloadIcon from '@mui/icons-material/Download';
+import { styled } from '@mui/material';
 
-const NodeBox = styled.div`
+const NodeBox = styled('div')(
+  ({ theme }) => `
   padding: 1rem;
-  border: 1px solid var(--primary-color);
+  border: 1px solid ${theme.palette.primary.main};
   border-radius: 3px;
-  background-color: var(--primary-background);
-`;
+  background-color: ${theme.palette.primary.light};
+`,
+);
 
 const DisplayDataButton = styled(TableViewIcon)`
   position: absolute;
   left: 0;
   bottom: 0;
   margin: 2px;
-  font-size: 0.5rem;
+  font-size: 1rem;
   max-height: 1rem;
   max-width: 1rem;
 
@@ -32,7 +34,7 @@ const DownloadButton = styled(DownloadIcon)`
   left: 1rem;
   bottom: 0;
   margin: 2px;
-  font-size: 0.5rem;
+  font-size: 1rem;
   max-height: 1rem;
   max-width: 1rem;
 
@@ -43,7 +45,7 @@ interface StateBadgeProps {
   state: NodeState;
 }
 
-const State = styled.div<StateBadgeProps>`
+const State = styled('div')<StateBadgeProps>`
   height: 0rem;
   width: 0rem;
   position: absolute;
@@ -56,14 +58,14 @@ const State = styled.div<StateBadgeProps>`
   border-color: transparent transparent
     ${(props) =>
       props.state === NodeState.Done
-        ? 'var(--node-state-color-green)'
+        ? props.theme.palette.success.main
         : props.state === NodeState.InvalidSettings
-        ? 'var(--node-state-color-yellow)'
-        : 'var(--node-state-color-red)'}
+        ? props.theme.palette.warning.main
+        : props.theme.palette.error.main}
     transparent;
 `;
 
-const RowColumnCount = styled.div`
+const RowColumnCount = styled('div')`
   position: absolute;
   right: 0;
   margin-top: -0.3rem;

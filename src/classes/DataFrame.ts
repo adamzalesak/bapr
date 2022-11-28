@@ -229,6 +229,7 @@ export class DataFrame {
   };
 
   standardScaler = (column: string, withMean: boolean, withStd: boolean) => {
+    // TODO: handle null values
     const mean = this.rows.reduce((acc, row) => acc + row[column], 0) / this.count;
     const std = Math.sqrt(
       this.rows.reduce((acc, row) => acc + (row[column] - mean) ** 2, 0) / this.count,

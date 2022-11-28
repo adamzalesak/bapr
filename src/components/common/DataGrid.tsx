@@ -1,5 +1,6 @@
 import {
   Paper,
+  styled,
   Table,
   TableBody,
   TableCell,
@@ -10,11 +11,10 @@ import {
 } from '@mui/material';
 import { memo, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { DataFrame } from '../../classes/DataFrame';
 import { TABLE_ROWS_PER_PAGE_OPTIONS } from '../../constants';
 
-const HeaderTableCellContent = styled.div`
+const HeaderTableCellContent = styled('div')`
   display: flex;
   flex-direction: column;
 `;

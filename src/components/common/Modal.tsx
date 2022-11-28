@@ -1,14 +1,14 @@
-import { Button, Modal as MuiModal } from '@mui/material';
+import { Button, Modal as MuiModal, styled } from '@mui/material';
 import { ReactNode } from 'react';
-import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 
-const ModalContainer = styled.div`
+const ModalContainer = styled('div')(
+  ({ theme }) => `
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: ${theme.palette.background.paper};
   min-width: 15rem;
   min-height: 5rem;
   max-width: 85vw;
@@ -18,24 +18,29 @@ const ModalContainer = styled.div`
   :focus-visible {
     outline: none;
   }
-`;
+`,
+);
 
-const ModalHeader = styled.div`
+const ModalHeader = styled('div')(
+  ({ theme }) => `
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 2.5rem;
   padding: 0 0 0 1rem;
   border-radius: 5px 5px 0 0;
-  background-color: var(--primary-color);
-`;
+  background-color: ${theme.palette.primary.main};
+`,
+);
 
-const ModalTitle = styled.h1`
+const ModalTitle = styled('div')(
+  ({ theme }) => `
   font-size: 1.5rem;
-  color: #fff;
-`;
+  color: ${theme.palette.background.paper};
+`,
+);
 
-const ModalContent = styled.div`
+const ModalContent = styled('div')`
   padding: 1rem;
   max-height: calc(100vh - 6.5rem);
   overflow-y: auto;
@@ -45,9 +50,11 @@ const StyledButton = styled(Button)`
   min-width: 0 !important;
 `;
 
-const StyledCloseIcon = styled(CloseIcon)`
-  color: #fff;
-`;
+const StyledCloseIcon = styled(CloseIcon)(
+  ({ theme }) => `
+  color: ${theme.palette.background.paper};
+`,
+);
 
 interface Props {
   title: string;

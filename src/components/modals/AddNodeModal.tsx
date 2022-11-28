@@ -1,6 +1,6 @@
+import { styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
 import {
   getInitialFileNode,
   getInitialFilterNode,
@@ -16,7 +16,7 @@ import { nodeCountState, nodesState, openModalState } from '../../store/atoms';
 import { Card } from '../common/Card';
 import { Modal } from '../common/Modal';
 
-const CardsContainer = styled.div`
+const CardsContainer = styled('div')`
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;

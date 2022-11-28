@@ -1,10 +1,9 @@
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem, styled } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { US, CZ } from 'country-flag-icons/react/3x2';
 
-const LanguageSwitchWrapper = styled.div`
+const LanguageSwitchWrapper = styled('div')`
   margin-left: auto;
   z-index: 4;
 `;
