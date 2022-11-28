@@ -91,6 +91,7 @@
     "selectDataSource": "Select data source"
   },
   "dataModal": {
+    "title": "Data",
     "notExecuted": "The node has not been executed yet. Please setup the node first."
   },
   "dataGrid": {

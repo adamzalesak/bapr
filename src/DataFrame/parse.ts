@@ -1,8 +1,8 @@
 import { parse, unparse } from 'papaparse';
-import { Column, DataFrame, DataFrameRow } from '../classes/DataFrame';
+import { Column, DataFrame, DataFrameRow } from './DataFrame';
 
 export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<DataFrame> => {
-  const promise = new Promise<DataFrame>((resolve, _reject) => {
+  const promise = new Promise<DataFrame>((resolve, reject) => {
     parse(file, {
       skipEmptyLines: true,
       header: true,
@@ -59,7 +59,9 @@ export const parseCSVFile = async (file: File, rowsLimit?: number): Promise<Data
 
         resolve(dataFrame);
       },
-      // TODO: error handling
+      error: (error) => {
+        reject(new Error('Error while parsing CSV file', error));
+      },
     });
   });
 

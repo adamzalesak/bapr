@@ -1,7 +1,7 @@
 import { ChangeEventHandler, useRef, useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { useRecoilState } from 'recoil';
-import { DataFrame } from '../../classes/DataFrame';
+import { DataFrame } from '../../DataFrame/DataFrame';
 import { ModalType } from '../../models/modal';
 import { openModalState } from '../../store/atoms';
 import { Modal } from '../common/Modal';

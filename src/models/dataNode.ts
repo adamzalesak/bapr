@@ -1,5 +1,5 @@
 import { Node } from 'reactflow';
-import { DataFrame } from '../classes/DataFrame';
+import { DataFrame } from '../DataFrame/DataFrame';
 import { NodeType } from './nodeTypes';
 
 export type NodeData<TAdditionalData> = {

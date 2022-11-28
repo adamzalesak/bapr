@@ -1,4 +1,4 @@
-import { DataFrameRow, DataFrame } from '../classes/DataFrame';
+import { DataFrameRow, DataFrame } from './DataFrame';
 import { join as joinLib, leftJoin as leftJoinLib, fullJoin as fullJoinLib } from 'array-join';
 
 const combineRows = (

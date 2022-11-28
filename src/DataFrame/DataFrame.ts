@@ -10,8 +10,8 @@ import {
   innerJoin,
   leftOuterJoin as leftOuterJoin,
   rightOuterJoin as rightOuterJoin,
-} from '../utils/join';
-import { parseCSVFile, saveDataToCSVFile } from '../utils/parse';
+} from './join';
+import { parseCSVFile, saveDataToCSVFile } from './parse';
 
 export type DataFrameRow = { [key: string]: any };
 

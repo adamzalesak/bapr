@@ -91,6 +91,7 @@
     "selectDataSource": "Vyberte zdroj dat"
   },
   "dataModal": {
+    "title": "Data",
     "notExecuted": "Uzel ještě nebyl spuštěn. Nastavte prosím nejprve jeho parametry."
   },
   "dataGrid": {

@@ -14,8 +14,7 @@ export const DataModal = () => {
   const node = useNode(nodeId);
 
   return (
-    // TODO: translate
-    <Modal title={'Data'} open={!!node} onClose={() => setOpenModal(null)}>
+    <Modal title={t('dataModal.title')} open={!!node} onClose={() => setOpenModal(null)}>
       {node?.data.dataFrame ? (
         <DataGrid dataFrame={node?.data.dataFrame} />
       ) : (

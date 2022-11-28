@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { memo, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DataFrame } from '../../classes/DataFrame';
+import { DataFrame } from '../../DataFrame/DataFrame';
 import { TABLE_ROWS_PER_PAGE_OPTIONS } from '../../constants';
 
 const HeaderTableCellContent = styled('div')`
