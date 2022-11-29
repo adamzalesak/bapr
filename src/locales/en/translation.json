@@ -1,5 +1,9 @@
 {
   "nodes": {
+    "base": {
+      "rows": "rows",
+      "columns": "columns"
+    },
     "sort": {
       "title": "Sort",
       "description": "Sort data by selected column",

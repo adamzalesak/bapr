@@ -6,6 +6,7 @@ import { NodeState } from '../../../models/dataNode';
 import { edgesState, nodesState, openModalState } from '../../../store/atoms';
 import { NodeBox, StateLine, RowColumnCount } from './styled';
 import { NodeBaseMenu } from './NodeBaseMenu';
+import { useTranslation } from 'react-i18next';
 
 interface BaseNodeProps {
   nodeId: string;
@@ -15,6 +16,8 @@ interface BaseNodeProps {
 }
 
 export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProps) => {
+  const { t } = useTranslation();
+
   const node = useNode(nodeId);
   const sourceDataFrame = useSourceDataFrame(nodeId);
   const setOpenModal = useSetRecoilState(openModalState);
@@ -50,8 +53,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   return (
     <>
       <NodeBox onDoubleClick={handleOpenDetail} selected={node?.selected}>
-        <div>{nodeTypeName}</div>
-
+        {nodeTypeName}
         <NodeBaseMenu
           nodeState={nodeState}
           onOpenDetail={handleOpenDetail}
@@ -59,14 +61,15 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
           onSaveToFile={handleSaveToFile}
           onDeleteNode={handleDeleteNode}
         />
-
         <StateLine state={nodeState} />
         {children}
       </NodeBox>
 
       {node?.data.dataFrame ? (
         <RowColumnCount>
-          {node?.data.dataFrame?.count} rows | {node?.data.dataFrame?.columns?.length} columns
+          {`${node.data.dataFrame.count} ${t('nodes.base.rows')} | ${
+            node.data.dataFrame.columns.length
+          } ${t('nodes.base.columns')}`}
         </RowColumnCount>
       ) : null}
     </>

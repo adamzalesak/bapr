@@ -1,5 +1,9 @@
 {
   "nodes": {
+    "base": {
+      "rows": "řádků",
+      "columns": "sloupců"
+    },
     "sort": {
       "title": "Řazení",
       "description": "Řazení dat podle zvoleného sloupce",
