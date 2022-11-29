@@ -1,6 +1,6 @@
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
-import { NodeBase } from './NodeBase';
+import { NodeBase } from './NodeBase/NodeBase';
 
 export const FileNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();

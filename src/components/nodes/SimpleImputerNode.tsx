@@ -7,7 +7,7 @@ import {
   SimpleImputerNumberStrategy,
   SimpleImputerStringStrategy,
 } from '../../models/simpleImputerNode';
-import { NodeBase } from './NodeBase';
+import { NodeBase } from './NodeBase/NodeBase';
 
 export const SimpleImputerNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();

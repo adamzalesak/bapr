@@ -4,7 +4,7 @@ import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SliceNode as SliceNodeModel } from '../../models/sliceNode';
-import { NodeBase } from './NodeBase';
+import { NodeBase } from './NodeBase/NodeBase';
 
 export const SliceNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();

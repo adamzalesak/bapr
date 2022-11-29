@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { NodeState } from '../../models/dataNode';
 import { JoinNode as JoinNodeModel, JoinNodeHandle } from '../../models/joinNode';
-import { NodeBase } from './NodeBase';
+import { NodeBase } from './NodeBase/NodeBase';
 
 export const JoinNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();

@@ -4,7 +4,7 @@ import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SortNode as SortNodeModel } from '../../models/sortNode';
-import { NodeBase } from './NodeBase';
+import { NodeBase } from './NodeBase/NodeBase';
 
 export const SortNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();

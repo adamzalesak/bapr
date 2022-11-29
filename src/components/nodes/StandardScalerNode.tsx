@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { StandardScalerNode as StandardScalerNodeModel } from '../../models/standardScalerNode';
-import { NodeBase } from './NodeBase';
+import { NodeBase } from './NodeBase/NodeBase';
 
 export const StandardScalerNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();

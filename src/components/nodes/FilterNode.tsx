@@ -7,7 +7,7 @@ import {
   FilterNumberCondition,
   FilterStringCondition,
 } from '../../models/filterNode';
-import { NodeBase } from './NodeBase';
+import { NodeBase } from './NodeBase/NodeBase';
 
 export const FilterNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
