@@ -1,5 +1,11 @@
 ## Data Preprocessing Tool
 
+
+Install dependencies before running:
+```
+npm i
+```
+
 To launch the project, type this command:
 
 ```
