@@ -182,34 +182,48 @@ export class DataFrame {
   ) => {
     let valueToImpute: string | number | undefined = value;
 
+    const valuesWithoutNulls = this.rows
+      ?.filter((row) => row[column] !== null)
+      .map((row) => row[column]);
+    const countWithoutNulls = valuesWithoutNulls?.length;
+
     switch (strategy) {
       case SimpleImputerNumberStrategy.Constant: {
+        if (valueToImpute === undefined) {
+          valueToImpute = 0;
+        }
         break;
       }
       case SimpleImputerNumberStrategy.Mean: {
-        valueToImpute = this.rows?.reduce((acc, row) => acc + row[column], 0) / this.count;
+        valueToImpute = _.mean(valuesWithoutNulls);
         break;
       }
       case SimpleImputerNumberStrategy.Median: {
-        const sorted = _.orderBy(this.rows, column, 'asc');
-        const middle = Math.floor(this.count / 2);
-        valueToImpute = sorted[middle][column];
+        const sorted = _.orderBy(valuesWithoutNulls);
+        const middle = Math.floor(countWithoutNulls / 2);
+        valueToImpute =
+          countWithoutNulls % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
         break;
       }
       case SimpleImputerNumberStrategy.MostFrequent: {
-        const grouped = _.groupBy(this.rows, column);
-        const sorted = Object.entries(grouped).sort((a, b) => b[1].length - a[1].length);
-        valueToImpute = sorted[0][0] !== 'null' ? +sorted[0][0] : +sorted[1][0];
+        valueToImpute = _.maxBy(
+          valuesWithoutNulls,
+          (value) => _.countBy(valuesWithoutNulls)[value],
+        );
         break;
       }
 
       case SimpleImputerStringStrategy.Constant: {
+        if (valueToImpute === undefined) {
+          valueToImpute = '';
+        }
         break;
       }
       case SimpleImputerStringStrategy.MostFrequent: {
-        const grouped = _.groupBy(this.rows, column);
-        const sorted = Object.entries(grouped).sort((a, b) => b[1].length - a[1].length);
-        valueToImpute = sorted[0][0] !== 'null' ? sorted[0][0] : sorted[1][0];
+        valueToImpute = _.maxBy(
+          valuesWithoutNulls,
+          (value) => _.countBy(valuesWithoutNulls)[value],
+        );
         break;
       }
     }
@@ -228,17 +242,49 @@ export class DataFrame {
     return new DataFrame(result, this._columns);
   };
 
+  minMaxScaler = (column: string) => {
+    const valuesWithoutNulls = this.rows
+      ?.filter((row) => row[column] !== null)
+      .map((row) => row[column]);
+
+    const min = _.min(valuesWithoutNulls);
+    const max = _.max(valuesWithoutNulls);
+
+    const newMin = 0;
+    const newMax = 1;
+
+    const result: DataFrameRow[] = this.rows.map((row) => {
+      if (row[column] === null) {
+        return row;
+      }
+      return {
+        ...row,
+        [column]: ((row[column] - min) / (max - min)) * (newMax - newMin) + newMin,
+      };
+    });
+
+    return new DataFrame(result, this._columns);
+  };
+
   standardScaler = (column: string, withMean: boolean, withStd: boolean) => {
-    // TODO: handle null values
-    const mean = this.rows.reduce((acc, row) => acc + row[column], 0) / this.count;
+    const valuesWithoutNulls = this.rows
+      ?.filter((row) => row[column] !== null)
+      .map((row) => row[column]);
+
+    const mean = _.mean(valuesWithoutNulls);
     const std = Math.sqrt(
-      this.rows.reduce((acc, row) => acc + (row[column] - mean) ** 2, 0) / this.count,
+      _.mean(valuesWithoutNulls.map((value) => Math.pow(value - mean, 2))),
     );
 
-    const result: DataFrameRow[] = this.rows.map((row) => ({
-      ...row,
-      [column]: (row[column] - (withMean ? mean : 0)) / (withStd ? std : 1),
-    }));
+    const result: DataFrameRow[] = this.rows.map((row) => {
+      if (row[column] === null) {
+        return row;
+      }
+      return {
+        ...row,
+        [column]: (row[column] - (withMean ? mean : 0)) / (withStd ? std : 1),
+      };
+    });
 
     return new DataFrame(result, this._columns);
   };
