@@ -78,6 +78,11 @@
         "CONSTANT_STRING": "Konstanta"
       }
     },
+    "minMaxScaler": {
+      "title": "MinMax Scaler",
+      "description": "Škálování hodnot v určeném sloupci do intervalu 0 až 1",
+      "column": "Sloupec"
+    },
     "standardScaler": {
       "title": "Standard Scaler",
       "description": "Standardizace hodnot v určeném sloupci",

@@ -5,5 +5,6 @@ export enum NodeType {
   Join = 'JOIN',
   Slice = 'SLICE',
   SimpleImputer = 'SIMPLE_IMPUTER',
+  MinMaxScaler = 'MIN_MAX_SCALER',
   StandardScaler = 'STANDARD_SCALER',
 }

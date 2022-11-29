@@ -6,6 +6,7 @@ import { FileNode } from './models/fileNode';
 import { SliceNode } from './models/sliceNode';
 import { SimpleImputerNode } from './models/simpleImputerNode';
 import { StandardScalerNode } from './models/standardScalerNode';
+import { MinMaxScalerNode } from './models/minMaxScalerNode';
 
 export const getInitialFileNode = (id: string): FileNode => ({
   id,
@@ -96,6 +97,20 @@ export const getInitialSimpleImputerNode = (id: string): SimpleImputerNode => ({
       column: undefined,
       strategy: undefined,
       value: '',
+    },
+  },
+});
+
+export const getInitialMinMaxScalerNode = (id: string): MinMaxScalerNode => ({
+  id,
+  type: NodeType.MinMaxScaler,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  data: {
+    settings: {
+      column: undefined,
     },
   },
 });

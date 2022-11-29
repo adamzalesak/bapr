@@ -24,23 +24,24 @@ import { SliceNode } from './nodes/SliceNode';
 import 'reactflow/dist/style.css';
 import { SimpleImputerNode } from './nodes/SimpleImputerNode';
 import { StandardScalerNode } from './nodes/StandardScalerNode';
+import { MinMaxScalerNode } from './nodes/MinMaxScaler';
 
 export const Main = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
   const [edges, setEdges] = useRecoilState(edgesState);
 
-  const nodeTypes = useMemo(
-    () => ({
+  const nodeTypes = useMemo(() => {
+    return {
       [NodeType.File]: FileNode,
       [NodeType.Sort]: SortNode,
       [NodeType.Filter]: FilterNode,
       [NodeType.Join]: JoinNode,
       [NodeType.Slice]: SliceNode,
       [NodeType.SimpleImputer]: SimpleImputerNode,
+      [NodeType.MinMaxScaler]: MinMaxScalerNode,
       [NodeType.StandardScaler]: StandardScalerNode,
-    }),
-    [],
-  );
+    };
+  }, []);
 
   const handleNodesChange: OnNodesChange = (change) => {
     const updatedNodes = applyNodeChanges(change, nodes);
@@ -53,16 +54,15 @@ export const Main = () => {
   };
 
   const onConnect: OnConnect = (connection) => {
-    // prevent connecting multiple input nodes
-    if (
-      edges.find(
-        (e) => e.target === connection.target && e.targetHandle === connection.targetHandle,
-      )
-    ) {
-      return;
-    }
-
-    setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
+    setEdges((eds) =>
+      addEdge(
+        { ...connection, animated: true },
+        eds.filter(
+          // prevent connecting multiple input nodes
+          (e) => e.target !== connection.target || e.targetHandle !== connection.targetHandle,
+        ),
+      ),
+    );
   };
 
   return (

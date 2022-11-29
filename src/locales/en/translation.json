@@ -78,9 +78,16 @@
         "CONSTANT_STRING": "Constant"
       }
     },
+    "minMaxScaler": {
+      "title": "MinMax Scaler",
+      "description": "Scale values in selected column to range 0-1",
+      "column": "Column",
+      "min": "Min",
+      "max": "Max"
+    },
     "standardScaler": {
       "title": "Standard Scaler",
-      "description": "Standardize values by removing the mean and scaling to unit variance",
+      "description": "Standardize values in selected column",
       "column": "Column",
       "withMean": "With mean",
       "withStd": "With std",

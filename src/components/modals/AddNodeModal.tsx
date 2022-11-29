@@ -5,6 +5,7 @@ import {
   getInitialFileNode,
   getInitialFilterNode,
   getInitialJoinNode,
+  getInitialMinMaxScalerNode,
   getInitialSimpleImputerNode,
   getInitialSliceNode,
   getInitialSortNode,
@@ -62,6 +63,10 @@ export const AddNodeModal = () => {
         newNode = getInitialSimpleImputerNode(nodeCountString);
         break;
       }
+      case NodeType.MinMaxScaler: {
+        newNode = getInitialMinMaxScalerNode(nodeCountString);
+        break;
+      }
       case NodeType.StandardScaler: {
         newNode = getInitialStandardScalerNode(nodeCountString);
         break;
@@ -105,6 +110,11 @@ export const AddNodeModal = () => {
           title={t('nodes.simpleImputer.title')}
           description={t('nodes.simpleImputer.description')}
           onClick={() => handleAddNode(NodeType.SimpleImputer)}
+        />
+        <Card
+          title={t('nodes.minMaxScaler.title')}
+          description={t('nodes.minMaxScaler.description')}
+          onClick={() => handleAddNode(NodeType.MinMaxScaler)}
         />
         <Card
           title={t('nodes.standardScaler.title')}
