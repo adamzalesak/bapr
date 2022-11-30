@@ -9,7 +9,7 @@ export const nodesState = atom<DataNode[]>({
   key: 'nodes',
   default: [
     {
-      id: 'abc',
+      id: 'init',
       type: NodeType.File,
       position: {
         x: -200,
@@ -36,5 +36,5 @@ export const openModalState = atom<OpenModal | null>({
 
 export const nodeCountState = atom<number>({
   key: 'nodeCount',
-  default: 1,
+  default: 0,
 });

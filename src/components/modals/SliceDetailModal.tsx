@@ -1,22 +1,19 @@
 import { Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
+import { useModal } from '../../hooks/modal';
+import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { SliceNode, SliceNodeSetting } from '../../models/sliceNode';
-import { openModalState } from '../../store/atoms';
-import { Form } from '../common/styled';
 import { Modal } from '../common/Modal';
+import { Form } from '../common/styled';
 import { TextField } from '../form/TextField';
 
 export const SliceDetailModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<SliceNode>(openModal?.nodeId);
-
-  const node = useNode(openModal?.nodeId) as SliceNode | undefined;
+  const { node, openModalType, closeModal } = useModal<SliceNode>();
+  const updateNodeData = useUpdateNodeData<SliceNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
   const { control, handleSubmit } = useForm<SliceNodeSetting>({
@@ -25,14 +22,14 @@ export const SliceDetailModal = () => {
 
   const onSubmit = (settings: SliceNodeSetting) => {
     updateNodeData('settings', settings);
-    setOpenModal(null);
+    closeModal();
   };
 
   return (
     <Modal
       title={t('nodes.sort.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       {sourceDataFrame ? (
         <Form>

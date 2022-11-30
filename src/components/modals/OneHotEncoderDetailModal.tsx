@@ -1,22 +1,19 @@
 import { Button, MenuItem } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
+import { useModal } from '../../hooks/modal';
+import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { OneHotEncoderNode, OneHotEncoderNodeSetting } from '../../models/oneHotEncoderNode';
-import { openModalState } from '../../store/atoms';
-import { Form } from '../common/styled';
 import { Modal } from '../common/Modal';
+import { Form } from '../common/styled';
 import { Select } from '../form/Select';
 
 export const OneHotEncoderDetailModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<OneHotEncoderNode>(openModal?.nodeId);
-
-  const node = useNode(openModal?.nodeId) as OneHotEncoderNode | undefined;
+  const { node, openModalType, closeModal } = useModal<OneHotEncoderNode>();
+  const updateNodeData = useUpdateNodeData<OneHotEncoderNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
   const { control, handleSubmit } = useForm<OneHotEncoderNodeSetting>({
@@ -25,14 +22,14 @@ export const OneHotEncoderDetailModal = () => {
 
   const onSubmit = (settings: OneHotEncoderNodeSetting) => {
     updateNodeData('settings', settings);
-    setOpenModal(null);
+    closeModal();
   };
 
   return (
     <Modal
       title={t('nodes.oneHotEncoder.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       {sourceDataFrame ? (
         <Form>

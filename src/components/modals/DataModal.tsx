@@ -1,20 +1,15 @@
-import { useRecoilState } from 'recoil';
-import { openModalState } from '../../store/atoms';
-import { useNode } from '../../hooks/node';
+import { useTranslation } from 'react-i18next';
+import { useModal } from '../../hooks/modal';
 import { DataGrid } from '../common/DataGrid';
 import { Modal } from '../common/Modal';
-import { useTranslation } from 'react-i18next';
-import { ModalType } from '../../models/modal';
 
 export const DataModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const nodeId = openModal?.modalType === ModalType.Data ? openModal?.nodeId : undefined;
-  const node = useNode(nodeId);
+  const { node, closeModal } = useModal();
 
   return (
-    <Modal title={t('dataModal.title')} open={!!node} onClose={() => setOpenModal(null)}>
+    <Modal title={t('dataModal.title')} open={!!node} onClose={closeModal}>
       {node?.data.dataFrame ? (
         <DataGrid dataFrame={node?.data.dataFrame} />
       ) : (

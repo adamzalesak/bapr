@@ -1,29 +1,26 @@
 import { Button, MenuItem } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { ModalType } from '../../models/modal';
+import { useModal } from '../../hooks/modal';
+import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import {
   FilterNode,
   FilterNodeSetting,
   filterNumberConditions,
-  filterStringConditions,
+  filterStringConditions
 } from '../../models/filterNode';
-import { openModalState } from '../../store/atoms';
-import { Form } from '../common/styled';
+import { ModalType } from '../../models/modal';
 import { Modal } from '../common/Modal';
+import { Form } from '../common/styled';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
-import { useEffect } from 'react';
 
 export const FilterDetailModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<FilterNode>(openModal?.nodeId);
-
-  const node = useNode(openModal?.nodeId) as FilterNode | undefined;
+  const { node, openModalType, closeModal } = useModal<FilterNode>();
+  const updateNodeData = useUpdateNodeData<FilterNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
   const { control, handleSubmit, watch, setValue } = useForm<FilterNodeSetting>({
@@ -32,7 +29,7 @@ export const FilterDetailModal = () => {
 
   const onSubmit = (settings: FilterNodeSetting) => {
     updateNodeData('settings', settings);
-    setOpenModal(null);
+    closeModal();
   };
 
   const columnName = watch('columnName');
@@ -67,8 +64,8 @@ export const FilterDetailModal = () => {
   return (
     <Modal
       title={t('nodes.filter.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       {sourceDataFrame ? (
         <Form>

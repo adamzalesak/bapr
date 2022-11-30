@@ -1,9 +1,8 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Fab, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useSetRecoilState } from 'recoil';
+import { useModal } from '../../hooks/modal';
 import { ModalType } from '../../models/modal';
-import { openModalState } from '../../store/atoms';
 import { LanguageSwitch } from './LanguageSwitch';
 
 const ControlPanelContainer = styled('div')`
@@ -14,10 +13,10 @@ const ControlPanelContainer = styled('div')`
 export const ControlPanel = () => {
   const { t } = useTranslation();
 
-  const setOpenModalState = useSetRecoilState(openModalState);
+  const { openModal } = useModal();
 
   const handleAddButtonClick = () => {
-    setOpenModalState({ modalType: ModalType.Add });
+    openModal(ModalType.Add);
   };
 
   return (

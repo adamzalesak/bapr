@@ -1,29 +1,24 @@
-import { ChangeEventHandler, useRef, useState } from 'react';
 import { LoadingButton } from '@mui/lab';
-import { useRecoilState } from 'recoil';
-import { DataFrame } from '../../DataFrame/DataFrame';
-import { ModalType } from '../../models/modal';
-import { openModalState } from '../../store/atoms';
-import { Modal } from '../common/Modal';
-import { useOpenModalNode, useUpdateNodeData } from '../../hooks/node';
-import { FileNode, FileNodeSettings } from '../../models/fileNode';
-import { useTranslation } from 'react-i18next';
+import { ChangeEventHandler, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TextField } from '../form/TextField';
+import { useTranslation } from 'react-i18next';
+import { DataFrame } from '../../DataFrame/DataFrame';
+import { useModal } from '../../hooks/modal';
+import { useUpdateNodeData } from '../../hooks/node';
+import { FileNode, FileNodeSettings } from '../../models/fileNode';
+import { ModalType } from '../../models/modal';
+import { Modal } from '../common/Modal';
 import { Form } from '../common/styled';
+import { TextField } from '../form/TextField';
 
 export const FileDetailModal = () => {
   const { t } = useTranslation();
 
-  const node = useOpenModalNode() as FileNode | undefined;
-
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<FileNode>(openModal?.nodeId);
+  const { node, openModalType, closeModal } = useModal<FileNode>();
+  const updateNodeData = useUpdateNodeData<FileNode>(node?.id);
 
   const { control, getValues } = useForm<FileNodeSettings>({ defaultValues: node?.data.settings });
-
   const [isProcessing, setIsProcessing] = useState(false);
-
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange: ChangeEventHandler = async (event) => {
@@ -55,8 +50,8 @@ export const FileDetailModal = () => {
   return (
     <Modal
       title={t('nodes.file.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       <Form>
         <TextField

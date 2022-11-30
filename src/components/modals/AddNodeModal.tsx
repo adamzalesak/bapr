@@ -1,6 +1,7 @@
 import { styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useModal } from '../../hooks/modal';
 import {
   getInitialFileNode,
   getInitialFilterNode,
@@ -10,11 +11,11 @@ import {
   getInitialSimpleImputerNode,
   getInitialSliceNode,
   getInitialSortNode,
-  getInitialStandardScalerNode,
+  getInitialStandardScalerNode
 } from '../../initialNodes';
 import { DataNode } from '../../models/dataNode';
 import { NodeType } from '../../models/nodeTypes';
-import { nodeCountState, nodesState, openModalState } from '../../store/atoms';
+import { nodeCountState, nodesState } from '../../store/atoms';
 import { Card } from '../common/Card';
 import { Modal } from '../common/Modal';
 
@@ -31,7 +32,7 @@ const CardsContainer = styled('div')`
 export const AddNodeModal = () => {
   const { t } = useTranslation();
 
-  const setOpenModal = useSetRecoilState(openModalState);
+  const { closeModal } = useModal();
   const setNodes = useSetRecoilState(nodesState);
   const [nodeCount, setNodeCount] = useRecoilState(nodeCountState);
 
@@ -80,11 +81,11 @@ export const AddNodeModal = () => {
 
     setNodes((nodes) => [...nodes, newNode]);
     setNodeCount((nodeCount) => nodeCount + 1);
-    setOpenModal(null);
+    closeModal();
   };
 
   return (
-    <Modal title={t('addNode.title')} open={true} onClose={() => setOpenModal(null)}>
+    <Modal title={t('addNode.title')} open={true} onClose={closeModal}>
       <CardsContainer>
         <Card
           title={t('nodes.file.title')}

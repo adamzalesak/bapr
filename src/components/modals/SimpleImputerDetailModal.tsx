@@ -1,29 +1,26 @@
 import { Button, MenuItem } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
+import { useModal } from '../../hooks/modal';
+import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import {
   SimpleImputerNode,
   SimpleImputerNodeSetting,
   simpleImputerNumberStrategies,
-  simpleImputerStringStrategies,
+  simpleImputerStringStrategies
 } from '../../models/simpleImputerNode';
-import { openModalState } from '../../store/atoms';
-import { Form } from '../common/styled';
 import { Modal } from '../common/Modal';
+import { Form } from '../common/styled';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
-import { useEffect } from 'react';
 
 export const SimpleImputerDetailModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<SimpleImputerNode>(openModal?.nodeId);
-
-  const node = useNode(openModal?.nodeId) as SimpleImputerNode | undefined;
+  const { node, openModalType, closeModal } = useModal<SimpleImputerNode>();
+  const updateNodeData = useUpdateNodeData<SimpleImputerNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
   const { control, handleSubmit, watch, setValue } = useForm<SimpleImputerNodeSetting>({
@@ -32,7 +29,7 @@ export const SimpleImputerDetailModal = () => {
 
   const onSubmit = (settings: SimpleImputerNodeSetting) => {
     updateNodeData('settings', settings);
-    setOpenModal(null);
+    closeModal();
   };
 
   const columnName = watch('columnName');
@@ -66,8 +63,8 @@ export const SimpleImputerDetailModal = () => {
   return (
     <Modal
       title={t('nodes.simpleImputer.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       {sourceDataFrame ? (
         <Form>

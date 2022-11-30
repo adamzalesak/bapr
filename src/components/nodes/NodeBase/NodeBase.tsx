@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame } from '../../../hooks/node';
-import { ModalType } from '../../../models/modal';
-import { NodeState } from '../../../models/dataNode';
-import { edgesState, nodesState, openModalState } from '../../../store/atoms';
-import { NodeBox, StateLine, RowColumnCount } from './styled';
-import { NodeBaseMenu } from './NodeBaseMenu';
 import { useTranslation } from 'react-i18next';
+import { useSetRecoilState } from 'recoil';
+import { useModal } from '../../../hooks/modal';
+import { useNode, useSourceDataFrame } from '../../../hooks/node';
+import { NodeState } from '../../../models/dataNode';
+import { ModalType } from '../../../models/modal';
+import { edgesState, nodesState } from '../../../store/atoms';
+import { NodeBaseMenu } from './NodeBaseMenu';
+import { NodeBox, RowColumnCount, StateLine } from './styled';
 
 interface BaseNodeProps {
   nodeId: string;
@@ -20,16 +21,16 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
 
   const node = useNode(nodeId);
   const sourceDataFrame = useSourceDataFrame(nodeId);
-  const setOpenModal = useSetRecoilState(openModalState);
+  const { openModal } = useModal();
   const setNodes = useSetRecoilState(nodesState);
   const setEdges = useSetRecoilState(edgesState);
 
   const handleOpenDetail = () => {
-    setOpenModal({ modalType: ModalType.Detail, nodeId });
+    openModal(ModalType.Detail, nodeId);
   };
 
   const handleOpenDataPreview = () => {
-    setOpenModal({ modalType: ModalType.Data, nodeId });
+    openModal(ModalType.Data, nodeId);
   };
 
   const handleSaveToFile = () => {

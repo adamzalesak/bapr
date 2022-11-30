@@ -1,40 +1,37 @@
 import { Button, MenuItem } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
-import { useOpenModalNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { ModalType } from '../../models/modal';
+import { useModal } from '../../hooks/modal';
+import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { JoinNode, JoinNodeHandle, JoinNodeSetting, JoinType } from '../../models/joinNode';
-import { openModalState } from '../../store/atoms';
-import { Form } from '../common/styled';
+import { ModalType } from '../../models/modal';
 import { Modal } from '../common/Modal';
+import { Form } from '../common/styled';
 import { Select } from '../form/Select';
 
 export const JoinDetailModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<JoinNode>(openModal?.nodeId);
+  const { node, openModalType, closeModal } = useModal<JoinNode>();
+  const updateNodeData = useUpdateNodeData<JoinNode>(node?.id);
 
-  const node = useOpenModalNode() as JoinNode;
-
-  const sourceDataFrameA = useSourceDataFrame(node.id, JoinNodeHandle.A);
-  const sourceDataFrameB = useSourceDataFrame(node.id, JoinNodeHandle.B);
+  const sourceDataFrameA = useSourceDataFrame(node?.id, JoinNodeHandle.A);
+  const sourceDataFrameB = useSourceDataFrame(node?.id, JoinNodeHandle.B);
 
   const { control, handleSubmit } = useForm<JoinNodeSetting>({
-    defaultValues: node.data.settings,
+    defaultValues: node?.data.settings,
   });
 
   const onSubmit = (settings: JoinNodeSetting) => {
     updateNodeData('settings', settings);
-    setOpenModal(null);
+    closeModal();
   };
 
   return (
     <Modal
       title={t('nodes.join.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       {sourceDataFrameA && sourceDataFrameB ? (
         <Form>

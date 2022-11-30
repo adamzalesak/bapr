@@ -1,23 +1,20 @@
 import { Button, MenuItem } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
+import { useModal } from '../../hooks/modal';
+import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { ModalType } from '../../models/modal';
 import { StandardScalerNode, StandardScalerNodeSetting } from '../../models/standardScalerNode';
-import { openModalState } from '../../store/atoms';
-import { Form, FormSegment } from '../common/styled';
 import { Modal } from '../common/Modal';
+import { Form, FormSegment } from '../common/styled';
 import { Checkbox } from '../form/Checkbox';
 import { Select } from '../form/Select';
 
 export const StandardScalerDetailModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<StandardScalerNode>(openModal?.nodeId);
-
-  const node = useNode(openModal?.nodeId) as StandardScalerNode | undefined;
+  const { node, openModalType, closeModal } = useModal<StandardScalerNode>();
+  const updateNodeData = useUpdateNodeData<StandardScalerNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
   const { control, handleSubmit } = useForm<StandardScalerNodeSetting>({
@@ -26,14 +23,14 @@ export const StandardScalerDetailModal = () => {
 
   const onSubmit = (settings: StandardScalerNodeSetting) => {
     updateNodeData('settings', settings);
-    setOpenModal(null);
+    closeModal();
   };
 
   return (
     <Modal
       title={t('nodes.standardScaler.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       {sourceDataFrame ? (
         <Form>

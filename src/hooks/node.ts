@@ -1,15 +1,10 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { DataNode } from '../models/dataNode';
-import { nodesState, openModalState } from '../store/atoms';
+import { nodesState } from '../store/atoms';
 import { nodeSelector, sourceDataFrameSelector } from '../store/selectors';
 
 export const useNode = (nodeId?: string) => {
   return useRecoilValue(nodeSelector(nodeId ?? ''));
-};
-
-export const useOpenModalNode = () => {
-  const openModal = useRecoilValue(openModalState);
-  return useNode(openModal?.nodeId);
 };
 
 export const useSourceDataFrame = (nodeId?: string, targetHandle?: string) => {

@@ -1,22 +1,19 @@
 import { Button, MenuItem } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
-import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { ModalType } from '../../models/modal';
+import { useModal } from '../../hooks/modal';
+import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { MinMaxScalerNode, MinMaxScalerNodeSetting } from '../../models/minMaxScalerNode';
-import { openModalState } from '../../store/atoms';
-import { Form } from '../common/styled';
+import { ModalType } from '../../models/modal';
 import { Modal } from '../common/Modal';
+import { Form } from '../common/styled';
 import { Select } from '../form/Select';
 
 export const MinMaxScalerDetailModal = () => {
   const { t } = useTranslation();
 
-  const [openModal, setOpenModal] = useRecoilState(openModalState);
-  const updateNodeData = useUpdateNodeData<MinMaxScalerNode>(openModal?.nodeId);
-
-  const node = useNode(openModal?.nodeId) as MinMaxScalerNode | undefined;
+  const { node, openModalType, closeModal } = useModal<MinMaxScalerNode>();
+  const updateNodeData = useUpdateNodeData<MinMaxScalerNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
   const { control, handleSubmit } = useForm<MinMaxScalerNodeSetting>({
@@ -25,14 +22,14 @@ export const MinMaxScalerDetailModal = () => {
 
   const onSubmit = (settings: MinMaxScalerNodeSetting) => {
     updateNodeData('settings', settings);
-    setOpenModal(null);
+    closeModal();
   };
 
   return (
     <Modal
       title={t('nodes.minMaxScaler.title')}
-      open={openModal?.modalType === ModalType.Detail}
-      onClose={() => setOpenModal(null)}
+      open={openModalType === ModalType.Detail}
+      onClose={closeModal}
     >
       {sourceDataFrame ? (
         <Form>

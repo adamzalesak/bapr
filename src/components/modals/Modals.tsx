@@ -1,39 +1,35 @@
-import { useRecoilValue } from 'recoil';
-import { useOpenModalNode } from '../../hooks/node';
+import { useModal } from '../../hooks/modal';
 import { ModalType } from '../../models/modal';
 import { NodeType } from '../../models/nodeTypes';
-import { openModalState } from '../../store/atoms';
 import { AddNodeModal } from './AddNodeModal';
 import { DataModal } from './DataModal';
-import { FilterDetailModal } from './FilterDetailModal';
 import { FileDetailModal } from './FileDetailModal';
+import { FilterDetailModal } from './FilterDetailModal';
 import { JoinDetailModal } from './JoinDetailModal';
-import { SortDetailModal } from './SortDetailModal';
-import { SliceDetailModal } from './SliceDetailModal';
-import { SimpleImputerDetailModal } from './SimpleImputerDetailModal';
-import { StandardScalerDetailModal } from './StandardScalerDetailModal';
 import { MinMaxScalerDetailModal } from './MinMaxScalerDetailModal';
 import { OneHotEncoderDetailModal } from './OneHotEncoderDetailModal';
+import { SimpleImputerDetailModal } from './SimpleImputerDetailModal';
+import { SliceDetailModal } from './SliceDetailModal';
+import { SortDetailModal } from './SortDetailModal';
+import { StandardScalerDetailModal } from './StandardScalerDetailModal';
 
 export const Modals = () => {
-  const openNode = useOpenModalNode();
-  const openModal = useRecoilValue(openModalState);
+  const { node, openModalType } = useModal();
 
   return (
     <>
-      {openNode?.type === NodeType.File && <FileDetailModal />}
-      {openNode?.type === NodeType.Sort && <SortDetailModal />}
-      {openNode?.type === NodeType.Filter && <FilterDetailModal />}
-      {openNode?.type === NodeType.Join && <JoinDetailModal />}
-      {openNode?.type === NodeType.Slice && <SliceDetailModal />}
-      {openNode?.type === NodeType.SimpleImputer && <SimpleImputerDetailModal />}
-      {openNode?.type === NodeType.MinMaxScaler && <MinMaxScalerDetailModal />}
-      {openNode?.type === NodeType.StandardScaler && <StandardScalerDetailModal />}
-      {openNode?.type === NodeType.OneHotEncoder && <OneHotEncoderDetailModal />}
+      {node?.type === NodeType.File && <FileDetailModal />}
+      {node?.type === NodeType.Sort && <SortDetailModal />}
+      {node?.type === NodeType.Filter && <FilterDetailModal />}
+      {node?.type === NodeType.Join && <JoinDetailModal />}
+      {node?.type === NodeType.Slice && <SliceDetailModal />}
+      {node?.type === NodeType.SimpleImputer && <SimpleImputerDetailModal />}
+      {node?.type === NodeType.MinMaxScaler && <MinMaxScalerDetailModal />}
+      {node?.type === NodeType.StandardScaler && <StandardScalerDetailModal />}
+      {node?.type === NodeType.OneHotEncoder && <OneHotEncoderDetailModal />}
 
-      {openModal?.modalType === ModalType.Add && <AddNodeModal />}
-
-      <DataModal />
+      {openModalType === ModalType.Add && <AddNodeModal />}
+      {openModalType === ModalType.Data && <DataModal />}
     </>
   );
 };
