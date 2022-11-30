@@ -15,7 +15,9 @@ export const SliceNode = ({ id }: NodeProps) => {
 
   // // update node data
   useEffect(() => {
-    if (!node) return;
+    if (!node) {
+      return;
+    }
 
     const nodeDataFrame =
       node.data.settings.from && node.data.settings.to

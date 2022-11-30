@@ -5,7 +5,8 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { OneHotEncoderNode, OneHotEncoderNodeSetting } from '../../models/oneHotEncoderNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { Form, FormSegment } from '../common/styled';
+import { Checkbox } from '../form/Checkbox';
 import { Select } from '../form/Select';
 
 export const OneHotEncoderDetailModal = () => {
@@ -35,6 +36,15 @@ export const OneHotEncoderDetailModal = () => {
               </MenuItem>
             ))}
           </Select>
+
+          <FormSegment>
+            <Checkbox
+              name="dropFirst"
+              control={control}
+              label={t('nodes.oneHotEncoder.dropFirst')}
+            />
+            {t('nodes.oneHotEncoder.dropFirstDescription')}
+          </FormSegment>
 
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}

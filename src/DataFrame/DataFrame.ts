@@ -266,31 +266,50 @@ export class DataFrame {
     return new DataFrame(result, this._columns);
   };
 
-  oneHotEncoder = (columnName: string) => {
+  oneHotEncoder = (columnName: string, dropFirst?: boolean) => {
     const valuesWithoutNulls = this.rows
-      .filter((row) => row[columnName] !== null)
+      ?.filter((row) => row[columnName] !== null)
       .map((row) => row[columnName]);
-    const uniqueValues = _.uniq(valuesWithoutNulls);
 
-    const encodedColumns = uniqueValues.map((value) => ({
+    const uniqueValues = dropFirst
+      ? _.uniq(valuesWithoutNulls).slice(1)
+      : _.uniq(valuesWithoutNulls);
+
+    const columnsToAdd = uniqueValues.map((value) => ({
       name: `${columnName}_${value}`,
       type: 'number' as Column['type'],
     }));
-    const newColumns = [...this._columns.filter((c) => c.name !== columnName), ...encodedColumns];
 
     const result: DataFrameRow[] = this.rows.map((row) => {
-      return {
-        ..._.omit(row, columnName),
-        ...uniqueValues.reduce((acc, value) => {
+      const newColumns = uniqueValues.reduce((acc, value) => {
+        if (value === row[columnName]) {
           return {
             ...acc,
-            [`${columnName}_${value}`]: row[columnName] === value ? 1 : 0,
+            [`${columnName}_${value}`]: 1,
           };
-        }, {}),
+        } else {
+          return {
+            ...acc,
+            [`${columnName}_${value}`]: 0,
+          };
+        }
+      }, {});
+
+      const newRow = { ...row, ...newColumns };
+
+      // drop original column if the replacement was added
+      if (uniqueValues?.length) {
+        delete newRow[columnName];
+      }
+
+      return {
+        ...newRow,
       };
     });
 
-    return new DataFrame(result, newColumns);
+    const columns = [...this.columns.filter((c) => c.name !== columnName), ...columnsToAdd];
+
+    return new DataFrame(result, columns);
   };
 
   renameColumns = (oldNames: string[], newNames: string[]) => {

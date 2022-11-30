@@ -31,7 +31,7 @@ export const OneHotEncoderNode = ({ id }: NodeProps) => {
       return;
     }
 
-    const nodeDataFrame = sourceDataFrame?.oneHotEncoder(settings.columnName);
+    const nodeDataFrame = sourceDataFrame?.oneHotEncoder(settings.columnName, settings.dropFirst);
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node?.data.settings, sourceDataFrame]);

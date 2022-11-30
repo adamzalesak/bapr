@@ -23,7 +23,7 @@ export const Checkbox = <TFieldValues extends FieldValues>({
         <FormControl>
           <FormControlLabel
             label={label}
-            control={<MuiCheckbox {...field} checked={field.value} />}
+            control={<MuiCheckbox {...field} checked={field.value ?? false} />}
           />
         </FormControl>
       )}

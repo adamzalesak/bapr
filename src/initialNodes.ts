@@ -142,6 +142,7 @@ export const getInitialOneHotEncoderNode = (id: string): OneHotEncoderNode => ({
   data: {
     settings: {
       columnName: undefined,
+      dropFirst: false,
     },
   },
 });

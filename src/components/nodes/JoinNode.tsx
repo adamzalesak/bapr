@@ -17,7 +17,9 @@ export const JoinNode = ({ id }: NodeProps) => {
 
   // update node data
   useEffect(() => {
-    if (!node) return;
+    if (!node) {
+      return;
+    }
 
     if (
       !sourceDataFrameA ||

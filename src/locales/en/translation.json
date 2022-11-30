@@ -98,7 +98,9 @@
     "oneHotEncoder": {
       "title": "One Hot Encoder",
       "description": "Encode categorical values in selected column",
-      "column": "Column"
+      "column": "Column",
+      "dropFirst": "Drop first",
+      "dropFirstDescription": "Drop first category to avoid multicollinearity"
     }
   },
   "addNode": {

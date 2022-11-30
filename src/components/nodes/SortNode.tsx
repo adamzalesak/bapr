@@ -16,7 +16,9 @@ export const SortNode = ({ id }: NodeProps) => {
 
   // update node data
   useEffect(() => {
-    if (!node) return;
+    if (!node) {
+      return;
+    }
 
     const nodeDataFrame =
       node.data.settings.sortColumn && node.data.settings.sortColumn !== ' '

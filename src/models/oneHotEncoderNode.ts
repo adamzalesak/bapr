@@ -3,6 +3,7 @@ import { NodeType } from './nodeTypes';
 
 export interface OneHotEncoderNodeSetting {
   columnName?: string;
+  dropFirst?: boolean;
 }
 
 export interface OneHotEncoderNodeAdditionalData {

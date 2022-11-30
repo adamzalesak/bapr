@@ -96,7 +96,9 @@
     "oneHotEncoder": {
       "title": "One Hot Encoder",
       "description": "Převod kategorických hodnot na binární vektor",
-      "column": "Sloupec"
+      "column": "Sloupec",
+      "dropFirst": "Odstranit první kategorii",
+      "dropFirstDescription": "Odstranit první kategorii, aby se předešlo multikolinearitě"
     }
   },
   "addNode": {
