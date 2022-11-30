@@ -36,44 +36,44 @@ export const AddNodeModal = () => {
   const [nodeCount, setNodeCount] = useRecoilState(nodeCountState);
 
   const handleAddNode = (nodeType: NodeType) => {
-    const nodeCountString = nodeCount.toString();
+    const id = nodeCount.toString();
 
     let newNode: DataNode;
     switch (nodeType) {
       case NodeType.File: {
-        newNode = getInitialFileNode(nodeCountString);
+        newNode = getInitialFileNode(id);
         break;
       }
       case NodeType.Sort: {
-        newNode = getInitialSortNode(nodeCountString);
+        newNode = getInitialSortNode(id);
         break;
       }
       case NodeType.Filter: {
-        newNode = getInitialFilterNode(nodeCountString);
+        newNode = getInitialFilterNode(id);
         break;
       }
       case NodeType.Join: {
-        newNode = getInitialJoinNode(nodeCountString);
+        newNode = getInitialJoinNode(id);
         break;
       }
       case NodeType.Slice: {
-        newNode = getInitialSliceNode(nodeCountString);
+        newNode = getInitialSliceNode(id);
         break;
       }
       case NodeType.SimpleImputer: {
-        newNode = getInitialSimpleImputerNode(nodeCountString);
+        newNode = getInitialSimpleImputerNode(id);
         break;
       }
       case NodeType.MinMaxScaler: {
-        newNode = getInitialMinMaxScalerNode(nodeCountString);
+        newNode = getInitialMinMaxScalerNode(id);
         break;
       }
       case NodeType.StandardScaler: {
-        newNode = getInitialStandardScalerNode(nodeCountString);
+        newNode = getInitialStandardScalerNode(id);
         break;
       }
       case NodeType.OneHotEncoder: {
-        newNode = getInitialOneHotEncoderNode(nodeCountString);
+        newNode = getInitialOneHotEncoderNode(id);
         break;
       }
     }
