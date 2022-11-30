@@ -9,7 +9,7 @@ export const nodesState = atom<DataNode[]>({
   key: 'nodes',
   default: [
     {
-      id: '0',
+      id: 'abc',
       type: NodeType.File,
       position: {
         x: -200,

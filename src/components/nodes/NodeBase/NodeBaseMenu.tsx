@@ -22,7 +22,7 @@ export const NodeBaseMenu = ({
   onSaveToFile,
   onDeleteNode,
 }: NodeBaseMenuProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = !!anchorEl;
   const handleClose = () => setAnchorEl(null);
 
@@ -47,7 +47,7 @@ export const NodeBaseMenu = ({
     <>
       <MenuButton
         role="button"
-        onClick={(event) => {
+        onClick={(event: React.MouseEvent<HTMLElement>) => {
           event?.stopPropagation();
           setAnchorEl(event.currentTarget);
         }}
