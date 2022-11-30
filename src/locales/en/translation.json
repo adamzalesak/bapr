@@ -2,7 +2,13 @@
   "nodes": {
     "base": {
       "rows": "rows",
-      "columns": "columns"
+      "columns": "columns",
+      "menu": {
+        "detail": "Detail",
+        "data": "Data",
+        "save": "Save",
+        "delete": "Delete"
+      }
     },
     "sort": {
       "title": "Sort",

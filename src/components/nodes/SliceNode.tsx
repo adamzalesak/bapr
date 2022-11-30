@@ -1,10 +1,10 @@
-import _ from 'lodash';
 import { useEffect } from 'react';
-import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
+import { NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SliceNode as SliceNodeModel } from '../../models/sliceNode';
 import { NodeBase } from './NodeBase/NodeBase';
+import { StyledHandle } from './NodeBase/styled';
 
 export const SliceNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
@@ -28,8 +28,8 @@ export const SliceNode = ({ id }: NodeProps) => {
 
   return (
     <NodeBase nodeId={id} nodeTypeName={t('nodes.slice.title')}>
-      <Handle type="target" position={Position.Left} />
-      <Handle type="source" position={Position.Right} />
+      <StyledHandle type="target" position={Position.Left} />
+      <StyledHandle type="source" position={Position.Right} />
     </NodeBase>
   );
 };

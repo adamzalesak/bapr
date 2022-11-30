@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Handle, NodeProps, Position } from 'reactflow';
+import { NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { MinMaxScalerNode as MinMaxScalerNodeModel } from '../../models/minMaxScalerNode';
 import { NodeBase } from './NodeBase/NodeBase';
+import { StyledHandle } from './NodeBase/styled';
 
 export const MinMaxScalerNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
@@ -35,12 +36,10 @@ export const MinMaxScalerNode = ({ id }: NodeProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node?.data.settings, sourceDataFrame]);
 
-  if (!node) return null;
-
   return (
-    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.minMaxScaler.title')}>
-      <Handle type="target" position={Position.Left} />
-      <Handle type="source" position={Position.Right} />
+    <NodeBase nodeId={id} nodeTypeName={t('nodes.minMaxScaler.title')}>
+      <StyledHandle type="target" position={Position.Left} />
+      <StyledHandle type="source" position={Position.Right} />
     </NodeBase>
   );
 };

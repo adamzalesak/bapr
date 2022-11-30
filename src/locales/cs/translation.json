@@ -2,7 +2,13 @@
   "nodes": {
     "base": {
       "rows": "řádků",
-      "columns": "sloupců"
+      "columns": "sloupců",
+      "menu": {
+        "detail": "Detail",
+        "data": "Data",
+        "save": "Uložit",
+        "delete": "Odstranit"
+      }
     },
     "sort": {
       "title": "Řazení",

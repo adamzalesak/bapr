@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import { useEffect } from 'react';
-import { Handle, NodeProps, Position } from 'reactflow';
+import { NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SortNode as SortNodeModel } from '../../models/sortNode';
 import { NodeBase } from './NodeBase/NodeBase';
+import { StyledHandle } from './NodeBase/styled';
 
 export const SortNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
@@ -42,8 +43,8 @@ export const SortNode = ({ id }: NodeProps) => {
 
   return (
     <NodeBase nodeId={id} nodeTypeName={t('nodes.sort.title')}>
-      <Handle type="target" position={Position.Left} />
-      <Handle type="source" position={Position.Right} />
+      <StyledHandle type="target" position={Position.Left} />
+      <StyledHandle type="source" position={Position.Right} />
     </NodeBase>
   );
 };

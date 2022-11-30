@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import { Handle, NodeProps, Position } from 'reactflow';
 import { useTranslation } from 'react-i18next';
+import { NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { NodeState } from '../../models/dataNode';
 import { JoinNode as JoinNodeModel, JoinNodeHandle } from '../../models/joinNode';
 import { NodeBase } from './NodeBase/NodeBase';
+import { StyledHandle } from './NodeBase/styled';
 
 export const JoinNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
@@ -66,19 +67,19 @@ export const JoinNode = ({ id }: NodeProps) => {
 
   return (
     <NodeBase nodeId={id} nodeTypeName={t('nodes.join.title')} state={nodeState}>
-      <Handle
+      <StyledHandle
         type="target"
         id={JoinNodeHandle.A}
         position={Position.Left}
         style={{ marginTop: '-0.5rem' }}
       />
-      <Handle
+      <StyledHandle
         type="target"
         id={JoinNodeHandle.B}
         position={Position.Left}
         style={{ marginTop: '0.5rem' }}
       />
-      <Handle type="source" position={Position.Right} />
+      <StyledHandle type="source" position={Position.Right} />
     </NodeBase>
   );
 };

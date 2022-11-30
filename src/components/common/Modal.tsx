@@ -30,6 +30,7 @@ const ModalHeader = styled('div')(
   padding: 0 0 0 1rem;
   border-radius: 5px 5px 0 0;
   background-color: ${theme.palette.primary.main};
+  font-weight: 500;
 `,
 );
 

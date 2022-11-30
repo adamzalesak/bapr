@@ -3,9 +3,10 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import TableViewIcon from '@mui/icons-material/TableView';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Menu, MenuItem } from '@mui/material';
+import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { MenuButton } from './styled';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface NodeBaseMenuProps {
   nodeState: NodeState;
@@ -22,6 +23,8 @@ export const NodeBaseMenu = ({
   onSaveToFile,
   onDeleteNode,
 }: NodeBaseMenuProps) => {
+  const { t } = useTranslation();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = !!anchorEl;
   const handleClose = () => setAnchorEl(null);
@@ -52,28 +55,34 @@ export const NodeBaseMenu = ({
           setAnchorEl(event.currentTarget);
         }}
       />
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem key="detail" onClick={handleOpenDetail}>
-          <SettingsIcon />
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText>{t('nodes.base.menu.detail')}</ListItemText>
         </MenuItem>
 
         {nodeState === NodeState.Done && [
           <MenuItem key="dataPreview" onClick={handleOpenDataPreview}>
-            <TableViewIcon />
+            <ListItemIcon>
+              <TableViewIcon />
+            </ListItemIcon>
+            <ListItemText>{t('nodes.base.menu.data')}</ListItemText>
           </MenuItem>,
           <MenuItem key="saveToFile" onClick={handleSaveToFile}>
-            <SaveAltIcon />
+            <ListItemIcon>
+              <SaveAltIcon />
+            </ListItemIcon>
+            <ListItemText>{t('nodes.base.menu.save')}</ListItemText>
           </MenuItem>,
         ]}
 
         <MenuItem key="delete" onClick={handleDeleteNode}>
-          <DeleteIcon />
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText>{t('nodes.base.menu.delete')}</ListItemText>
         </MenuItem>
       </Menu>
     </>

@@ -10,11 +10,10 @@ const AppWrapper = styled('div')`
 `;
 
 const theme = createTheme({
-  typography: { fontFamily: 'Roboto, sans-serif' },
+  typography: { fontFamily: 'Roboto, Inter, Avenir, Helvetica, Arial, sans-serif' },
   palette: {
     primary: {
       main: '#166fd5',
-      light: '#e1edfa',
     },
     success: {
       main: '#82cc88',

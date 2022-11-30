@@ -1,6 +1,25 @@
 import { styled } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { NodeState } from '../../../models/dataNode';
+import { Handle } from 'reactflow';
+
+export const StyledHandle = styled(Handle)(
+  ({ theme }) => `
+  width: 10px;
+  height: 10px;
+  background: ${theme.palette.grey[100]};
+  border: 1px solid ${theme.palette.grey[500]};
+  border-radius: 3px;
+
+  &.react-flow__handle-right {
+    right: -5px;
+  }
+
+  &.react-flow__handle-left {
+    left: -5px;
+  }
+`,
+);
 
 export interface NodeBoxProps {
   selected?: boolean;
@@ -13,7 +32,7 @@ export const NodeBox = styled('div')<NodeBoxProps>(
     border-radius: 8px;
     border-style: solid;
     border-width: 1px;
-    border-color: ${selected ? theme.palette.primary.main : theme.palette.grey[500]};
+    border-color: ${selected ? theme.palette.primary.dark : theme.palette.grey[500]};
     box-shadow: ${selected ? theme.shadows[4] : theme.shadows[2]};
     background-color: ${theme.palette.grey[200]};
   `,

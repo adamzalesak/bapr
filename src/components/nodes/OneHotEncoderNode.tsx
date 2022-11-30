@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Handle, NodeProps, Position } from 'reactflow';
+import { NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { OneHotEncoderNode as OneHotEncoderNodeModel } from '../../models/oneHotEncoderNode';
 import { NodeBase } from './NodeBase/NodeBase';
+import { StyledHandle } from './NodeBase/styled';
 
 export const OneHotEncoderNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
@@ -35,12 +36,10 @@ export const OneHotEncoderNode = ({ id }: NodeProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node?.data.settings, sourceDataFrame]);
 
-  if (!node) return null;
-
   return (
-    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.oneHotEncoder.title')}>
-      <Handle type="target" position={Position.Left} />
-      <Handle type="source" position={Position.Right} />
+    <NodeBase nodeId={id} nodeTypeName={t('nodes.oneHotEncoder.title')}>
+      <StyledHandle type="target" position={Position.Left} />
+      <StyledHandle type="source" position={Position.Right} />
     </NodeBase>
   );
 };
