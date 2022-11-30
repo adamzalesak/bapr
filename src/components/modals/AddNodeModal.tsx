@@ -11,7 +11,7 @@ import {
   getInitialSimpleImputerNode,
   getInitialSliceNode,
   getInitialSortNode,
-  getInitialStandardScalerNode
+  getInitialStandardScalerNode,
 } from '../../initialNodes';
 import { DataNode } from '../../models/dataNode';
 import { NodeType } from '../../models/nodeTypes';
@@ -85,7 +85,7 @@ export const AddNodeModal = () => {
   };
 
   return (
-    <Modal title={t('addNode.title')} open={true} onClose={closeModal}>
+    <Modal title={t('addNode.title')} open onClose={closeModal}>
       <CardsContainer>
         <Card
           title={t('nodes.file.title')}

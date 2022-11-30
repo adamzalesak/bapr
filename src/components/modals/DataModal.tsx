@@ -9,7 +9,7 @@ export const DataModal = () => {
   const { node, closeModal } = useModal();
 
   return (
-    <Modal title={t('dataModal.title')} open={!!node} onClose={closeModal}>
+    <Modal title={t('dataModal.title')} open onClose={closeModal}>
       {node?.data.dataFrame ? (
         <DataGrid dataFrame={node?.data.dataFrame} />
       ) : (

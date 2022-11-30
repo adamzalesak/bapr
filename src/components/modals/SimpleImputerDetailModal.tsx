@@ -4,12 +4,11 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { ModalType } from '../../models/modal';
 import {
   SimpleImputerNode,
   SimpleImputerNodeSetting,
   simpleImputerNumberStrategies,
-  simpleImputerStringStrategies
+  simpleImputerStringStrategies,
 } from '../../models/simpleImputerNode';
 import { Modal } from '../common/Modal';
 import { Form } from '../common/styled';
@@ -19,7 +18,7 @@ import { TextField } from '../form/TextField';
 export const SimpleImputerDetailModal = () => {
   const { t } = useTranslation();
 
-  const { node, openModalType, closeModal } = useModal<SimpleImputerNode>();
+  const { node, closeModal } = useModal<SimpleImputerNode>();
   const updateNodeData = useUpdateNodeData<SimpleImputerNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
@@ -61,11 +60,7 @@ export const SimpleImputerDetailModal = () => {
   const displayValue = strategy === 'CONSTANT';
 
   return (
-    <Modal
-      title={t('nodes.simpleImputer.title')}
-      open={openModalType === ModalType.Detail}
-      onClose={closeModal}
-    >
+    <Modal title={t('nodes.simpleImputer.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
         <Form>
           <Select name="columnName" control={control} label={t('nodes.simpleImputer.column')}>

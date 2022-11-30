@@ -6,7 +6,6 @@ import { DataFrame } from '../../DataFrame/DataFrame';
 import { useModal } from '../../hooks/modal';
 import { useUpdateNodeData } from '../../hooks/node';
 import { FileNode, FileNodeSettings } from '../../models/fileNode';
-import { ModalType } from '../../models/modal';
 import { Modal } from '../common/Modal';
 import { Form } from '../common/styled';
 import { TextField } from '../form/TextField';
@@ -14,7 +13,7 @@ import { TextField } from '../form/TextField';
 export const FileDetailModal = () => {
   const { t } = useTranslation();
 
-  const { node, openModalType, closeModal } = useModal<FileNode>();
+  const { node, closeModal } = useModal<FileNode>();
   const updateNodeData = useUpdateNodeData<FileNode>(node?.id);
 
   const { control, getValues } = useForm<FileNodeSettings>({ defaultValues: node?.data.settings });
@@ -48,11 +47,7 @@ export const FileDetailModal = () => {
   const dataCount = node?.data.dataFrame?.count;
 
   return (
-    <Modal
-      title={t('nodes.file.title')}
-      open={openModalType === ModalType.Detail}
-      onClose={closeModal}
-    >
+    <Modal title={t('nodes.file.title')} open onClose={closeModal}>
       <Form>
         <TextField
           name="rowsLimit"

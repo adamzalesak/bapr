@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { ModalType } from '../../models/modal';
 import { StandardScalerNode, StandardScalerNodeSetting } from '../../models/standardScalerNode';
 import { Modal } from '../common/Modal';
 import { Form, FormSegment } from '../common/styled';
@@ -13,7 +12,7 @@ import { Select } from '../form/Select';
 export const StandardScalerDetailModal = () => {
   const { t } = useTranslation();
 
-  const { node, openModalType, closeModal } = useModal<StandardScalerNode>();
+  const { node, closeModal } = useModal<StandardScalerNode>();
   const updateNodeData = useUpdateNodeData<StandardScalerNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
@@ -27,11 +26,7 @@ export const StandardScalerDetailModal = () => {
   };
 
   return (
-    <Modal
-      title={t('nodes.standardScaler.title')}
-      open={openModalType === ModalType.Detail}
-      onClose={closeModal}
-    >
+    <Modal title={t('nodes.standardScaler.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
         <Form>
           <Select name="columnName" control={control} label={t('nodes.standardScaler.column')}>

@@ -8,9 +8,8 @@ import {
   FilterNode,
   FilterNodeSetting,
   filterNumberConditions,
-  filterStringConditions
+  filterStringConditions,
 } from '../../models/filterNode';
-import { ModalType } from '../../models/modal';
 import { Modal } from '../common/Modal';
 import { Form } from '../common/styled';
 import { Select } from '../form/Select';
@@ -19,7 +18,7 @@ import { TextField } from '../form/TextField';
 export const FilterDetailModal = () => {
   const { t } = useTranslation();
 
-  const { node, openModalType, closeModal } = useModal<FilterNode>();
+  const { node, closeModal } = useModal<FilterNode>();
   const updateNodeData = useUpdateNodeData<FilterNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
@@ -62,11 +61,7 @@ export const FilterDetailModal = () => {
   const displayValue = condition !== 'IS_NOT_NULL';
 
   return (
-    <Modal
-      title={t('nodes.filter.title')}
-      open={openModalType === ModalType.Detail}
-      onClose={closeModal}
-    >
+    <Modal title={t('nodes.filter.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
         <Form>
           <Select name="columnName" control={control} label={t('nodes.filter.column')}>

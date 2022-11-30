@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { JoinNode, JoinNodeHandle, JoinNodeSetting, JoinType } from '../../models/joinNode';
-import { ModalType } from '../../models/modal';
 import { Modal } from '../common/Modal';
 import { Form } from '../common/styled';
 import { Select } from '../form/Select';
@@ -12,7 +11,7 @@ import { Select } from '../form/Select';
 export const JoinDetailModal = () => {
   const { t } = useTranslation();
 
-  const { node, openModalType, closeModal } = useModal<JoinNode>();
+  const { node, closeModal } = useModal<JoinNode>();
   const updateNodeData = useUpdateNodeData<JoinNode>(node?.id);
 
   const sourceDataFrameA = useSourceDataFrame(node?.id, JoinNodeHandle.A);
@@ -28,11 +27,7 @@ export const JoinDetailModal = () => {
   };
 
   return (
-    <Modal
-      title={t('nodes.join.title')}
-      open={openModalType === ModalType.Detail}
-      onClose={closeModal}
-    >
+    <Modal title={t('nodes.join.title')} open onClose={closeModal}>
       {sourceDataFrameA && sourceDataFrameB ? (
         <Form>
           <Select name="columnA" control={control} label={t('nodes.join.columnA')}>
