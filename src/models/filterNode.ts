@@ -1,33 +1,38 @@
 import { DataNode } from './dataNode';
 import { NodeType } from './nodeTypes';
 
-export enum FilterNumberCondition {
-  isNotNull = 'NUMBER_IS_NOT_NULL',
-  lessThan = 'LESS_THAN',
-  lessThanOrEqual = 'LESS_THAN_OR_EQUAL',
-  equals = 'NUMBER_EQUALS',
-  notEquals = 'NUMBER_NOT_EQUALS',
-  greaterThanOrEqual = 'GREATER_THAN_OR_EQUAL',
-  greaterThan = 'GREATER_THAN',
-}
+export const filterNumberConditions = [
+  'IS_NOT_NULL',
+  'EQUAL',
+  'NOT_EQUAL',
 
-export enum FilterStringCondition {
-  equals = 'STRING_EQUALS',
-  notEquals = 'STRING_NOT_EQUALS',
-  isNotNull = 'STRING_IS_NOT_NULL',
+  'LESS_THAN',
+  'LESS_THAN_OR_EQUAL',
+  'GREATER_THAN_OR_EQUAL',
+  'GREATER_THAN',
+] as const;
 
-  contains = 'CONTAINS',
-  notContains = 'NOT_CONTAINS',
-  startsWith = 'STARTS_WITH',
-  notStartsWith = 'NOT_STARTS_WITH',
-  endsWith = 'ENDS_WITH',
-  notEndsWith = 'NOT_ENDS_WITH',
-  matchesRegex = 'MATCHES_REGEX',
-}
+export const filterStringConditions = [
+  'IS_NOT_NULL',
+  'EQUAL',
+  'NOT_EQUAL',
+
+  'CONTAINS',
+  'NOT_CONTAINS',
+  'STARTS_WITH',
+  'NOT_STARTS_WITH',
+  'ENDS_WITH',
+  'NOT_ENDS_WITH',
+  'MATCHES_REGEX',
+] as const;
+
+export type FilterCondition =
+  | typeof filterNumberConditions[number]
+  | typeof filterStringConditions[number];
 
 export interface FilterNodeSetting {
   column?: string;
-  condition?: FilterNumberCondition | FilterStringCondition;
+  condition?: FilterCondition;
   value: string;
 }
 

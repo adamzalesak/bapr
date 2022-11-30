@@ -9,12 +9,12 @@ export interface NodeBoxProps {
 export const NodeBox = styled('div')<NodeBoxProps>(
   ({ selected, theme }) => `
     font-size: 1.25rem;
-    padding: 1.25rem 2rem;
+    padding: 1.25rem 1.5rem;
     border-radius: 8px;
     border-style: solid;
     border-width: 1px;
-    border-color: ${theme.palette.grey[500]};
-    box-shadow: ${selected ? theme.shadows[5] : theme.shadows[2]};
+    border-color: ${selected ? theme.palette.primary.main : theme.palette.grey[500]};
+    box-shadow: ${selected ? theme.shadows[4] : theme.shadows[2]};
     background-color: ${theme.palette.grey[200]};
   `,
 );

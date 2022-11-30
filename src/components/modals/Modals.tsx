@@ -12,7 +12,7 @@ import { SortDetailModal } from './SortDetailModal';
 import { SliceDetailModal } from './SliceDetailModal';
 import { SimpleImputerDetailModal } from './SimpleImputerDetailModal';
 import { StandardScalerDetailModal } from './StandardScalerDetailModal';
-import { MinMaxScalerDetailModal } from './StandardScalerDetailModal copy';
+import { MinMaxScalerDetailModal } from './MinMaxScalerDetailModal';
 
 export const Modals = () => {
   const openNode = useOpenModalNode();

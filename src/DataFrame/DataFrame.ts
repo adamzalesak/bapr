@@ -1,10 +1,7 @@
 import _ from 'lodash';
-import { FilterNumberCondition, FilterStringCondition } from '../models/filterNode';
+import { FilterCondition } from '../models/filterNode';
 import { JoinType } from '../models/joinNode';
-import {
-  SimpleImputerNumberStrategy,
-  SimpleImputerStringStrategy,
-} from '../models/simpleImputerNode';
+import { SimpleImputerStrategy } from '../models/simpleImputerNode';
 import {
   fullOuterJoin,
   innerJoin,
@@ -62,110 +59,108 @@ export class DataFrame {
   join = (dataFrameB: DataFrame, keyA: string, keyB: string, type: JoinType) => {
     let result: DataFrameRow[];
 
+    // rename all common columns in this and dataFrameB to avoid conflicts in join
+    const commonColumns = this._columns
+      .map((c) => c.name)
+      .filter((c) => dataFrameB.columns.map((c) => c.name).includes(c));
+    const renamedColumnsA = commonColumns.map((c) => `${c}_1`);
+    const renamedColumnsB = commonColumns.map((c) => `${c}_2`);
+    const renamedDataFrameA = this.renameColumns(commonColumns, renamedColumnsA);
+    const renamedDataFrameB = dataFrameB.renameColumns(commonColumns, renamedColumnsB);
+
     switch (type) {
       case JoinType.innerJoin: {
-        result = innerJoin(this, dataFrameB, keyA, keyB);
+        result = innerJoin(renamedDataFrameA, renamedDataFrameB, keyA, keyB);
         break;
       }
       case JoinType.leftOuterJoin: {
-        result = leftOuterJoin(this, dataFrameB, keyA, keyB);
+        result = leftOuterJoin(renamedDataFrameA, renamedDataFrameB, keyA, keyB);
         break;
       }
       case JoinType.rightOuterJoin: {
-        result = rightOuterJoin(this, dataFrameB, keyA, keyB);
+        result = rightOuterJoin(renamedDataFrameA, renamedDataFrameB, keyA, keyB);
         break;
       }
       case JoinType.fullOuterJoin: {
-        result = fullOuterJoin(this, dataFrameB, keyA, keyB);
+        result = fullOuterJoin(renamedDataFrameA, renamedDataFrameB, keyA, keyB);
         break;
       }
     }
 
-    return new DataFrame(result, [...this._columns, ...dataFrameB.columns]);
+    return new DataFrame(result, [...renamedDataFrameA._columns, ...renamedDataFrameB.columns]);
   };
 
-  filter = (
-    column: string,
-    condition: FilterNumberCondition | FilterStringCondition,
-    value?: string,
-  ) => {
+  filter = (column: string, condition: FilterCondition, value?: string) => {
     let result: DataFrameRow[];
+    const columnType = this._columns.find((c) => c.name === column)?.type;
 
     switch (condition) {
-      case FilterNumberCondition.greaterThan: {
-        result = this.rows?.filter((row) => row[column] > +(value as string));
-        break;
-      }
-      case FilterNumberCondition.greaterThanOrEqual: {
-        result = this.rows?.filter((row) => row[column] >= +(value as string));
-        break;
-      }
-      case FilterNumberCondition.lessThan: {
-        result = this.rows?.filter((row) => row[column] < +(value as string));
-
-        break;
-      }
-      case FilterNumberCondition.lessThanOrEqual: {
-        result = this.rows?.filter((row) => row[column] <= +(value as string));
-        break;
-      }
-      case FilterNumberCondition.equals: {
-        result = this.rows?.filter((row) => row[column] === +(value as string));
-        break;
-      }
-      case FilterNumberCondition.notEquals: {
-        result = this.rows?.filter((row) => row[column] !== +(value as string));
-        break;
-      }
-      case FilterNumberCondition.isNotNull: {
+      // common for string and number columns
+      case 'IS_NOT_NULL': {
         result = this.rows?.filter((row) => row[column] !== null);
         break;
       }
-
-      case FilterStringCondition.contains: {
-        result = this.rows?.filter((row) => row[column].includes(value as string));
+      case 'EQUAL': {
+        if (columnType === 'string') {
+          result = this.rows?.filter((row) => row[column] === value);
+        } else {
+          result = this.rows?.filter((row) => row[column] === Number(value));
+        }
         break;
       }
-      case FilterStringCondition.notContains: {
-        result = this.rows?.filter((row) => !row[column].includes(value as string));
-        break;
-      }
-      case FilterStringCondition.startsWith: {
-        result = this.rows?.filter((row) => row[column].startsWith(value as string));
-        break;
-      }
-      case FilterStringCondition.notStartsWith: {
-        result = this.rows?.filter((row) => !row[column].startsWith(value as string));
-        break;
-      }
-      case FilterStringCondition.endsWith: {
-        result = this.rows?.filter((row) => row[column].endsWith(value as string));
-        break;
-      }
-      case FilterStringCondition.notEndsWith: {
-        result = this.rows?.filter((row) => !row[column].endsWith(value as string));
-        break;
-      }
-      case FilterStringCondition.equals: {
-        result = this.rows?.filter((row) => row[column] === value);
-        break;
-      }
-      case FilterStringCondition.notEquals: {
-        result = this.rows?.filter((row) => row[column] !== value);
-        console.log(value);
-        break;
-      }
-      case FilterStringCondition.isNotNull: {
-        result = this.rows?.filter((row) => row[column] !== null);
-        break;
-      }
-      case FilterStringCondition.matchesRegex: {
-        result = this.rows?.filter(
-          (row) => typeof row[column] === 'string' && row[column].match(value as string),
-        );
+      case 'NOT_EQUAL': {
+        if (columnType === 'string') {
+          result = this.rows?.filter((row) => row[column] !== value);
+        } else {
+          result = this.rows?.filter((row) => row[column] !== Number(value));
+        }
         break;
       }
 
+      // number column
+      case 'GREATER_THAN': {
+        result = this.rows?.filter((row) => row[column] > Number(value));
+        break;
+      }
+      case 'GREATER_THAN_OR_EQUAL': {
+        result = this.rows?.filter((row) => row[column] >= Number(value));
+        break;
+      }
+      case 'LESS_THAN': {
+        result = this.rows?.filter((row) => row[column] < Number(value));
+
+        break;
+      }
+      case 'LESS_THAN_OR_EQUAL': {
+        result = this.rows?.filter((row) => row[column] <= Number(value));
+        break;
+      }
+
+      // string column
+      case 'CONTAINS': {
+        result = this.rows?.filter((row) => row[column].includes(value));
+        break;
+      }
+      case 'NOT_CONTAINS': {
+        result = this.rows?.filter((row) => !row[column].includes(value));
+        break;
+      }
+      case 'STARTS_WITH': {
+        result = this.rows?.filter((row) => row[column].startsWith(value));
+        break;
+      }
+      case 'NOT_STARTS_WITH': {
+        result = this.rows?.filter((row) => !row[column].startsWith(value));
+        break;
+      }
+      case 'ENDS_WITH': {
+        result = this.rows?.filter((row) => row[column].endsWith(value));
+        break;
+      }
+      case 'NOT_ENDS_WITH': {
+        result = this.rows?.filter((row) => !row[column].endsWith(value));
+        break;
+      }
       default: {
         result = this.rows;
         break;
@@ -175,11 +170,7 @@ export class DataFrame {
     return new DataFrame(result, this._columns);
   };
 
-  simpleImputer = (
-    column: string,
-    strategy: SimpleImputerNumberStrategy | SimpleImputerStringStrategy,
-    value?: string,
-  ) => {
+  simpleImputer = (column: string, strategy: SimpleImputerStrategy, value?: string) => {
     let valueToImpute: string | number | undefined = value;
 
     const valuesWithoutNulls = this.rows
@@ -187,43 +178,31 @@ export class DataFrame {
       .map((row) => row[column]);
     const countWithoutNulls = valuesWithoutNulls?.length;
 
+    const columnType = this.columns.find((col) => col.name === column)?.type;
+
     switch (strategy) {
-      case SimpleImputerNumberStrategy.Constant: {
-        if (valueToImpute === undefined) {
-          valueToImpute = 0;
-        }
-        break;
-      }
-      case SimpleImputerNumberStrategy.Mean: {
+      case 'MEAN': {
         valueToImpute = _.mean(valuesWithoutNulls);
         break;
       }
-      case SimpleImputerNumberStrategy.Median: {
+      case 'MEDIAN': {
         const sorted = _.orderBy(valuesWithoutNulls);
         const middle = Math.floor(countWithoutNulls / 2);
         valueToImpute =
           countWithoutNulls % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
         break;
       }
-      case SimpleImputerNumberStrategy.MostFrequent: {
+      case 'MOST_FREQUENT': {
         valueToImpute = _.maxBy(
           valuesWithoutNulls,
           (value) => _.countBy(valuesWithoutNulls)[value],
         );
         break;
       }
-
-      case SimpleImputerStringStrategy.Constant: {
+      case 'CONSTANT': {
         if (valueToImpute === undefined) {
-          valueToImpute = '';
+          valueToImpute = columnType === 'number' ? 0 : '';
         }
-        break;
-      }
-      case SimpleImputerStringStrategy.MostFrequent: {
-        valueToImpute = _.maxBy(
-          valuesWithoutNulls,
-          (value) => _.countBy(valuesWithoutNulls)[value],
-        );
         break;
       }
     }
@@ -272,9 +251,7 @@ export class DataFrame {
       .map((row) => row[column]);
 
     const mean = _.mean(valuesWithoutNulls);
-    const std = Math.sqrt(
-      _.mean(valuesWithoutNulls.map((value) => Math.pow(value - mean, 2))),
-    );
+    const std = Math.sqrt(_.mean(valuesWithoutNulls.map((value) => Math.pow(value - mean, 2))));
 
     const result: DataFrameRow[] = this.rows.map((row) => {
       if (row[column] === null) {

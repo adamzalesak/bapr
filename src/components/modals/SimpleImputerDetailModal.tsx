@@ -7,8 +7,8 @@ import { ModalType } from '../../models/modal';
 import {
   SimpleImputerNode,
   SimpleImputerNodeSetting,
-  SimpleImputerNumberStrategy,
-  SimpleImputerStringStrategy,
+  simpleImputerNumberStrategies,
+  simpleImputerStringStrategies,
 } from '../../models/simpleImputerNode';
 import { openModalState } from '../../store/atoms';
 import { Form } from '../common/styled';
@@ -38,31 +38,30 @@ export const SimpleImputerDetailModal = () => {
   const columnName = watch('column');
   const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
   const strategy = watch('strategy');
+  const value = watch('value');
 
   // keep form values valid
   useEffect(() => {
     if (
       strategy &&
-      ((column?.type === 'number' &&
-        !Object.values(SimpleImputerNumberStrategy).includes(strategy as any)) ||
+      ((column?.type === 'number' && !simpleImputerNumberStrategies.includes(strategy)) ||
         (column?.type === 'string' &&
-          !Object.values(SimpleImputerStringStrategy).includes(strategy as any)))
+          !(simpleImputerStringStrategies as readonly string[]).includes(strategy)))
     ) {
       setValue('strategy', undefined);
       setValue('value', '');
     }
 
-    if (
-      strategy !== SimpleImputerStringStrategy.Constant &&
-      strategy !== SimpleImputerNumberStrategy.Constant
-    ) {
+    if (strategy !== 'CONSTANT') {
       setValue('value', '');
     }
-  }, [column?.type, strategy, setValue]);
 
-  const displayValue =
-    strategy === SimpleImputerNumberStrategy.Constant ||
-    strategy === SimpleImputerStringStrategy.Constant;
+    if (column?.type == 'number' && isNaN(+value)) {
+      setValue('value', '');
+    }
+  }, [column?.type, strategy, value, setValue]);
+
+  const displayValue = strategy === 'CONSTANT';
 
   return (
     <Modal
@@ -82,12 +81,12 @@ export const SimpleImputerDetailModal = () => {
 
           <Select name="strategy" control={control} label={t('nodes.simpleImputer.strategy')}>
             {column?.type === 'number'
-              ? Object.values(SimpleImputerNumberStrategy).map((x) => (
+              ? simpleImputerNumberStrategies.map((x) => (
                   <MenuItem key={x} value={x}>
                     {t(`nodes.simpleImputer.strategies.${x}`)}
                   </MenuItem>
                 ))
-              : Object.values(SimpleImputerStringStrategy).map((x) => (
+              : simpleImputerStringStrategies.map((x) => (
                   <MenuItem key={x} value={x}>
                     {t(`nodes.simpleImputer.strategies.${x}`)}
                   </MenuItem>

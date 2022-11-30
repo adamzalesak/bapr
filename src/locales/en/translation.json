@@ -19,12 +19,9 @@
       "condition": "Condition",
       "value": "Value",
       "conditions": {
-        "NUMBER_IS_NOT_NULL": "Is not null",
-        "STRING_IS_NOT_NULL": "Is not null",
-        "NUMBER_EQUALS": "=",
-        "STRING_EQUALS": "=",
-        "NUMBER_NOT_EQUALS": "!=",
-        "STRING_NOT_EQUALS": "!=",
+        "IS_NOT_NULL": "Is not null",
+        "EQUAL": "=",
+        "NOT_EQUAL": "!=",
         "LESS_THAN": "<",
         "LESS_THAN_OR_EQUAL": "<=",
         "GREATER_THAN": ">",
@@ -72,10 +69,8 @@
       "strategies": {
         "MEAN": "Mean",
         "MEDIAN": "Median",
-        "MOST_FREQUENT_NUMBER": "Most frequent",
-        "MOST_FREQUENT_STRING": "Most frequent",
-        "CONSTANT_NUMBER": "Constant",
-        "CONSTANT_STRING": "Constant"
+        "MOST_FREQUENT": "Most frequent",
+        "CONSTANT": "Constant"
       }
     },
     "minMaxScaler": {

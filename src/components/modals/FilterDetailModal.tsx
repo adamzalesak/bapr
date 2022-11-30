@@ -7,8 +7,8 @@ import { ModalType } from '../../models/modal';
 import {
   FilterNode,
   FilterNodeSetting,
-  FilterNumberCondition,
-  FilterStringCondition,
+  filterNumberConditions,
+  filterStringConditions,
 } from '../../models/filterNode';
 import { openModalState } from '../../store/atoms';
 import { Form } from '../common/styled';
@@ -38,30 +38,31 @@ export const FilterDetailModal = () => {
   const columnName = watch('column');
   const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
   const condition = watch('condition');
+  const value = watch('value');
 
   // keep form values valid
   useEffect(() => {
     if (
       condition &&
       ((column?.type === 'number' &&
-        !Object.values(FilterNumberCondition).includes(condition as any)) ||
+        !(filterNumberConditions as readonly string[]).includes(condition)) ||
         (column?.type === 'string' &&
-          !Object.values(FilterStringCondition).includes(condition as any)))
+          !(filterStringConditions as readonly string[]).includes(condition)))
     ) {
       setValue('condition', undefined);
       setValue('value', '');
     }
 
-    if (
-      condition === FilterStringCondition.isNotNull ||
-      condition === FilterNumberCondition.isNotNull
-    ) {
+    if (condition === 'IS_NOT_NULL') {
       setValue('value', '');
     }
-  }, [column?.type, condition, setValue]);
 
-  const displayValue =
-    condition !== FilterNumberCondition.isNotNull && condition !== FilterStringCondition.isNotNull;
+    if (column?.type == 'number' && isNaN(+value)) {
+      setValue('value', '');
+    }
+  }, [column?.type, value, condition, setValue]);
+
+  const displayValue = condition !== 'IS_NOT_NULL';
 
   return (
     <Modal
@@ -81,14 +82,14 @@ export const FilterDetailModal = () => {
 
           <Select name="condition" control={control} label={t('nodes.filter.condition')}>
             {column?.type === 'number'
-              ? Object.values(FilterNumberCondition).map((x) => (
-                  <MenuItem key={x} value={x}>
-                    {t(`nodes.filter.conditions.${x}`)}
+              ? filterNumberConditions.map((c) => (
+                  <MenuItem key={c} value={c}>
+                    {t(`nodes.filter.conditions.${c}`)}
                   </MenuItem>
                 ))
-              : Object.values(FilterStringCondition).map((x) => (
-                  <MenuItem key={x} value={x}>
-                    {t(`nodes.filter.conditions.${x}`)}
+              : filterStringConditions.map((c) => (
+                  <MenuItem key={c} value={c}>
+                    {t(`nodes.filter.conditions.${c}`)}
                   </MenuItem>
                 ))}
           </Select>

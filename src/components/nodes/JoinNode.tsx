@@ -28,8 +28,6 @@ export const JoinNode = ({ id }: NodeProps) => {
       return;
     }
 
-    // TODO: handle same column names
-
     const nodeDataFrame = sourceDataFrameA.join(
       sourceDataFrameB,
       node.data.settings.columnA,

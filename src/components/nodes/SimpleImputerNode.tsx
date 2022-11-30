@@ -2,11 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import {
-  SimpleImputerNode as SimpleImputerNodeModel,
-  SimpleImputerNumberStrategy,
-  SimpleImputerStringStrategy,
-} from '../../models/simpleImputerNode';
+import { SimpleImputerNode as SimpleImputerNodeModel } from '../../models/simpleImputerNode';
 import { NodeBase } from './NodeBase/NodeBase';
 
 export const SimpleImputerNode = ({ id }: NodeProps) => {
@@ -25,9 +21,7 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
     if (
       !settings.column ||
       !settings.strategy ||
-      (!settings.value &&
-        (settings.strategy === SimpleImputerNumberStrategy.Constant ||
-          settings.strategy === SimpleImputerStringStrategy.Constant))
+      (settings.strategy === 'CONSTANT' && !settings.value)
     ) {
       updateNodeData('dataFrame', undefined);
       return;

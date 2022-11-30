@@ -59,23 +59,20 @@ export const NodeBaseMenu = ({
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <MenuItem onClick={handleOpenDetail}>
+        <MenuItem key="detail" onClick={handleOpenDetail}>
           <SettingsIcon />
         </MenuItem>
 
-        {nodeState === NodeState.Done && (
-          <>
-            <MenuItem onClick={handleOpenDataPreview}>
-              <TableViewIcon />
-            </MenuItem>
+        {nodeState === NodeState.Done && [
+          <MenuItem key="dataPreview" onClick={handleOpenDataPreview}>
+            <TableViewIcon />
+          </MenuItem>,
+          <MenuItem key="saveToFile" onClick={handleSaveToFile}>
+            <SaveAltIcon />
+          </MenuItem>,
+        ]}
 
-            <MenuItem onClick={handleSaveToFile}>
-              <SaveAltIcon />
-            </MenuItem>
-          </>
-        )}
-
-        <MenuItem onClick={handleDeleteNode}>
+        <MenuItem key="delete" onClick={handleDeleteNode}>
           <DeleteIcon />
         </MenuItem>
       </Menu>

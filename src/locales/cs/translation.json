@@ -19,12 +19,9 @@
       "condition": "Podmínka",
       "value": "Hodnota",
       "conditions": {
-        "NUMBER_IS_NOT_NULL": "Není null",
-        "STRING_IS_NOT_NULL": "Není null",
-        "NUMBER_EQUALS": "=",
-        "STRING_EQUALS": "=",
-        "NUMBER_NOT_EQUALS": "!=",
-        "STRING_NOT_EQUALS": "!=",
+        "IS_NOT_NULL": "Není null",
+        "EQUAL": "=",
+        "NOT_EQUAL": "!=",
         "LESS_THAN": "<",
         "LESS_THAN_OR_EQUAL": "<=",
         "GREATER_THAN": ">",
@@ -72,10 +69,8 @@
       "strategies": {
         "MEAN": "Průměr",
         "MEDIAN": "Medián",
-        "MOST_FREQUENT_NUMBER": "Nejčastější hodnota",
-        "MOST_FREQUENT_STRING": "Nejčastější hodnota",
-        "CONSTANT_NUMBER": "Konstanta",
-        "CONSTANT_STRING": "Konstanta"
+        "MOST_FREQUENT": "Nejčastější hodnota",
+        "CONSTANT": "Konstanta"
       }
     },
     "minMaxScaler": {

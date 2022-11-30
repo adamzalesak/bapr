@@ -33,7 +33,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
   };
 
   const handleSaveToFile = () => {
-    sourceDataFrame?.toCSVFile();
+    node?.data.dataFrame?.toCSVFile();
   };
 
   const handleDeleteNode = () => {

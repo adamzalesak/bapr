@@ -1,21 +1,21 @@
 import { DataNode } from './dataNode';
 import { NodeType } from './nodeTypes';
 
-export enum SimpleImputerNumberStrategy {
-  Mean = 'MEAN',
-  Median = 'MEDIAN',
-  MostFrequent = 'MOST_FREQUENT_NUMBER',
-  Constant = 'CONSTANT_NUMBER',
-}
+export const simpleImputerNumberStrategies = [
+  'MEAN',
+  'MEDIAN',
+  'MOST_FREQUENT',
+  'CONSTANT',
+] as const;
+export const simpleImputerStringStrategies = ['MOST_FREQUENT', 'CONSTANT'] as const;
 
-export enum SimpleImputerStringStrategy {
-  MostFrequent = 'MOST_FREQUENT_STRING',
-  Constant = 'CONSTANT_STRING',
-}
+export type SimpleImputerStrategy =
+  | typeof simpleImputerNumberStrategies[number]
+  | typeof simpleImputerStringStrategies[number];
 
 export interface SimpleImputerNodeSetting {
   column?: string;
-  strategy?: SimpleImputerNumberStrategy | SimpleImputerStringStrategy;
+  strategy?: SimpleImputerStrategy;
   value: string;
 }
 
