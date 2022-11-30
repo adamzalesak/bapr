@@ -35,7 +35,7 @@ export const FilterDetailModal = () => {
     setOpenModal(null);
   };
 
-  const columnName = watch('column');
+  const columnName = watch('columnName');
   const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
   const condition = watch('condition');
   const value = watch('value');
@@ -72,7 +72,7 @@ export const FilterDetailModal = () => {
     >
       {sourceDataFrame ? (
         <Form>
-          <Select name="column" control={control} label={t('nodes.filter.column')}>
+          <Select name="columnName" control={control} label={t('nodes.filter.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
                 {column.name}

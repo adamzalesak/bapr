@@ -88,6 +88,11 @@
       "withStd": "With std",
       "withMeanDescription": "Center the data before scaling",
       "withStdDescription": "Scale the data to unit variance"
+    },
+    "oneHotEncoder": {
+      "title": "One Hot Encoder",
+      "description": "Encode categorical values in selected column",
+      "column": "Column"
     }
   },
   "addNode": {

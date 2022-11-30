@@ -7,4 +7,5 @@ export enum NodeType {
   SimpleImputer = 'SIMPLE_IMPUTER',
   MinMaxScaler = 'MIN_MAX_SCALER',
   StandardScaler = 'STANDARD_SCALER',
+  OneHotEncoder = 'ONE_HOT_ENCODER',
 }

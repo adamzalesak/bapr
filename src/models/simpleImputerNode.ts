@@ -14,7 +14,7 @@ export type SimpleImputerStrategy =
   | typeof simpleImputerStringStrategies[number];
 
 export interface SimpleImputerNodeSetting {
-  column?: string;
+  columnName?: string;
   strategy?: SimpleImputerStrategy;
   value: string;
 }

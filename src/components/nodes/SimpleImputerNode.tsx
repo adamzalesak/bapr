@@ -19,7 +19,7 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
 
     const settings = node.data.settings;
     if (
-      !settings.column ||
+      !settings.columnName ||
       !settings.strategy ||
       (settings.strategy === 'CONSTANT' && !settings.value)
     ) {
@@ -27,15 +27,15 @@ export const SimpleImputerNode = ({ id }: NodeProps) => {
       return;
     }
 
-    const column = sourceDataFrame?.columns.find((c) => c.name === settings.column);
+    const column = sourceDataFrame?.columns.find((c) => c.name === settings.columnName);
     if (!column) {
       updateNodeData('dataFrame', undefined);
-      updateNodeData('settings', { ...settings, column: undefined, strategy: undefined });
+      updateNodeData('settings', { ...settings, columnName: undefined, strategy: undefined });
       return;
     }
 
     const nodeDataFrame = sourceDataFrame?.simpleImputer(
-      settings.column,
+      settings.columnName,
       settings.strategy,
       settings.value,
     );

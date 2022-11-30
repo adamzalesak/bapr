@@ -2,7 +2,7 @@ import { DataNode } from './dataNode';
 import { NodeType } from './nodeTypes';
 
 export interface MinMaxScalerNodeSetting {
-  column?: string;
+  columnName?: string;
 }
 
 export interface MinMaxScalerNodeAdditionalData {

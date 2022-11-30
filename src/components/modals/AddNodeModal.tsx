@@ -6,6 +6,7 @@ import {
   getInitialFilterNode,
   getInitialJoinNode,
   getInitialMinMaxScalerNode,
+  getInitialOneHotEncoderNode,
   getInitialSimpleImputerNode,
   getInitialSliceNode,
   getInitialSortNode,
@@ -71,6 +72,10 @@ export const AddNodeModal = () => {
         newNode = getInitialStandardScalerNode(nodeCountString);
         break;
       }
+      case NodeType.OneHotEncoder: {
+        newNode = getInitialOneHotEncoderNode(nodeCountString);
+        break;
+      }
     }
 
     setNodes((nodes) => [...nodes, newNode]);
@@ -120,6 +125,11 @@ export const AddNodeModal = () => {
           title={t('nodes.standardScaler.title')}
           description={t('nodes.standardScaler.description')}
           onClick={() => handleAddNode(NodeType.StandardScaler)}
+        />
+        <Card
+          title={t('nodes.oneHotEncoder.title')}
+          description={t('nodes.oneHotEncoder.description')}
+          onClick={() => handleAddNode(NodeType.OneHotEncoder)}
         />
       </CardsContainer>
     </Modal>

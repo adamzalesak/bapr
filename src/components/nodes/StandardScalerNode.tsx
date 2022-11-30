@@ -18,20 +18,20 @@ export const StandardScalerNode = ({ id }: NodeProps) => {
     }
 
     const settings = node.data.settings;
-    if (!settings.column) {
+    if (!settings.columnName) {
       updateNodeData('dataFrame', undefined);
       return;
     }
 
-    const column = sourceDataFrame?.columns.find((c) => c.name === settings.column);
+    const column = sourceDataFrame?.columns.find((c) => c.name === settings.columnName);
     if (column?.type !== 'number') {
       updateNodeData('dataFrame', undefined);
-      updateNodeData('settings', { ...settings, column: undefined });
+      updateNodeData('settings', { ...settings, columnName: undefined });
       return;
     }
 
     const nodeDataFrame = sourceDataFrame?.standardScaler(
-      settings.column,
+      settings.columnName,
       settings.withMean ?? true,
       settings.withStd ?? true,
     );

@@ -2,15 +2,15 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { FilterNode as FilterNodeModel } from '../../models/filterNode';
+import { MinMaxScalerNode as MinMaxScalerNodeModel } from '../../models/minMaxScalerNode';
 import { NodeBase } from './NodeBase/NodeBase';
 
-export const FilterNode = ({ id }: NodeProps) => {
+export const MinMaxScalerNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();
 
-  const node = useNode(id) as FilterNodeModel | undefined;
+  const node = useNode(id) as MinMaxScalerNodeModel | undefined;
   const sourceDataFrame = useSourceDataFrame(id);
-  const updateNodeData = useUpdateNodeData<FilterNodeModel>(id);
+  const updateNodeData = useUpdateNodeData<MinMaxScalerNodeModel>(id);
 
   useEffect(() => {
     if (!node) {
@@ -18,27 +18,19 @@ export const FilterNode = ({ id }: NodeProps) => {
     }
 
     const settings = node.data.settings;
-    if (
-      !settings.columnName ||
-      !settings.condition ||
-      (!settings.value && settings.condition !== 'IS_NOT_NULL')
-    ) {
+    if (!settings.columnName) {
       updateNodeData('dataFrame', undefined);
       return;
     }
 
     const column = sourceDataFrame?.columns.find((c) => c.name === settings.columnName);
-    if (!column) {
+    if (column?.type !== 'number') {
       updateNodeData('dataFrame', undefined);
-      updateNodeData('settings', { ...settings, columnName: undefined, condition: undefined });
+      updateNodeData('settings', { ...settings, columnName: undefined });
       return;
     }
 
-    const nodeDataFrame = sourceDataFrame?.filter(
-      settings.columnName,
-      settings.condition,
-      settings.value,
-    );
+    const nodeDataFrame = sourceDataFrame?.minMaxScaler(settings.columnName);
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node?.data.settings, sourceDataFrame]);
@@ -46,7 +38,7 @@ export const FilterNode = ({ id }: NodeProps) => {
   if (!node) return null;
 
   return (
-    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.filter.title')}>
+    <NodeBase nodeId={node.id} nodeTypeName={t('nodes.minMaxScaler.title')}>
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
     </NodeBase>

@@ -86,6 +86,11 @@
       "withStd": "Se směrodatnou odchylkou",
       "withMeanDescription": "Přepočítat hodnoty tak, aby měly průměr 0",
       "withStdDescription": "Přepočítat hodnoty tak, aby měly směrodatnou odchylku 1"
+    },
+    "oneHotEncoder": {
+      "title": "One Hot Encoder",
+      "description": "Převod kategorických hodnot na binární vektor",
+      "column": "Sloupec"
     }
   },
   "addNode": {

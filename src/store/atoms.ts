@@ -33,7 +33,7 @@ export const nodesState = atom<DataNode[]>({
       },
       data: {
         settings: {
-          column: '',
+          columnName: '',
           condition: undefined,
           value: '',
         },

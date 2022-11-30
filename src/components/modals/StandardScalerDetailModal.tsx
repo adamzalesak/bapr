@@ -37,7 +37,7 @@ export const StandardScalerDetailModal = () => {
     >
       {sourceDataFrame ? (
         <Form>
-          <Select name="column" control={control} label={t('nodes.standardScaler.column')}>
+          <Select name="columnName" control={control} label={t('nodes.standardScaler.column')}>
             {sourceDataFrame?.columns
               .filter((c) => c.type === 'number')
               .map((column, index) => (

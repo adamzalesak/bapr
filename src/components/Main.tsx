@@ -24,7 +24,8 @@ import { SliceNode } from './nodes/SliceNode';
 import 'reactflow/dist/style.css';
 import { SimpleImputerNode } from './nodes/SimpleImputerNode';
 import { StandardScalerNode } from './nodes/StandardScalerNode';
-import { MinMaxScalerNode } from './nodes/MinMaxScaler';
+import { MinMaxScalerNode } from './nodes/MinMaxScalerNode';
+import { OneHotEncoderNode } from './nodes/OneHotEncoderNode';
 
 export const Main = () => {
   const [nodes, setNodes] = useRecoilState(nodesState);
@@ -40,6 +41,7 @@ export const Main = () => {
       [NodeType.SimpleImputer]: SimpleImputerNode,
       [NodeType.MinMaxScaler]: MinMaxScalerNode,
       [NodeType.StandardScaler]: StandardScalerNode,
+      [NodeType.OneHotEncoder]: OneHotEncoderNode,
     };
   }, []);
 

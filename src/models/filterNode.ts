@@ -31,7 +31,7 @@ export type FilterCondition =
   | typeof filterStringConditions[number];
 
 export interface FilterNodeSetting {
-  column?: string;
+  columnName?: string;
   condition?: FilterCondition;
   value: string;
 }

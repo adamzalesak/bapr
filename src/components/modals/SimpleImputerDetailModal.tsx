@@ -35,7 +35,7 @@ export const SimpleImputerDetailModal = () => {
     setOpenModal(null);
   };
 
-  const columnName = watch('column');
+  const columnName = watch('columnName');
   const column = sourceDataFrame?.columns.find((column) => column.name === columnName);
   const strategy = watch('strategy');
   const value = watch('value');
@@ -71,7 +71,7 @@ export const SimpleImputerDetailModal = () => {
     >
       {sourceDataFrame ? (
         <Form>
-          <Select name="column" control={control} label={t('nodes.simpleImputer.column')}>
+          <Select name="columnName" control={control} label={t('nodes.simpleImputer.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
                 {column.name}

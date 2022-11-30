@@ -90,75 +90,75 @@ export class DataFrame {
     return new DataFrame(result, [...renamedDataFrameA._columns, ...renamedDataFrameB.columns]);
   };
 
-  filter = (column: string, condition: FilterCondition, value?: string) => {
+  filter = (columnName: string, condition: FilterCondition, value?: string) => {
     let result: DataFrameRow[];
-    const columnType = this._columns.find((c) => c.name === column)?.type;
+    const columnType = this._columns.find((c) => c.name === columnName)?.type;
 
     switch (condition) {
       // common for string and number columns
       case 'IS_NOT_NULL': {
-        result = this.rows?.filter((row) => row[column] !== null);
+        result = this.rows?.filter((row) => row[columnName] !== null);
         break;
       }
       case 'EQUAL': {
         if (columnType === 'string') {
-          result = this.rows?.filter((row) => row[column] === value);
+          result = this.rows?.filter((row) => row[columnName] === value);
         } else {
-          result = this.rows?.filter((row) => row[column] === Number(value));
+          result = this.rows?.filter((row) => row[columnName] === Number(value));
         }
         break;
       }
       case 'NOT_EQUAL': {
         if (columnType === 'string') {
-          result = this.rows?.filter((row) => row[column] !== value);
+          result = this.rows?.filter((row) => row[columnName] !== value);
         } else {
-          result = this.rows?.filter((row) => row[column] !== Number(value));
+          result = this.rows?.filter((row) => row[columnName] !== Number(value));
         }
         break;
       }
 
       // number column
       case 'GREATER_THAN': {
-        result = this.rows?.filter((row) => row[column] > Number(value));
+        result = this.rows?.filter((row) => row[columnName] > Number(value));
         break;
       }
       case 'GREATER_THAN_OR_EQUAL': {
-        result = this.rows?.filter((row) => row[column] >= Number(value));
+        result = this.rows?.filter((row) => row[columnName] >= Number(value));
         break;
       }
       case 'LESS_THAN': {
-        result = this.rows?.filter((row) => row[column] < Number(value));
+        result = this.rows?.filter((row) => row[columnName] < Number(value));
 
         break;
       }
       case 'LESS_THAN_OR_EQUAL': {
-        result = this.rows?.filter((row) => row[column] <= Number(value));
+        result = this.rows?.filter((row) => row[columnName] <= Number(value));
         break;
       }
 
       // string column
       case 'CONTAINS': {
-        result = this.rows?.filter((row) => row[column].includes(value));
+        result = this.rows?.filter((row) => row[columnName].includes(value));
         break;
       }
       case 'NOT_CONTAINS': {
-        result = this.rows?.filter((row) => !row[column].includes(value));
+        result = this.rows?.filter((row) => !row[columnName].includes(value));
         break;
       }
       case 'STARTS_WITH': {
-        result = this.rows?.filter((row) => row[column].startsWith(value));
+        result = this.rows?.filter((row) => row[columnName].startsWith(value));
         break;
       }
       case 'NOT_STARTS_WITH': {
-        result = this.rows?.filter((row) => !row[column].startsWith(value));
+        result = this.rows?.filter((row) => !row[columnName].startsWith(value));
         break;
       }
       case 'ENDS_WITH': {
-        result = this.rows?.filter((row) => row[column].endsWith(value));
+        result = this.rows?.filter((row) => row[columnName].endsWith(value));
         break;
       }
       case 'NOT_ENDS_WITH': {
-        result = this.rows?.filter((row) => !row[column].endsWith(value));
+        result = this.rows?.filter((row) => !row[columnName].endsWith(value));
         break;
       }
       default: {
@@ -170,15 +170,15 @@ export class DataFrame {
     return new DataFrame(result, this._columns);
   };
 
-  simpleImputer = (column: string, strategy: SimpleImputerStrategy, value?: string) => {
+  simpleImputer = (columnName: string, strategy: SimpleImputerStrategy, value?: string) => {
     let valueToImpute: string | number | undefined = value;
 
     const valuesWithoutNulls = this.rows
-      ?.filter((row) => row[column] !== null)
-      .map((row) => row[column]);
+      ?.filter((row) => row[columnName] !== null)
+      .map((row) => row[columnName]);
     const countWithoutNulls = valuesWithoutNulls?.length;
 
-    const columnType = this.columns.find((col) => col.name === column)?.type;
+    const columnType = this.columns.find((col) => col.name === columnName)?.type;
 
     switch (strategy) {
       case 'MEAN': {
@@ -208,10 +208,10 @@ export class DataFrame {
     }
 
     const result: DataFrameRow[] = this.rows.map((row) => {
-      if (row[column] === null) {
+      if (row[columnName] === null) {
         return {
           ...row,
-          [column]: valueToImpute as number | string,
+          [columnName]: valueToImpute as number | string,
         };
       } else {
         return row;
@@ -221,10 +221,10 @@ export class DataFrame {
     return new DataFrame(result, this._columns);
   };
 
-  minMaxScaler = (column: string) => {
+  minMaxScaler = (columnName: string) => {
     const valuesWithoutNulls = this.rows
-      ?.filter((row) => row[column] !== null)
-      .map((row) => row[column]);
+      ?.filter((row) => row[columnName] !== null)
+      .map((row) => row[columnName]);
 
     const min = _.min(valuesWithoutNulls);
     const max = _.max(valuesWithoutNulls);
@@ -233,37 +233,64 @@ export class DataFrame {
     const newMax = 1;
 
     const result: DataFrameRow[] = this.rows.map((row) => {
-      if (row[column] === null) {
+      if (row[columnName] === null) {
         return row;
       }
       return {
         ...row,
-        [column]: ((row[column] - min) / (max - min)) * (newMax - newMin) + newMin,
+        [columnName]: ((row[columnName] - min) / (max - min)) * (newMax - newMin) + newMin,
       };
     });
 
     return new DataFrame(result, this._columns);
   };
 
-  standardScaler = (column: string, withMean: boolean, withStd: boolean) => {
+  standardScaler = (columnName: string, withMean: boolean, withStd: boolean) => {
     const valuesWithoutNulls = this.rows
-      ?.filter((row) => row[column] !== null)
-      .map((row) => row[column]);
+      ?.filter((row) => row[columnName] !== null)
+      .map((row) => row[columnName]);
 
     const mean = _.mean(valuesWithoutNulls);
     const std = Math.sqrt(_.mean(valuesWithoutNulls.map((value) => Math.pow(value - mean, 2))));
 
     const result: DataFrameRow[] = this.rows.map((row) => {
-      if (row[column] === null) {
+      if (row[columnName] === null) {
         return row;
       }
       return {
         ...row,
-        [column]: (row[column] - (withMean ? mean : 0)) / (withStd ? std : 1),
+        [columnName]: (row[columnName] - (withMean ? mean : 0)) / (withStd ? std : 1),
       };
     });
 
     return new DataFrame(result, this._columns);
+  };
+
+  oneHotEncoder = (columnName: string) => {
+    const valuesWithoutNulls = this.rows
+      .filter((row) => row[columnName] !== null)
+      .map((row) => row[columnName]);
+    const uniqueValues = _.uniq(valuesWithoutNulls);
+
+    const encodedColumns = uniqueValues.map((value) => ({
+      name: `${columnName}_${value}`,
+      type: 'number' as Column['type'],
+    }));
+    const newColumns = [...this._columns.filter((c) => c.name !== columnName), ...encodedColumns];
+
+    const result: DataFrameRow[] = this.rows.map((row) => {
+      return {
+        ..._.omit(row, columnName),
+        ...uniqueValues.reduce((acc, value) => {
+          return {
+            ...acc,
+            [`${columnName}_${value}`]: row[columnName] === value ? 1 : 0,
+          };
+        }, {}),
+      };
+    });
+
+    return new DataFrame(result, newColumns);
   };
 
   renameColumns = (oldNames: string[], newNames: string[]) => {

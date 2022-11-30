@@ -7,6 +7,7 @@ import { SliceNode } from './models/sliceNode';
 import { SimpleImputerNode } from './models/simpleImputerNode';
 import { StandardScalerNode } from './models/standardScalerNode';
 import { MinMaxScalerNode } from './models/minMaxScalerNode';
+import { OneHotEncoderNode } from './models/oneHotEncoderNode';
 
 export const getInitialFileNode = (id: string): FileNode => ({
   id,
@@ -63,7 +64,7 @@ export const getInitialFilterNode = (id: string): FilterNode => ({
   },
   data: {
     settings: {
-      column: undefined,
+      columnName: undefined,
       condition: undefined,
       value: '',
     },
@@ -94,7 +95,7 @@ export const getInitialSimpleImputerNode = (id: string): SimpleImputerNode => ({
   },
   data: {
     settings: {
-      column: undefined,
+      columnName: undefined,
       strategy: undefined,
       value: '',
     },
@@ -110,7 +111,7 @@ export const getInitialMinMaxScalerNode = (id: string): MinMaxScalerNode => ({
   },
   data: {
     settings: {
-      column: undefined,
+      columnName: undefined,
     },
   },
 });
@@ -124,9 +125,23 @@ export const getInitialStandardScalerNode = (id: string): StandardScalerNode => 
   },
   data: {
     settings: {
-      column: undefined,
+      columnName: undefined,
       withMean: true,
       withStd: true,
+    },
+  },
+});
+
+export const getInitialOneHotEncoderNode = (id: string): OneHotEncoderNode => ({
+  id,
+  type: NodeType.OneHotEncoder,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  data: {
+    settings: {
+      columnName: undefined,
     },
   },
 });

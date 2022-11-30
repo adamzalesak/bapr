@@ -13,6 +13,7 @@ import { SliceDetailModal } from './SliceDetailModal';
 import { SimpleImputerDetailModal } from './SimpleImputerDetailModal';
 import { StandardScalerDetailModal } from './StandardScalerDetailModal';
 import { MinMaxScalerDetailModal } from './MinMaxScalerDetailModal';
+import { OneHotEncoderDetailModal } from './OneHotEncoderDetailModal';
 
 export const Modals = () => {
   const openNode = useOpenModalNode();
@@ -28,6 +29,7 @@ export const Modals = () => {
       {openNode?.type === NodeType.SimpleImputer && <SimpleImputerDetailModal />}
       {openNode?.type === NodeType.MinMaxScaler && <MinMaxScalerDetailModal />}
       {openNode?.type === NodeType.StandardScaler && <StandardScalerDetailModal />}
+      {openNode?.type === NodeType.OneHotEncoder && <OneHotEncoderDetailModal />}
 
       {openModal?.modalType === ModalType.Add && <AddNodeModal />}
 
