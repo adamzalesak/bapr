@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useModal } from '../../hooks/modal';
 import {
+  getInitialDropColumnsNode,
   getInitialFileNode,
   getInitialFilterNode,
   getInitialJoinNode,
@@ -84,6 +85,10 @@ export const AddNodeModal = () => {
         newNode = getInitialRenameColumnsNode(id);
         break;
       }
+      case NodeType.DropColumns: {
+        newNode = getInitialDropColumnsNode(id);
+        break;
+      }
     }
 
     setNodes((nodes) => [...nodes, newNode]);
@@ -143,6 +148,11 @@ export const AddNodeModal = () => {
           title={t('nodes.renameColumns.title')}
           description={t('nodes.renameColumns.description')}
           onClick={() => handleAddNode(NodeType.RenameColumns)}
+        />
+        <Card
+          title={t('nodes.dropColumns.title')}
+          description={t('nodes.dropColumns.description')}
+          onClick={() => handleAddNode(NodeType.DropColumns)}
         />
       </CardsContainer>
     </Modal>

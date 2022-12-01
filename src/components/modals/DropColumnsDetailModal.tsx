@@ -4,18 +4,17 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
-import { RenameColumnsNode, RenameColumnsNodeSetting } from '../../models/renameColumnsNode';
+import { DropColumnsNode, DropColumnsNodeSetting } from '../../models/dropColumnsNode';
 import { Modal } from '../common/Modal';
 import { Form } from '../common/styled';
 import { Select } from '../form/Select';
-import { TextField } from '../form/TextField';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 const FormLine = styled('div')`
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 1rem;
-  width: 35rem;
+  width: 25rem;
 `;
 
 const AddColumnButton = styled(Button)`
@@ -23,14 +22,14 @@ const AddColumnButton = styled(Button)`
   margin-left: auto;
 `;
 
-export const RenameColumnsDetailModal = () => {
+export const DropColumnsDetailModal = () => {
   const { t } = useTranslation();
 
-  const { node, closeModal } = useModal<RenameColumnsNode>();
-  const updateNodeData = useUpdateNodeData<RenameColumnsNode>(node?.id);
+  const { node, closeModal } = useModal<DropColumnsNode>();
+  const updateNodeData = useUpdateNodeData<DropColumnsNode>(node?.id);
   const sourceDataFrame = useSourceDataFrame(node?.id);
 
-  const { control, handleSubmit, watch } = useForm<RenameColumnsNodeSetting>({
+  const { control, handleSubmit, watch } = useForm<DropColumnsNodeSetting>({
     defaultValues: node?.data.settings,
   });
 
@@ -39,7 +38,7 @@ export const RenameColumnsDetailModal = () => {
     name: 'columns',
   });
 
-  const onSubmit = (settings: RenameColumnsNodeSetting) => {
+  const onSubmit = (settings: DropColumnsNodeSetting) => {
     updateNodeData('settings', settings);
     closeModal();
   };
@@ -51,21 +50,21 @@ export const RenameColumnsDetailModal = () => {
   }));
 
   return (
-    <Modal title={t('nodes.renameColumns.title')} open onClose={closeModal}>
+    <Modal title={t('nodes.dropColumns.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
         <Form>
           {controlledFields.map((field, index) => (
-            <FormLine key={`${field.id}-formFragment`}>
+            <FormLine key={field.id}>
               <Select
-                name={`columns.${index}.oldColumnName`}
-                label={t('nodes.renameColumns.columnName')}
+                name={`columns.${index}.name`}
+                label={t('nodes.dropColumns.columnName')}
                 control={control}
               >
                 {sourceDataFrame.columns
                   .filter(
                     (c) =>
-                      !controlledFields.map((f) => f.oldColumnName).includes(c.name) ||
-                      c.name === field.oldColumnName,
+                      !controlledFields.map((f) => f.name).includes(c.name) ||
+                      c.name === field.name,
                   )
                   .map((c) => (
                     <MenuItem key={c.name} value={c.name}>
@@ -74,12 +73,6 @@ export const RenameColumnsDetailModal = () => {
                   ))}
               </Select>
 
-              <TextField
-                name={`columns.${index}.newColumnName`}
-                label={t('nodes.renameColumns.newColumnName')}
-                control={control}
-              />
-
               <Button startIcon={<RemoveCircleIcon />} onClick={() => remove(index)}>
                 {t('common.remove')}
               </Button>
@@ -87,11 +80,8 @@ export const RenameColumnsDetailModal = () => {
           ))}
 
           {fields.length < sourceDataFrame.columns.length && (
-            <AddColumnButton
-              startIcon={<AddIcon />}
-              onClick={() => append({ oldColumnName: '', newColumnName: '' })}
-            >
-              {t('nodes.renameColumns.addColumn')}
+            <AddColumnButton startIcon={<AddIcon />} onClick={() => append({ name: '' })}>
+              {t('nodes.dropColumns.addColumn')}
             </AddColumnButton>
           )}
 

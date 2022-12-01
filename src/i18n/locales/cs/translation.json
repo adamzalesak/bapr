@@ -106,6 +106,12 @@
       "columnName": "Sloupec",
       "newColumnName": "Nový název",
       "addColumn": "Přidat sloupec"
+    },
+    "dropColumns": {
+      "title": "Odstranění sloupců",
+      "description": "Odstranění vybraných sloupců",
+      "columnName": "Sloupec",
+      "addColumn": "Přidat sloupec"
     }
   },
   "addNode": {

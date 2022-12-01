@@ -108,6 +108,12 @@
       "columnName": "Column",
       "newColumnName": "New name",
       "addColumn": "Add column"
+    },
+    "dropColumns": {
+      "title": "Drop Columns",
+      "description": "Drop selected columns",
+      "columnName": "Column",
+      "addColumn": "Add column"
     }
   },
   "addNode": {

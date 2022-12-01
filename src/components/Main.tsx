@@ -30,12 +30,13 @@ import { MinMaxScalerNode } from './nodes/MinMaxScalerNode';
 import { OneHotEncoderNode } from './nodes/OneHotEncoderNode';
 import { RenameColumnsNode } from './nodes/RenameColumnsNode';
 import { useTheme } from '@mui/material';
+import { DropColumnsNode } from './nodes/DropColumnsNode';
 
 export const Main = () => {
   const theme = useTheme();
   const [nodes, setNodes] = useRecoilState(nodesState);
   const [edges, setEdges] = useRecoilState(edgesState);
-  
+
   const nodeTypes = useMemo(() => {
     return {
       [NodeType.File]: FileNode,
@@ -48,6 +49,7 @@ export const Main = () => {
       [NodeType.StandardScaler]: StandardScalerNode,
       [NodeType.OneHotEncoder]: OneHotEncoderNode,
       [NodeType.RenameColumns]: RenameColumnsNode,
+      [NodeType.DropColumns]: DropColumnsNode,
     };
   }, []);
 
@@ -72,7 +74,6 @@ export const Main = () => {
       ),
     );
   };
-
 
   return (
     <>

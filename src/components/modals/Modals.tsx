@@ -3,6 +3,7 @@ import { ModalType } from '../../models/modal';
 import { NodeType } from '../../models/nodeTypes';
 import { AddNodeModal } from './AddNodeModal';
 import { DataModal } from './DataModal';
+import { DropColumnsDetailModal } from './DropColumnsDetailModal';
 import { FileDetailModal } from './FileDetailModal';
 import { FilterDetailModal } from './FilterDetailModal';
 import { JoinDetailModal } from './JoinDetailModal';
@@ -31,6 +32,7 @@ export const Modals = () => {
           {node?.type === NodeType.StandardScaler && <StandardScalerDetailModal />}
           {node?.type === NodeType.OneHotEncoder && <OneHotEncoderDetailModal />}
           {node?.type === NodeType.RenameColumns && <RenameColumnsDetailModal />}
+          {node?.type === NodeType.DropColumns && <DropColumnsDetailModal />}
         </>
       )}
       {openModalType === ModalType.Add && <AddNodeModal />}

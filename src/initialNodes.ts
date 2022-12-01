@@ -9,6 +9,7 @@ import { StandardScalerNode } from './models/standardScalerNode';
 import { MinMaxScalerNode } from './models/minMaxScalerNode';
 import { OneHotEncoderNode } from './models/oneHotEncoderNode';
 import { RenameColumnsNode } from './models/renameColumnsNode';
+import { DropColumnsNode } from './models/dropColumnsNode';
 
 export const getInitialFileNode = (id: string): FileNode => ({
   id,
@@ -157,7 +158,21 @@ export const getInitialRenameColumnsNode = (id: string): RenameColumnsNode => ({
   },
   data: {
     settings: {
-      columns: [],
+      columns: [{ oldColumnName: '', newColumnName: '' }],
+    },
+  },
+});
+
+export const getInitialDropColumnsNode = (id: string): DropColumnsNode => ({
+  id,
+  type: NodeType.DropColumns,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  data: {
+    settings: {
+      columns: [{ name: '' }],
     },
   },
 });
