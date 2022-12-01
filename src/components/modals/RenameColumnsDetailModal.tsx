@@ -55,7 +55,7 @@ export const RenameColumnsDetailModal = () => {
       {sourceDataFrame ? (
         <Form>
           {controlledFields.map((field, index) => (
-            <FormLine key={`${field.id}-formFragment`}>
+            <FormLine key={field.id}>
               <Select
                 name={`columns.${index}.oldColumnName`}
                 label={t('nodes.renameColumns.columnName')}
