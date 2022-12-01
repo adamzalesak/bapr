@@ -19,15 +19,17 @@ import { nodeCountState, nodesState } from '../../store/atoms';
 import { Card } from '../common/Card';
 import { Modal } from '../common/Modal';
 
-const CardsContainer = styled('div')`
+const CardsContainer = styled('div')(
+  ({ theme }) => `
   display: grid;
   gap: 1rem;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  @media (min-width: ${theme.breakpoints.values.md}px) {
+    grid-template-columns: 1fr 1fr;
   }
-`;
+`,
+);
 
 export const AddNodeModal = () => {
   const { t } = useTranslation();
