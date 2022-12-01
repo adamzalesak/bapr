@@ -99,6 +99,13 @@
       "column": "Sloupec",
       "dropFirst": "Odstranit první kategorii",
       "dropFirstDescription": "Odstranit první kategorii, aby se předešlo multikolinearitě"
+    },
+    "renameColumns": {
+      "title": "Přejmenování sloupců",
+      "description": "Přejmenování vybraných sloupců",
+      "columnName": "Sloupec",
+      "newColumnName": "Nový název",
+      "addColumn": "Přidat sloupec"
     }
   },
   "addNode": {
@@ -117,6 +124,7 @@
   },
   "common": {
     "save": "Uložit",
-    "notSelected": "Nevybráno"
+    "notSelected": "Nevybráno",
+    "remove": "Odebrat"
   }
 }

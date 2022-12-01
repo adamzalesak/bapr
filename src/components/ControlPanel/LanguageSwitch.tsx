@@ -8,14 +8,19 @@ const LanguageSwitchWrapper = styled('div')`
   z-index: 4;
 `;
 
-const CzFlag = styled(CZ)`
+const CzFlag = styled(CZ)(
+  ({ theme }) => `
   width: 2rem;
-  border: 1px solid black;
-`;
-const UsFlag = styled(US)`
+  border: 1px solid ${theme.palette.primary.dark};
+`,
+);
+
+const UsFlag = styled(US)(
+  ({ theme }) => `
   width: 2rem;
-  border: 1px solid black;
-`;
+  border: 1px solid ${theme.palette.primary.dark};
+`,
+);
 
 export const LanguageSwitch = () => {
   const { i18n } = useTranslation();

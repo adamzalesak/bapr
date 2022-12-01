@@ -101,6 +101,13 @@
       "column": "Column",
       "dropFirst": "Drop first",
       "dropFirstDescription": "Drop first category to avoid multicollinearity"
+    },
+    "renameColumns": {
+      "title": "Rename Columns",
+      "description": "Rename selected columns",
+      "columnName": "Column",
+      "newColumnName": "New name",
+      "addColumn": "Add column"
     }
   },
   "addNode": {
@@ -119,7 +126,8 @@
   },
   "common": {
     "save": "Save",
-    "notSelected": "Not selected"
+    "notSelected": "Not selected",
+    "remove": "Remove"
   }
 }
 

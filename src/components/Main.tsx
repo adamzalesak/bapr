@@ -3,6 +3,8 @@ import ReactFlow, {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
+  Background,
+  BackgroundVariant,
   Controls,
   MiniMap,
   OnConnect,
@@ -26,11 +28,14 @@ import { SimpleImputerNode } from './nodes/SimpleImputerNode';
 import { StandardScalerNode } from './nodes/StandardScalerNode';
 import { MinMaxScalerNode } from './nodes/MinMaxScalerNode';
 import { OneHotEncoderNode } from './nodes/OneHotEncoderNode';
+import { RenameColumnsNode } from './nodes/RenameColumnsNode';
+import { useTheme } from '@mui/material';
 
 export const Main = () => {
+  const theme = useTheme();
   const [nodes, setNodes] = useRecoilState(nodesState);
   const [edges, setEdges] = useRecoilState(edgesState);
-
+  
   const nodeTypes = useMemo(() => {
     return {
       [NodeType.File]: FileNode,
@@ -42,6 +47,7 @@ export const Main = () => {
       [NodeType.MinMaxScaler]: MinMaxScalerNode,
       [NodeType.StandardScaler]: StandardScalerNode,
       [NodeType.OneHotEncoder]: OneHotEncoderNode,
+      [NodeType.RenameColumns]: RenameColumnsNode,
     };
   }, []);
 
@@ -67,6 +73,7 @@ export const Main = () => {
     );
   };
 
+
   return (
     <>
       <Modals />
@@ -84,6 +91,7 @@ export const Main = () => {
         <ControlPanel />
         <Controls />
         <MiniMap />
+        <Background variant={BackgroundVariant.Dots} color={theme.palette.primary.light} />
       </ReactFlow>
     </>
   );

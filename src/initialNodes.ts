@@ -8,6 +8,7 @@ import { SimpleImputerNode } from './models/simpleImputerNode';
 import { StandardScalerNode } from './models/standardScalerNode';
 import { MinMaxScalerNode } from './models/minMaxScalerNode';
 import { OneHotEncoderNode } from './models/oneHotEncoderNode';
+import { RenameColumnsNode } from './models/renameColumnsNode';
 
 export const getInitialFileNode = (id: string): FileNode => ({
   id,
@@ -143,6 +144,20 @@ export const getInitialOneHotEncoderNode = (id: string): OneHotEncoderNode => ({
     settings: {
       columnName: undefined,
       dropFirst: false,
+    },
+  },
+});
+
+export const getInitialRenameColumnsNode = (id: string): RenameColumnsNode => ({
+  id,
+  type: NodeType.RenameColumns,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  data: {
+    settings: {
+      columns: [],
     },
   },
 });

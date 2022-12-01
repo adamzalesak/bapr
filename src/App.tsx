@@ -2,7 +2,7 @@ import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { RecoilRoot } from 'recoil';
 import { Main } from './components/Main';
 
-import './utils/i18n';
+import './i18n/i18n';
 
 const AppWrapper = styled('div')`
   height: 100vh;

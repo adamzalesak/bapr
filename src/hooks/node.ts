@@ -21,7 +21,9 @@ export const useUpdateNodeData = <TDataNode extends DataNode>(nodeId?: string) =
     setNodes((nodes) => {
       const node = nodes.find((node) => node.id === nodeId);
 
-      if (!node) return nodes;
+      if (!node) {
+        return nodes;
+      }
 
       const restOfNodes = nodes.filter((node) => node.id !== nodeId);
       const updatedNodeData = { ...node?.data, [key]: value };

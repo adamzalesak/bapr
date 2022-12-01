@@ -8,6 +8,7 @@ import {
   getInitialJoinNode,
   getInitialMinMaxScalerNode,
   getInitialOneHotEncoderNode,
+  getInitialRenameColumnsNode,
   getInitialSimpleImputerNode,
   getInitialSliceNode,
   getInitialSortNode,
@@ -79,6 +80,10 @@ export const AddNodeModal = () => {
         newNode = getInitialOneHotEncoderNode(id);
         break;
       }
+      case NodeType.RenameColumns: {
+        newNode = getInitialRenameColumnsNode(id);
+        break;
+      }
     }
 
     setNodes((nodes) => [...nodes, newNode]);
@@ -133,6 +138,11 @@ export const AddNodeModal = () => {
           title={t('nodes.oneHotEncoder.title')}
           description={t('nodes.oneHotEncoder.description')}
           onClick={() => handleAddNode(NodeType.OneHotEncoder)}
+        />
+        <Card
+          title={t('nodes.renameColumns.title')}
+          description={t('nodes.renameColumns.description')}
+          onClick={() => handleAddNode(NodeType.RenameColumns)}
         />
       </CardsContainer>
     </Modal>

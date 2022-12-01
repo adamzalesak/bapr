@@ -2,8 +2,8 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LocalStorageBackend from 'i18next-localstorage-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import translation from '../locales/en/translation.json';
-import * as transaltionCzech from '../locales/cs/translation.json';
+import translation from './locales/en/translation.json';
+import * as transaltionCzech from './locales/cs/translation.json';
 
 export const resources = {
   en: {

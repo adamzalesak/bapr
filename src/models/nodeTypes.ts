@@ -8,4 +8,6 @@ export enum NodeType {
   MinMaxScaler = 'MIN_MAX_SCALER',
   StandardScaler = 'STANDARD_SCALER',
   OneHotEncoder = 'ONE_HOT_ENCODER',
+  RenameColumns = 'RENAME_COLUMNS',
+  DropColumns = 'DROP_COLUMNS',
 }
