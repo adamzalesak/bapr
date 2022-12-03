@@ -6,7 +6,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { RenameColumnsNode, RenameColumnsNodeSetting } from '../../models/renameColumnsNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
@@ -53,7 +53,7 @@ export const RenameColumnsDetailModal = () => {
   return (
     <Modal title={t('nodes.renameColumns.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           {controlledFields.map((field, index) => (
             <FormLine key={field.id}>
               <Select
@@ -98,7 +98,7 @@ export const RenameColumnsDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

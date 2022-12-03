@@ -5,7 +5,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SliceNode, SliceNodeSetting } from '../../models/sliceNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { TextField } from '../form/TextField';
 
 export const SliceDetailModal = () => {
@@ -27,14 +27,14 @@ export const SliceDetailModal = () => {
   return (
     <Modal title={t('nodes.sort.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           <TextField name="from" type="number" label={t('nodes.slice.from')} control={control} />
           <TextField name="to" type="number" label={t('nodes.slice.to')} control={control} />
 
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

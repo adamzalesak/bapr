@@ -5,7 +5,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { StandardScalerNode, StandardScalerNodeSetting } from '../../models/standardScalerNode';
 import { Modal } from '../common/Modal';
-import { Form, FormSegment } from '../common/styled';
+import { FormContainer, FormSegment } from '../form/styled';
 import { Checkbox } from '../form/Checkbox';
 import { Select } from '../form/Select';
 
@@ -28,7 +28,7 @@ export const StandardScalerDetailModal = () => {
   return (
     <Modal title={t('nodes.standardScaler.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           <Select name="columnName" control={control} label={t('nodes.standardScaler.column')}>
             {sourceDataFrame?.columns
               .filter((c) => c.type === 'number')
@@ -55,7 +55,7 @@ export const StandardScalerDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

@@ -5,7 +5,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { MinMaxScalerNode, MinMaxScalerNodeSetting } from '../../models/minMaxScalerNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { Select } from '../form/Select';
 
 export const MinMaxScalerDetailModal = () => {
@@ -27,7 +27,7 @@ export const MinMaxScalerDetailModal = () => {
   return (
     <Modal title={t('nodes.minMaxScaler.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           <Select name="columnName" control={control} label={t('nodes.minMaxScaler.column')}>
             {sourceDataFrame?.columns
               .filter((c) => c.type === 'number')
@@ -41,7 +41,7 @@ export const MinMaxScalerDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

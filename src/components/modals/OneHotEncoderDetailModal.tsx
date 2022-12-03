@@ -5,7 +5,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { OneHotEncoderNode, OneHotEncoderNodeSetting } from '../../models/oneHotEncoderNode';
 import { Modal } from '../common/Modal';
-import { Form, FormSegment } from '../common/styled';
+import { FormContainer, FormSegment } from '../form/styled';
 import { Checkbox } from '../form/Checkbox';
 import { Select } from '../form/Select';
 
@@ -28,7 +28,7 @@ export const OneHotEncoderDetailModal = () => {
   return (
     <Modal title={t('nodes.oneHotEncoder.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           <Select name="columnName" control={control} label={t('nodes.oneHotEncoder.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
@@ -49,7 +49,7 @@ export const OneHotEncoderDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

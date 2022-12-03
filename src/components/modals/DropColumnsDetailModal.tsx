@@ -6,7 +6,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { DropColumnsNode, DropColumnsNodeSetting } from '../../models/dropColumnsNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { Select } from '../form/Select';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
@@ -52,7 +52,7 @@ export const DropColumnsDetailModal = () => {
   return (
     <Modal title={t('nodes.dropColumns.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           {controlledFields.map((field, index) => (
             <FormLine key={field.id}>
               <Select
@@ -88,7 +88,7 @@ export const DropColumnsDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

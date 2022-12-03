@@ -11,7 +11,7 @@ import {
   filterStringConditions,
 } from '../../models/filterNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
 
@@ -63,7 +63,7 @@ export const FilterDetailModal = () => {
   return (
     <Modal title={t('nodes.filter.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           <Select name="columnName" control={control} label={t('nodes.filter.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
@@ -98,7 +98,7 @@ export const FilterDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

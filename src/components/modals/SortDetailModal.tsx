@@ -5,7 +5,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SortNode, SortNodeSetting } from '../../models/sortNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { Select } from '../form/Select';
 
 export const SortDetailModal = () => {
@@ -27,7 +27,7 @@ export const SortDetailModal = () => {
   return (
     <Modal title={t('nodes.sort.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           <Select name="sortColumn" control={control} label={t('nodes.sort.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
@@ -44,7 +44,7 @@ export const SortDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

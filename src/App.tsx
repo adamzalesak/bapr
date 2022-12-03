@@ -1,8 +1,8 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { I18nextProvider } from 'react-i18next';
 import { RecoilRoot } from 'recoil';
 import { Main } from './components/Main';
-
-import './i18n/i18n';
+import i18n from './i18n/i18n';
 
 const theme = createTheme({
   typography: { fontFamily: 'Roboto, Inter, Avenir, Helvetica, Arial, sans-serif' },
@@ -25,9 +25,11 @@ const theme = createTheme({
 export const App = () => {
   return (
     <RecoilRoot>
-      <ThemeProvider theme={theme}>
-        <Main />
-      </ThemeProvider>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <Main />
+        </ThemeProvider>
+      </I18nextProvider>
     </RecoilRoot>
   );
 };

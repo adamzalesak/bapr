@@ -11,7 +11,7 @@ import {
   simpleImputerStringStrategies,
 } from '../../models/simpleImputerNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { Select } from '../form/Select';
 import { TextField } from '../form/TextField';
 
@@ -62,7 +62,7 @@ export const SimpleImputerDetailModal = () => {
   return (
     <Modal title={t('nodes.simpleImputer.title')} open onClose={closeModal}>
       {sourceDataFrame ? (
-        <Form>
+        <FormContainer>
           <Select name="columnName" control={control} label={t('nodes.simpleImputer.column')}>
             {sourceDataFrame?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
@@ -97,7 +97,7 @@ export const SimpleImputerDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}

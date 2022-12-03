@@ -7,7 +7,7 @@ import { useModal } from '../../hooks/modal';
 import { useUpdateNodeData } from '../../hooks/node';
 import { FileNode, FileNodeSettings } from '../../models/fileNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { TextField } from '../form/TextField';
 
 export const FileDetailModal = () => {
@@ -48,7 +48,7 @@ export const FileDetailModal = () => {
 
   return (
     <Modal title={t('nodes.file.title')} open onClose={closeModal}>
-      <Form>
+      <FormContainer>
         <TextField
           name="rowsLimit"
           type="number"
@@ -65,7 +65,7 @@ export const FileDetailModal = () => {
         <input hidden type="file" accept=".csv" onChange={handleFileChange} ref={fileRef} />
         <div>{node?.data.fileName}</div>
         {!!dataCount && <div>{dataCount} rows </div>}
-      </Form>
+      </FormContainer>
     </Modal>
   );
 };

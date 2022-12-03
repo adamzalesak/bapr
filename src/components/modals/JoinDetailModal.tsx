@@ -5,7 +5,7 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { JoinNode, JoinNodeHandle, JoinNodeSetting, JoinType } from '../../models/joinNode';
 import { Modal } from '../common/Modal';
-import { Form } from '../common/styled';
+import { FormContainer } from '../form/styled';
 import { Select } from '../form/Select';
 
 export const JoinDetailModal = () => {
@@ -29,7 +29,7 @@ export const JoinDetailModal = () => {
   return (
     <Modal title={t('nodes.join.title')} open onClose={closeModal}>
       {sourceDataFrameA && sourceDataFrameB ? (
-        <Form>
+        <FormContainer>
           <Select name="columnA" control={control} label={t('nodes.join.columnA')}>
             {sourceDataFrameA?.columns.map((column, index) => (
               <MenuItem key={index} value={column.name}>
@@ -60,7 +60,7 @@ export const JoinDetailModal = () => {
           <Button variant="outlined" onClick={handleSubmit(onSubmit)}>
             {t('common.save')}
           </Button>
-        </Form>
+        </FormContainer>
       ) : (
         t('detailModal.selectDataSource')
       )}
