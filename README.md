@@ -1,7 +1,7 @@
 ## Data Preprocessing Tool
 
 
-Install dependencies before running:
+Install the dependencies first:
 ```
 npm i
 ```
@@ -12,7 +12,7 @@ To launch the project, type this command:
 npm run dev
 ```
 
-To create a production build:
+To create a static production build:
 
 ```
 npm run build
