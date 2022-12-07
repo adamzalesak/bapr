@@ -346,10 +346,11 @@ export class DataFrame {
     });
 
     const result: DataFrameRow[] = this.rows.map((row) => {
-      const newRow = { ...row };
-      oldNames.forEach((oldName, index) => {
-        newRow[updatedNamesWithSuffix[index]] = newRow[oldName];
-        delete newRow[oldName];
+      const allOldNames = this._columns.map((c) => c.name);
+
+      const newRow: DataFrameRow = {};
+      updatedNamesWithSuffix.forEach((name, index) => {
+        newRow[name] = row[allOldNames[index]];
       });
 
       return newRow;
