@@ -28,7 +28,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
   },
 
-  // TODO: remove once
-  base: '/bapr/',
+  // TODO
+  base: '/data-preprocessing-tool/',
 });
 
