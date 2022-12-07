@@ -27,5 +27,8 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000,
   },
+
+  // TODO: remove once
+  base: '/bapr/',
 });
 
