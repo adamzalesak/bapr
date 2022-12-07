@@ -62,7 +62,7 @@ export const JoinNode = ({ id }: NodeProps) => {
   }, [sourceDataFrameA, sourceDataFrameB]);
 
   const nodeState = node?.data.dataFrame
-    ? NodeState.Done
+    ? NodeState.Processed
     : sourceDataFrameA && sourceDataFrameB
     ? NodeState.InvalidSettings
     : NodeState.NoSource;

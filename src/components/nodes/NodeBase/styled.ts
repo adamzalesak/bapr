@@ -59,7 +59,7 @@ export const StateLine = styled('div')<StateLineProps>(
   height: 3px;
   border-radius: 2px;
   background-color: ${
-    state === NodeState.Done
+    state === NodeState.Processed
       ? theme.palette.success.main
       : state === NodeState.InvalidSettings
       ? theme.palette.warning.main
@@ -78,4 +78,3 @@ export const RowColumnCount = styled('div')`
   font-size: 0.5rem;
   white-space: nowrap;
 `;
-

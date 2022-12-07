@@ -63,7 +63,7 @@ export const NodeBaseMenu = ({
           <ListItemText>{t('nodes.base.menu.detail')}</ListItemText>
         </MenuItem>
 
-        {nodeState === NodeState.Done && [
+        {nodeState === NodeState.Processed && [
           <MenuItem key="dataPreview" onClick={handleOpenDataPreview}>
             <ListItemIcon>
               <TableViewIcon />
@@ -88,4 +88,3 @@ export const NodeBaseMenu = ({
     </>
   );
 };
-

@@ -14,5 +14,5 @@ export interface DataNode<TNodeType extends NodeType = NodeType, TAdditionalData
 export enum NodeState {
   NoSource = 'NO_SOURCE',
   InvalidSettings = 'INVALID_SETTINGS',
-  Done = 'DONE',
+  Processed = 'PROCESSED',
 }

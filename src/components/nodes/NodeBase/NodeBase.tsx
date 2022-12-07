@@ -46,7 +46,7 @@ export const NodeBase = ({ nodeId, nodeTypeName, state, children }: BaseNodeProp
     state !== undefined
       ? state
       : node?.data.dataFrame
-      ? NodeState.Done
+      ? NodeState.Processed
       : sourceDataFrame
       ? NodeState.InvalidSettings
       : NodeState.NoSource;
