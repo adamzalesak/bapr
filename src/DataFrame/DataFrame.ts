@@ -327,41 +327,40 @@ export class DataFrame {
   };
 
   renameColumns = (oldNames: string[], newNames: string[]) => {
+    const updatedColumns = this.columns.map((c) => ({
+      name: oldNames.includes(c.name) ? newNames[oldNames.indexOf(c.name)] : c.name,
+      type: c.type,
+    }));
+    const updatedColumnNames = updatedColumns.map((c) => c.name);
+
     let index = 0;
-    const newNamesWithSuffix = newNames.map((newName) => {
-      const columnNames = this.columns.map((c) => c.name);
-      const count = [...columnNames, ...newNames].filter((name) => name === newName).length;
+    const updatedNamesWithSuffix = updatedColumnNames.map((columnName) => {
+      const count = updatedColumnNames.filter((name) => name === columnName).length;
 
       if (count > 1) {
         index++;
-        return `${newName}_${index}`;
+        return `${columnName}_${index}`;
       }
-      return newName;
+
+      return columnName;
     });
 
     const result: DataFrameRow[] = this.rows.map((row) => {
       const newRow = { ...row };
       oldNames.forEach((oldName, index) => {
-        newRow[newNamesWithSuffix[index]] = newRow[oldName];
+        newRow[updatedNamesWithSuffix[index]] = newRow[oldName];
         delete newRow[oldName];
       });
 
       return newRow;
     });
 
-    const updateColumns = this.columns.map((column) => {
-      const index = oldNames.indexOf(column.name);
-      if (index !== -1) {
-        return {
-          ...column,
-          name: newNamesWithSuffix[index],
-        };
-      } else {
-        return column;
-      }
-    });
+    const updatedColumnsWithSuffix = updatedColumns.map((c, index) => ({
+      name: updatedNamesWithSuffix[index],
+      type: c.type,
+    }));
 
-    return new DataFrame(result, updateColumns);
+    return new DataFrame(result, updatedColumnsWithSuffix);
   };
 
   dropColumns = (columnNames: string[]) => {
