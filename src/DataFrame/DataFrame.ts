@@ -212,10 +212,11 @@ export class DataFrame {
         break;
       }
       case 'CONSTANT': {
-        if (valueToImpute === undefined) {
+        if (value === undefined) {
           valueToImpute = columnType === 'number' ? 0 : '';
+          break;
         }
-        valueToImpute = value;
+        valueToImpute = columnType === 'number' ? +value : value;
         break;
       }
     }
