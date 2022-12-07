@@ -10,7 +10,7 @@ import {
 } from './join';
 import { parseCSVFile, saveDataToCSVFile } from './parse';
 
-export type DataFrameRow = { [key: string]: any };
+export type DataFrameRow = { [key: string]: string | number | null };
 
 export interface Column {
   name: string;
@@ -108,7 +108,7 @@ export class DataFrame {
         if (columnType === 'string') {
           result = this.rows?.filter((row) => row[columnName] === value);
         } else {
-          result = this.rows?.filter((row) => row[columnName] === Number(value));
+          result = this.rows?.filter((row) => value !== null && row[columnName] === Number(value));
         }
         break;
       }
@@ -116,53 +116,76 @@ export class DataFrame {
         if (columnType === 'string') {
           result = this.rows?.filter((row) => row[columnName] !== value);
         } else {
-          result = this.rows?.filter((row) => row[columnName] !== Number(value));
+          result = this.rows?.filter((row) => value !== null && row[columnName] !== Number(value));
         }
         break;
       }
 
       // number column
       case 'GREATER_THAN': {
-        result = this.rows?.filter((row) => row[columnName] > Number(value));
+        result = this.rows?.filter((row) => {
+          const currentValue = row[columnName];
+          return currentValue !== null && currentValue > Number(value);
+        });
         break;
       }
       case 'GREATER_THAN_OR_EQUAL': {
-        result = this.rows?.filter((row) => row[columnName] >= Number(value));
+        result = this.rows?.filter((row) => {
+          const currentValue = row[columnName];
+          return currentValue !== null && currentValue >= Number(value);
+        });
         break;
       }
       case 'LESS_THAN': {
-        result = this.rows?.filter((row) => row[columnName] < Number(value));
-
+        result = this.rows?.filter((row) => {
+          const currentValue = row[columnName];
+          return currentValue !== null && currentValue < Number(value);
+        });
         break;
       }
       case 'LESS_THAN_OR_EQUAL': {
-        result = this.rows?.filter((row) => row[columnName] <= Number(value));
+        result = this.rows?.filter((row) => {
+          const currentValue = row[columnName];
+          return currentValue !== null && currentValue <= Number(value);
+        });
         break;
       }
 
       // string column
       case 'CONTAINS': {
-        result = this.rows?.filter((row) => row[columnName].includes(value));
+        result = this.rows?.filter((row) =>
+          (row[columnName] as string | null)?.includes(value as string),
+        );
         break;
       }
       case 'NOT_CONTAINS': {
-        result = this.rows?.filter((row) => !row[columnName].includes(value));
+        result = this.rows?.filter(
+          (row) => !(row[columnName] as string | null)?.includes(value as string),
+        );
         break;
       }
       case 'STARTS_WITH': {
-        result = this.rows?.filter((row) => row[columnName].startsWith(value));
+        result = this.rows?.filter((row) =>
+          (row[columnName] as string | null)?.startsWith(value as string),
+        );
         break;
       }
       case 'NOT_STARTS_WITH': {
-        result = this.rows?.filter((row) => !row[columnName].startsWith(value));
+        result = this.rows?.filter(
+          (row) => !(row[columnName] as string | null)?.startsWith(value as string),
+        );
         break;
       }
       case 'ENDS_WITH': {
-        result = this.rows?.filter((row) => row[columnName].endsWith(value));
+        result = this.rows?.filter((row) =>
+          (row[columnName] as string | null)?.endsWith(value as string),
+        );
         break;
       }
       case 'NOT_ENDS_WITH': {
-        result = this.rows?.filter((row) => !row[columnName].endsWith(value));
+        result = this.rows?.filter(
+          (row) => !(row[columnName] as string | null)?.endsWith(value as string),
+        );
         break;
       }
       case 'MATCHES_REGEX': {
@@ -170,7 +193,11 @@ export class DataFrame {
           throw new Error('MATCHES_REGEX condition requires a value');
         }
         const regex = new RegExp(value);
-        result = this.rows?.filter((row) => regex.test(row[columnName]));
+        result = this.rows?.filter((row) => {
+          const currentValue = row[columnName];
+          if (currentValue === null) return false;
+          return regex.test(currentValue as string);
+        });
         break;
       }
       default: {
@@ -187,7 +214,7 @@ export class DataFrame {
 
     const valuesWithoutNulls = this.rows
       ?.filter((row) => row[columnName] !== null)
-      .map((row) => row[columnName]);
+      .map((row) => row[columnName]) as number[];
     const countWithoutNulls = valuesWithoutNulls?.length;
 
     const columnType = this.columns.find((col) => col.name === columnName)?.type;
@@ -238,7 +265,7 @@ export class DataFrame {
   minMaxScaler = (columnName: string) => {
     const valuesWithoutNulls = this.rows
       ?.filter((row) => row[columnName] !== null)
-      .map((row) => row[columnName]);
+      .map((row) => row[columnName]) as number[];
 
     const min = _.min(valuesWithoutNulls);
     const max = _.max(valuesWithoutNulls);
@@ -247,12 +274,13 @@ export class DataFrame {
     const newMax = 1;
 
     const result: DataFrameRow[] = this.rows.map((row) => {
-      if (row[columnName] === null) {
+      if (row[columnName] === null || min === undefined || max === undefined) {
         return row;
       }
       return {
         ...row,
-        [columnName]: ((row[columnName] - min) / (max - min)) * (newMax - newMin) + newMin,
+        [columnName]:
+          (((row[columnName] as number) - min) / (max - min)) * (newMax - newMin) + newMin,
       };
     });
 
@@ -262,7 +290,7 @@ export class DataFrame {
   standardScaler = (columnName: string, withMean: boolean, withStd: boolean) => {
     const valuesWithoutNulls = this.rows
       ?.filter((row) => row[columnName] !== null)
-      .map((row) => row[columnName]);
+      .map((row) => row[columnName]) as number[];
 
     const mean = _.mean(valuesWithoutNulls);
     const std = Math.sqrt(_.mean(valuesWithoutNulls.map((value) => Math.pow(value - mean, 2))));
@@ -273,7 +301,7 @@ export class DataFrame {
       }
       return {
         ...row,
-        [columnName]: (row[columnName] - (withMean ? mean : 0)) / (withStd ? std : 1),
+        [columnName]: ((row[columnName] as number) - (withMean ? mean : 0)) / (withStd ? std : 1),
       };
     });
 
@@ -309,7 +337,7 @@ export class DataFrame {
         }
       }, {});
 
-      const newRow = { ...row, ...newColumns };
+      const newRow: DataFrameRow = { ...row, ...newColumns };
 
       // drop original column if the replacement was added
       if (uniqueValues?.length) {
