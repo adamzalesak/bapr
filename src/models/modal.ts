@@ -1,6 +1,6 @@
 export interface OpenModal {
-  nodeId?: string;
   modalType: ModalType;
+  nodeId?: string;
 }
 
 export enum ModalType {

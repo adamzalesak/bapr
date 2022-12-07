@@ -63,6 +63,10 @@ export class DataFrame {
     const commonColumns = this._columns
       .map((c) => c.name)
       .filter((c) => dataFrameB.columns.map((c) => c.name).includes(c));
+
+    keyA = commonColumns.includes(keyA) ? `${keyA}_1` : keyA;
+    keyB = commonColumns.includes(keyB) ? `${keyB}_2` : keyB;
+
     const renamedColumnsA = commonColumns.map((c) => `${c}_1`);
     const renamedColumnsB = commonColumns.map((c) => `${c}_2`);
     const renamedDataFrameA = this.renameColumns(commonColumns, renamedColumnsA);
@@ -161,6 +165,14 @@ export class DataFrame {
         result = this.rows?.filter((row) => !row[columnName].endsWith(value));
         break;
       }
+      case 'MATCHES_REGEX': {
+        if (!value) {
+          throw new Error('MATCHES_REGEX condition requires a value');
+        }
+        const regex = new RegExp(value);
+        result = this.rows?.filter((row) => regex.test(row[columnName]));
+        break;
+      }
       default: {
         result = this.rows;
         break;
@@ -171,7 +183,7 @@ export class DataFrame {
   };
 
   simpleImputer = (columnName: string, strategy: SimpleImputerStrategy, value?: string) => {
-    let valueToImpute: string | number | undefined = value;
+    let valueToImpute: string | number | undefined;
 
     const valuesWithoutNulls = this.rows
       ?.filter((row) => row[columnName] !== null)
@@ -203,6 +215,7 @@ export class DataFrame {
         if (valueToImpute === undefined) {
           valueToImpute = columnType === 'number' ? 0 : '';
         }
+        valueToImpute = value;
         break;
       }
     }
