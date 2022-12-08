@@ -105,6 +105,21 @@ export const AddNodeModal = () => {
           onClick={() => handleAddNode(NodeType.File)}
         />
         <Card
+          title={t('nodes.slice.title')}
+          description={t('nodes.slice.description')}
+          onClick={() => handleAddNode(NodeType.Slice)}
+        />
+        <Card
+          title={t('nodes.renameColumns.title')}
+          description={t('nodes.renameColumns.description')}
+          onClick={() => handleAddNode(NodeType.RenameColumns)}
+        />
+        <Card
+          title={t('nodes.dropColumns.title')}
+          description={t('nodes.dropColumns.description')}
+          onClick={() => handleAddNode(NodeType.DropColumns)}
+        />
+        <Card
           title={t('nodes.sort.title')}
           description={t('nodes.sort.description')}
           onClick={() => handleAddNode(NodeType.Sort)}
@@ -118,11 +133,6 @@ export const AddNodeModal = () => {
           title={t('nodes.join.title')}
           description={t('nodes.join.description')}
           onClick={() => handleAddNode(NodeType.Join)}
-        />
-        <Card
-          title={t('nodes.slice.title')}
-          description={t('nodes.slice.description')}
-          onClick={() => handleAddNode(NodeType.Slice)}
         />
         <Card
           title={t('nodes.simpleImputer.title')}
@@ -143,16 +153,6 @@ export const AddNodeModal = () => {
           title={t('nodes.oneHotEncoder.title')}
           description={t('nodes.oneHotEncoder.description')}
           onClick={() => handleAddNode(NodeType.OneHotEncoder)}
-        />
-        <Card
-          title={t('nodes.renameColumns.title')}
-          description={t('nodes.renameColumns.description')}
-          onClick={() => handleAddNode(NodeType.RenameColumns)}
-        />
-        <Card
-          title={t('nodes.dropColumns.title')}
-          description={t('nodes.dropColumns.description')}
-          onClick={() => handleAddNode(NodeType.DropColumns)}
         />
       </CardsContainer>
     </Modal>
