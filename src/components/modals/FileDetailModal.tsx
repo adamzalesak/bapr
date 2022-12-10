@@ -7,8 +7,8 @@ import { useModal } from '../../hooks/modal';
 import { useUpdateNodeData } from '../../hooks/node';
 import { FileNode, FileNodeSettings } from '../../models/fileNode';
 import { Modal } from '../common/Modal';
-import { FormContainer } from '../form/styled';
-import { TextField } from '../form/TextField';
+import { FormContainer } from '../common/form/styled';
+import { TextField } from '../common/form/TextField';
 
 export const FileDetailModal = () => {
   const { t } = useTranslation();

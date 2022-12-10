@@ -6,9 +6,9 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { RenameColumnsNode, RenameColumnsNodeSetting } from '../../models/renameColumnsNode';
 import { Modal } from '../common/Modal';
-import { FormContainer } from '../form/styled';
-import { Select } from '../form/Select';
-import { TextField } from '../form/TextField';
+import { FormContainer } from '../common/form/styled';
+import { Select } from '../common/form/Select';
+import { TextField } from '../common/form/TextField';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 const FormLine = styled('div')`

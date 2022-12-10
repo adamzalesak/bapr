@@ -5,9 +5,9 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { OneHotEncoderNode, OneHotEncoderNodeSetting } from '../../models/oneHotEncoderNode';
 import { Modal } from '../common/Modal';
-import { FormContainer, FormSegment } from '../form/styled';
-import { Checkbox } from '../form/Checkbox';
-import { Select } from '../form/Select';
+import { FormContainer, FormSegment } from '../common/form/styled';
+import { Checkbox } from '../common/form/Checkbox';
+import { Select } from '../common/form/Select';
 
 export const OneHotEncoderDetailModal = () => {
   const { t } = useTranslation();

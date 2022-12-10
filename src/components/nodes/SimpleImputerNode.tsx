@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { NodeProps, Position } from 'reactflow';
 import { useNode, useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { SimpleImputerNode as SimpleImputerNodeModel } from '../../models/simpleImputerNode';
-import { NodeBase } from './NodeBase/NodeBase';
-import { StyledHandle } from './NodeBase/styled';
+import { NodeBase } from '../common/NodeBase/NodeBase';
+import { StyledHandle } from '../common/NodeBase/styled';
 
 export const SimpleImputerNode = ({ id }: NodeProps) => {
   const { t } = useTranslation();

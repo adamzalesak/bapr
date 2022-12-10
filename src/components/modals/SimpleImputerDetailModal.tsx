@@ -11,9 +11,9 @@ import {
   simpleImputerStringStrategies,
 } from '../../models/simpleImputerNode';
 import { Modal } from '../common/Modal';
-import { FormContainer } from '../form/styled';
-import { Select } from '../form/Select';
-import { TextField } from '../form/TextField';
+import { FormContainer } from '../common/form/styled';
+import { Select } from '../common/form/Select';
+import { TextField } from '../common/form/TextField';
 
 export const SimpleImputerDetailModal = () => {
   const { t } = useTranslation();

@@ -6,8 +6,8 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { DropColumnsNode, DropColumnsNodeSetting } from '../../models/dropColumnsNode';
 import { Modal } from '../common/Modal';
-import { FormContainer } from '../form/styled';
-import { Select } from '../form/Select';
+import { FormContainer } from '../common/form/styled';
+import { Select } from '../common/form/Select';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 const FormLine = styled('div')`

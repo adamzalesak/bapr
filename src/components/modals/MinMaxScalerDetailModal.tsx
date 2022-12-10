@@ -5,8 +5,8 @@ import { useModal } from '../../hooks/modal';
 import { useSourceDataFrame, useUpdateNodeData } from '../../hooks/node';
 import { MinMaxScalerNode, MinMaxScalerNodeSetting } from '../../models/minMaxScalerNode';
 import { Modal } from '../common/Modal';
-import { FormContainer } from '../form/styled';
-import { Select } from '../form/Select';
+import { FormContainer } from '../common/form/styled';
+import { Select } from '../common/form/Select';
 
 export const MinMaxScalerDetailModal = () => {
   const { t } = useTranslation();
