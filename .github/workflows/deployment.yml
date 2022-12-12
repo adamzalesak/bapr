@@ -7,8 +7,9 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  install-dependencies:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -16,9 +17,29 @@ jobs:
           node-version: 18.x
           cache: "npm"
       - run: npm ci
+      - uses: actions/upload-artifact@v3
+        with:
+          name: node_modules
+          path: node_modules
+    
+
+  lint:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+          cache: "npm"
+      - uses: actions/download-artifact@v3
+        with:
+          name: node_modules
+          path: node_modules
       - run: npm run lint
 
   test:
+    needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,7 +47,10 @@ jobs:
         with:
           node-version: 18.x
           cache: "npm"
-      - run: npm ci
+      - uses: actions/download-artifact@v3
+        with:
+          name: node_modules
+          path: node_modules
       - run: npm run test
 
   build:
@@ -39,14 +63,25 @@ jobs:
         with:
           node-version: 18.x
           cache: "npm"
-      - run: npm ci
+      - uses: actions/download-artifact@v3
+        with:
+          name: node_modules
+          path: node_modules
       - run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
 
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
