@@ -7,7 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  install-dependencies:
+  test-and-lint:
+    needs: install-dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -17,44 +18,11 @@ jobs:
           node-version: 18.x
           cache: "npm"
       - run: npm ci
-      - uses: actions/upload-artifact@v3
-        with:
-          name: node_modules
-          path: node_modules
-    
-
-  lint:
-    needs: install-dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 18.x
-          cache: "npm"
-      - uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: node_modules
+      - run: npm run test
       - run: npm run lint
 
-  test:
-    needs: install-dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 18.x
-          cache: "npm"
-      - uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: node_modules
-      - run: npm run test
-
   build:
-    needs: [lint, test]
+    needs: [test-and-lint]
     runs-on: ubuntu-latest
 
     steps:
@@ -63,10 +31,7 @@ jobs:
         with:
           node-version: 18.x
           cache: "npm"
-      - uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: node_modules
+      - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v3
         with:
