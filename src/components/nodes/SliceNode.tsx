@@ -13,7 +13,6 @@ export const SliceNode = ({ id }: NodeProps) => {
   const sourceDataFrame = useSourceDataFrame(id);
   const updateNodeData = useUpdateNodeData<SliceNodeModel>(id);
 
-  // // update node data
   useEffect(() => {
     if (!node) {
       return;

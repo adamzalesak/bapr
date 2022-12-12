@@ -27,7 +27,6 @@ export const StandardScalerNode = ({ id }: NodeProps) => {
     const column = sourceDataFrame?.columns.find((c) => c.name === settings.columnName);
     if (column?.type !== 'number') {
       updateNodeData('dataFrame', undefined);
-      updateNodeData('settings', { ...settings, columnName: undefined });
       return;
     }
 

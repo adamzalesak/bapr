@@ -27,7 +27,6 @@ export const OneHotEncoderNode = ({ id }: NodeProps) => {
     const column = sourceDataFrame?.columns.find((c) => c.name === settings.columnName);
     if (!column) {
       updateNodeData('dataFrame', undefined);
-      updateNodeData('settings', { ...settings, columnName: undefined });
       return;
     }
 

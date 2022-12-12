@@ -15,7 +15,6 @@ export const JoinNode = ({ id }: NodeProps) => {
   const sourceDataFrameB = useSourceDataFrame(id, JoinNodeHandle.B);
   const updateNodeData = useUpdateNodeData<JoinNodeModel>(id);
 
-  // update node data
   useEffect(() => {
     if (!node) {
       return;
@@ -31,6 +30,16 @@ export const JoinNode = ({ id }: NodeProps) => {
       return;
     }
 
+    const sourceColumnNamesA = sourceDataFrameA.columns.map((c) => c.name);
+    const sourceColumnNamesB = sourceDataFrameB.columns.map((c) => c.name);
+    if (
+      !sourceColumnNamesA.includes(node.data.settings.columnA) ||
+      !sourceColumnNamesB.includes(node.data.settings.columnB)
+    ) {
+      updateNodeData('dataFrame', undefined);
+      return;
+    }
+
     const nodeDataFrame = sourceDataFrameA.join(
       sourceDataFrameB,
       node.data.settings.columnA,
@@ -40,26 +49,6 @@ export const JoinNode = ({ id }: NodeProps) => {
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceDataFrameA, sourceDataFrameB, node?.data.settings]);
-
-  // // keep settings valid if sourceData changes
-  useEffect(() => {
-    if (!node) return;
-
-    const columnA = sourceDataFrameA?.columns
-      .map((c) => c.name)
-      .includes(node.data.settings.columnA)
-      ? node.data.settings.columnA
-      : '';
-
-    const columnB = sourceDataFrameB?.columns
-      .map((c) => c.name)
-      .includes(node.data.settings.columnB)
-      ? node.data.settings.columnB
-      : '';
-
-    updateNodeData('settings', { ...node.data.settings, columnA, columnB });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sourceDataFrameA, sourceDataFrameB]);
 
   const nodeState = node?.data.dataFrame
     ? NodeState.Processed

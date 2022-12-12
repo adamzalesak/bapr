@@ -158,7 +158,7 @@ export const getInitialRenameColumnsNode = (id: string): RenameColumnsNode => ({
   },
   data: {
     settings: {
-      columns: [{ oldColumnName: '', newColumnName: '' }],
+      columns: [],
     },
   },
 });
@@ -172,7 +172,7 @@ export const getInitialDropColumnsNode = (id: string): DropColumnsNode => ({
   },
   data: {
     settings: {
-      columns: [{ name: '' }],
+      columns: [],
     },
   },
 });
