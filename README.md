@@ -1,7 +1,7 @@
 ## Data Preprocessing Tool
 
-
 Install the dependencies first:
+
 ```
 npm i
 ```
@@ -17,4 +17,6 @@ To create a static production build:
 ```
 npm run build
 ```
+
+The application is available from: https://adamzalesak.github.io/data-preprocessing-tool/
 
