@@ -3,8 +3,8 @@ import { NodeType } from './nodeTypes';
 
 export interface JoinNodeSetting {
   type: JoinType;
-  columnA: string;
-  columnB: string;
+  columnA?: string;
+  columnB?: string;
 }
 
 export interface JoinNodeAdditionalData {

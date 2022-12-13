@@ -2,7 +2,7 @@ import { DataNode } from './dataNode';
 import { NodeType } from './nodeTypes';
 
 export interface SortNodeSetting {
-  sortColumn: string;
+  sortColumn?: string;
   direction?: 'asc' | 'desc';
 }
 

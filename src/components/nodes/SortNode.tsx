@@ -26,10 +26,7 @@ export const SortNode = ({ id }: NodeProps) => {
       return;
     }
 
-    const nodeDataFrame = sourceDataFrame?.sort(
-      node.data.settings.sortColumn,
-      node.data.settings.direction,
-    );
+    const nodeDataFrame = sourceDataFrame?.sort(settings.sortColumn, settings.direction);
 
     updateNodeData('dataFrame', nodeDataFrame);
     // eslint-disable-next-line react-hooks/exhaustive-deps

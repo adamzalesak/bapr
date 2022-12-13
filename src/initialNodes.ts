@@ -35,7 +35,7 @@ export const getInitialSortNode = (id: string): SortNode => ({
   data: {
     dataFrame: undefined,
     settings: {
-      sortColumn: '',
+      sortColumn: undefined,
       direction: 'asc',
     },
   },
@@ -50,8 +50,8 @@ export const getInitialJoinNode = (id: string): JoinNode => ({
   },
   data: {
     settings: {
-      columnA: '',
-      columnB: '',
+      columnA: undefined,
+      columnB: undefined,
       type: JoinType.innerJoin,
     },
   },
