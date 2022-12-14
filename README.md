@@ -1,4 +1,6 @@
-## Data Preprocessing Tool
+# Data Preprocessing Tool
+
+## Startup
 
 Install the dependencies first:
 
@@ -17,6 +19,8 @@ To create a static production build:
 ```
 npm run build
 ```
+
+## Deployed Application
 
 The application is available from: https://adamzalesak.github.io/data-preprocessing-tool/
 
