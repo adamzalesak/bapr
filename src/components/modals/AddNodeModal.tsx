@@ -1,5 +1,6 @@
 import { styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useViewport } from 'reactflow';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useModal } from '../../hooks/modal';
 import {
@@ -40,53 +41,60 @@ export const AddNodeModal = () => {
   const setNodes = useSetRecoilState(nodesState);
   const [nodeCount, setNodeCount] = useRecoilState(nodeCountState);
 
+  const viewport = useViewport();
+
   const handleAddNode = (nodeType: NodeType) => {
     const id = nodeCount.toString();
+
+    const viewportCenterPosition = {
+      x: -viewport.x / viewport.zoom + window.innerWidth / viewport.zoom / 2,
+      y: -viewport.y / viewport.zoom + window.innerHeight / viewport.zoom / 2,
+    };
 
     let newNode: DataNode;
     switch (nodeType) {
       case NodeType.File: {
-        newNode = getInitialFileNode(id);
+        newNode = getInitialFileNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.Sort: {
-        newNode = getInitialSortNode(id);
+        newNode = getInitialSortNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.Filter: {
-        newNode = getInitialFilterNode(id);
+        newNode = getInitialFilterNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.Join: {
-        newNode = getInitialJoinNode(id);
+        newNode = getInitialJoinNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.Slice: {
-        newNode = getInitialSliceNode(id);
+        newNode = getInitialSliceNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.SimpleImputer: {
-        newNode = getInitialSimpleImputerNode(id);
+        newNode = getInitialSimpleImputerNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.MinMaxScaler: {
-        newNode = getInitialMinMaxScalerNode(id);
+        newNode = getInitialMinMaxScalerNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.StandardScaler: {
-        newNode = getInitialStandardScalerNode(id);
+        newNode = getInitialStandardScalerNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.OneHotEncoder: {
-        newNode = getInitialOneHotEncoderNode(id);
+        newNode = getInitialOneHotEncoderNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.RenameColumns: {
-        newNode = getInitialRenameColumnsNode(id);
+        newNode = getInitialRenameColumnsNode(id, viewportCenterPosition);
         break;
       }
       case NodeType.DropColumns: {
-        newNode = getInitialDropColumnsNode(id);
+        newNode = getInitialDropColumnsNode(id, viewportCenterPosition);
         break;
       }
     }

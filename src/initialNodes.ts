@@ -11,13 +11,10 @@ import { OneHotEncoderNode } from './models/oneHotEncoderNode';
 import { RenameColumnsNode } from './models/renameColumnsNode';
 import { DropColumnsNode } from './models/dropColumnsNode';
 
-export const getInitialFileNode = (id: string): FileNode => ({
+export const getInitialFileNode = (id: string, position: { x: number; y: number }): FileNode => ({
   id,
   type: NodeType.File,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       rowsLimit: undefined,
@@ -25,13 +22,10 @@ export const getInitialFileNode = (id: string): FileNode => ({
   },
 });
 
-export const getInitialSortNode = (id: string): SortNode => ({
+export const getInitialSortNode = (id: string, position: { x: number; y: number }): SortNode => ({
   id,
   type: NodeType.Sort,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     dataFrame: undefined,
     settings: {
@@ -41,13 +35,10 @@ export const getInitialSortNode = (id: string): SortNode => ({
   },
 });
 
-export const getInitialJoinNode = (id: string): JoinNode => ({
+export const getInitialJoinNode = (id: string, position: { x: number; y: number }): JoinNode => ({
   id,
   type: NodeType.Join,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columnA: undefined,
@@ -57,13 +48,13 @@ export const getInitialJoinNode = (id: string): JoinNode => ({
   },
 });
 
-export const getInitialFilterNode = (id: string): FilterNode => ({
+export const getInitialFilterNode = (
+  id: string,
+  position: { x: number; y: number },
+): FilterNode => ({
   id,
   type: NodeType.Filter,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columnName: undefined,
@@ -73,13 +64,10 @@ export const getInitialFilterNode = (id: string): FilterNode => ({
   },
 });
 
-export const getInitialSliceNode = (id: string): SliceNode => ({
+export const getInitialSliceNode = (id: string, position: { x: number; y: number }): SliceNode => ({
   id,
   type: NodeType.Slice,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       from: undefined,
@@ -88,13 +76,13 @@ export const getInitialSliceNode = (id: string): SliceNode => ({
   },
 });
 
-export const getInitialSimpleImputerNode = (id: string): SimpleImputerNode => ({
+export const getInitialSimpleImputerNode = (
+  id: string,
+  position: { x: number; y: number },
+): SimpleImputerNode => ({
   id,
   type: NodeType.SimpleImputer,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columnName: undefined,
@@ -104,13 +92,13 @@ export const getInitialSimpleImputerNode = (id: string): SimpleImputerNode => ({
   },
 });
 
-export const getInitialMinMaxScalerNode = (id: string): MinMaxScalerNode => ({
+export const getInitialMinMaxScalerNode = (
+  id: string,
+  position: { x: number; y: number },
+): MinMaxScalerNode => ({
   id,
   type: NodeType.MinMaxScaler,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columnName: undefined,
@@ -118,13 +106,13 @@ export const getInitialMinMaxScalerNode = (id: string): MinMaxScalerNode => ({
   },
 });
 
-export const getInitialStandardScalerNode = (id: string): StandardScalerNode => ({
+export const getInitialStandardScalerNode = (
+  id: string,
+  position: { x: number; y: number },
+): StandardScalerNode => ({
   id,
   type: NodeType.StandardScaler,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columnName: undefined,
@@ -134,13 +122,13 @@ export const getInitialStandardScalerNode = (id: string): StandardScalerNode => 
   },
 });
 
-export const getInitialOneHotEncoderNode = (id: string): OneHotEncoderNode => ({
+export const getInitialOneHotEncoderNode = (
+  id: string,
+  position: { x: number; y: number },
+): OneHotEncoderNode => ({
   id,
   type: NodeType.OneHotEncoder,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columnName: undefined,
@@ -149,13 +137,13 @@ export const getInitialOneHotEncoderNode = (id: string): OneHotEncoderNode => ({
   },
 });
 
-export const getInitialRenameColumnsNode = (id: string): RenameColumnsNode => ({
+export const getInitialRenameColumnsNode = (
+  id: string,
+  position: { x: number; y: number },
+): RenameColumnsNode => ({
   id,
   type: NodeType.RenameColumns,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columns: [],
@@ -163,13 +151,13 @@ export const getInitialRenameColumnsNode = (id: string): RenameColumnsNode => ({
   },
 });
 
-export const getInitialDropColumnsNode = (id: string): DropColumnsNode => ({
+export const getInitialDropColumnsNode = (
+  id: string,
+  position: { x: number; y: number },
+): DropColumnsNode => ({
   id,
   type: NodeType.DropColumns,
-  position: {
-    x: 0,
-    y: 0,
-  },
+  position,
   data: {
     settings: {
       columns: [],

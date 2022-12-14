@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { I18nextProvider } from 'react-i18next';
+import { ReactFlowProvider } from 'reactflow';
 import { RecoilRoot } from 'recoil';
 import { Main } from './components/Main';
 import i18n from './i18n/i18n';
@@ -27,7 +28,9 @@ export const App = () => {
     <RecoilRoot>
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={theme}>
-          <Main />
+          <ReactFlowProvider>
+            <Main />
+          </ReactFlowProvider>
         </ThemeProvider>
       </I18nextProvider>
     </RecoilRoot>
