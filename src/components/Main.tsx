@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import { useMemo } from 'react';
 import ReactFlow, {
   addEdge,
@@ -9,28 +10,26 @@ import ReactFlow, {
   MiniMap,
   OnConnect,
   OnEdgesChange,
-  OnNodesChange,
+  OnNodesChange
 } from 'reactflow';
+import 'reactflow/dist/style.css';
 import { useRecoilState } from 'recoil';
 import { DataNode } from '../models/dataNode';
 import { NodeType } from '../models/nodeTypes';
 import { edgesState, nodesState } from '../store/atoms';
 import { ControlPanel } from './ControlPanel/ControlPanel';
 import { Modals } from './modals/Modals';
-import { FilterNode } from './nodes/FilterNode';
+import { DropColumnsNode } from './nodes/DropColumnsNode';
 import { FileNode } from './nodes/FileNode';
+import { FilterNode } from './nodes/FilterNode';
 import { JoinNode } from './nodes/JoinNode';
-import { SortNode } from './nodes/SortNode';
-import { SliceNode } from './nodes/SliceNode';
-
-import 'reactflow/dist/style.css';
-import { SimpleImputerNode } from './nodes/SimpleImputerNode';
-import { StandardScalerNode } from './nodes/StandardScalerNode';
 import { MinMaxScalerNode } from './nodes/MinMaxScalerNode';
 import { OneHotEncoderNode } from './nodes/OneHotEncoderNode';
 import { RenameColumnsNode } from './nodes/RenameColumnsNode';
-import { useTheme } from '@mui/material';
-import { DropColumnsNode } from './nodes/DropColumnsNode';
+import { SimpleImputerNode } from './nodes/SimpleImputerNode';
+import { SliceNode } from './nodes/SliceNode';
+import { SortNode } from './nodes/SortNode';
+import { StandardScalerNode } from './nodes/StandardScalerNode';
 
 export const Main = () => {
   const theme = useTheme();
