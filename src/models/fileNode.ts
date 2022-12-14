@@ -7,6 +7,7 @@ export interface FileNodeSettings {
 
 export interface FileNodeAdditionalData {
   fileName?: string;
+  isParsing: boolean;
   settings: FileNodeSettings;
 }
 

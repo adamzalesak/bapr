@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { ChangeEventHandler, useRef, useState } from 'react';
+import { ChangeEventHandler, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { DataFrame } from '../../DataFrame/DataFrame';
@@ -17,11 +17,12 @@ export const FileDetailModal = () => {
   const updateNodeData = useUpdateNodeData<FileNode>(node?.id);
 
   const { control, getValues } = useForm<FileNodeSettings>({ defaultValues: node?.data.settings });
-  const [isProcessing, setIsProcessing] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  const isParsing = node?.data.isParsing ?? false;
+
   const handleFileChange: ChangeEventHandler = async (event) => {
-    setIsProcessing(true);
+    updateNodeData('isParsing', true);
 
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
@@ -35,7 +36,7 @@ export const FileDetailModal = () => {
 
     resetFileInput();
 
-    setIsProcessing(false);
+    updateNodeData('isParsing', false);
   };
 
   const resetFileInput = () => {
@@ -58,7 +59,7 @@ export const FileDetailModal = () => {
         <LoadingButton
           variant="outlined"
           onClick={() => fileRef.current?.click()}
-          loading={isProcessing}
+          loading={isParsing}
         >
           {t('nodes.file.selectFile')}
         </LoadingButton>

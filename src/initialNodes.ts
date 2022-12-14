@@ -16,6 +16,8 @@ export const getInitialFileNode = (id: string, position: { x: number; y: number 
   type: NodeType.File,
   position,
   data: {
+    isParsing: false,
+    fileName: undefined,
     settings: {
       rowsLimit: undefined,
     },
