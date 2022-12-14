@@ -64,15 +64,26 @@ export const Main = () => {
   };
 
   const onConnect: OnConnect = (connection) => {
-    setEdges((eds) =>
-      addEdge(
+    setEdges((eds) => {
+      // prevent loop creation (the graph must be a tree)
+      const sourceNode = nodes.find((n) => n.id === connection.source);
+      let node = sourceNode;
+      while (node) {
+        if (node.id === connection.target) {
+          return eds;
+        }
+        const predecessorId = edges.find((e) => e.target === node?.id)?.source;
+        node = nodes.find((n) => n.id === predecessorId);
+      }
+
+      return addEdge(
         { ...connection, animated: true },
         eds.filter(
           // prevent connecting multiple input nodes
           (e) => e.target !== connection.target || e.targetHandle !== connection.targetHandle,
         ),
-      ),
-    );
+      );
+    });
   };
 
   return (
